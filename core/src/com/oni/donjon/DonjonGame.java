@@ -1,5 +1,6 @@
 package com.oni.donjon;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -63,5 +64,12 @@ public class DonjonGame extends ApplicationAdapter {
         batch.draw(img, 0, 0);
         character.drawCharacter();
         batch.end();
+        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
+            debug();
+        }
+    }
+
+    private void debug() {
+        Gdx.app.debug("Character", character.toString());
     }
 }
