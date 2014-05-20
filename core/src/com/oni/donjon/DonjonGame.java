@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.oni.donjon.entity.Character;
 
 public class DonjonGame extends ApplicationAdapter {
     SpriteBatch batch;
     Texture img;
     BitmapFont font;
-    int posX;
-    int posY;
+    Character character;
 
     @Override
     public void create() {
@@ -22,55 +22,46 @@ public class DonjonGame extends ApplicationAdapter {
         img = new Texture("badlogic.jpg");
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-        posX = Gdx.graphics.getWidth() / 2;
-        posY = Gdx.graphics.getHeight() / 2;
+        character = new Character(font, batch);
     }
 
     @Override
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        int diffX = 0;
+        int diffY = 0;
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
-                posY += 10;
+                diffY = 10;
             } else {
-                posY += 1;
-            }
-            if (posY > Gdx.graphics.getHeight()) {
-                posY = 0;
+                diffY = 1;
             }
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
-                posY -= 10;
+                diffY = -10;
             } else {
-                posY -= 1;
-            }
-            if (posY < 0) {
-                posY = Gdx.graphics.getHeight();
+                diffY = -1;
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
-                posX -= 10;
+                diffX = -10;
             } else {
-                posX -= 1;
-            }
-            if (posX < 0) {
-                posX = Gdx.graphics.getWidth();
+                diffX = -1;
             }
         } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
-                posX += 10;
+                diffX = 10;
             } else {
-                posX += 1;
-            }
-            if (posX > Gdx.graphics.getWidth()) {
-                posX = 0;
+                diffX = 1;
             }
         }
+        character.addX(diffX);
+        character.addY(diffY);
         batch.begin();
         batch.draw(img, 0, 0);
-        font.draw(batch, "@", posX, posY);
+        character.drawCharacter();
         batch.end();
     }
 }
