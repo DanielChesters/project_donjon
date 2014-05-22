@@ -18,7 +18,7 @@ public class KeyboardInput implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        int val = 0;
+        int val;
         if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
             val = 10;
         } else {
