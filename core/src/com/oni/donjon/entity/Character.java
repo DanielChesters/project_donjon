@@ -63,9 +63,8 @@ public class Character {
         Character character = (Character) o;
 
         if (x != character.x) return false;
-        if (y != character.y) return false;
+        return y == character.y;
 
-        return true;
     }
 
     @Override
