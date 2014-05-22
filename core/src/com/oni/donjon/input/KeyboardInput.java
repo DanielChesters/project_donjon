@@ -25,15 +25,19 @@ public class KeyboardInput implements InputProcessor {
             val = 1;
         }
         switch (keycode) {
+            case Input.Keys.D:
             case Input.Keys.RIGHT:
                 character.addX(val);
                 break;
+            case Input.Keys.Q:
             case Input.Keys.LEFT:
                 character.addX(-val);
                 break;
+            case Input.Keys.Z:
             case Input.Keys.UP:
                 character.addY(val);
                 break;
+            case Input.Keys.S:
             case Input.Keys.DOWN:
                 character.addY(-val);
                 break;
