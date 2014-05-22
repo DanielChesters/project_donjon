@@ -7,7 +7,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.oni.donjon.entity.Character;
 
 /**
- * Created by daniel on 20/05/14.
+ * @author Daniel Chesters (on 20/05/14).
+ *
  */
 public class KeyboardInput implements InputProcessor {
     Character character;

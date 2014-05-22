@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * Created by daniel on 20/05/14.
+ * @author Daniel Chesters (on 20/05/14).
  */
 public class Character {
     private int x;
