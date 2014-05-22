@@ -38,11 +38,11 @@ public class DonjonGame extends ApplicationAdapter {
         character.drawCharacter();
         batch.end();
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
-            debug();
+            debugCharacter();
         }
     }
 
-    private void debug() {
+    private void debugCharacter() {
         Gdx.app.debug("Character", character.toString());
     }
 }
