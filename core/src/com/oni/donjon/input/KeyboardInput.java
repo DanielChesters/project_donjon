@@ -1,5 +1,6 @@
 package com.oni.donjon.input;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -39,6 +40,9 @@ public class KeyboardInput implements InputProcessor {
             default:
                 break;
         }
+        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
+            debugMessage(keycode);
+        }
         return true;
     }
 
@@ -75,5 +79,9 @@ public class KeyboardInput implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    private void debugMessage(int keycode) {
+        Gdx.app.debug("Keyboard", Integer.toString(keycode));
     }
 }
