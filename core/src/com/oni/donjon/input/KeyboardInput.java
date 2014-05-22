@@ -20,7 +20,7 @@ public class KeyboardInput implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         int val;
-        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
             val = 10;
         } else {
             val = 1;
