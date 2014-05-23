@@ -1,6 +1,7 @@
 package com.oni.donjon.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -12,6 +13,7 @@ public class Character {
     private Vector2 position;
     BitmapFont font;
     SpriteBatch batch;
+    OrthographicCamera cam;
 
     public Vector2 getPosition() {
         return position;
@@ -19,19 +21,19 @@ public class Character {
 
     public void addX(int x) {
         position.x += x;
-        if (position.x > Gdx.graphics.getWidth()) {
+        if (position.x > 20) {
             position.x = 0;
         } else if (position.x < 0) {
-            position.x = Gdx.graphics.getWidth();
+            position.x = 20;
         }
     }
 
     public void addY(int y) {
         position.y += y;
-        if (position.y > Gdx.graphics.getHeight()) {
+        if (position.y > 20) {
             position.y = 0;
         } else if (position.y < 0) {
-            position.y = Gdx.graphics.getHeight();
+            position.y = 20;
         }
     }
 
@@ -59,13 +61,14 @@ public class Character {
         return position.hashCode();
     }
 
-    public Character(BitmapFont font, SpriteBatch batch) {
+    public Character(BitmapFont font, SpriteBatch batch, OrthographicCamera cam) {
         this.font = font;
         this.batch = batch;
-        position = new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        this.cam = cam;
+        position = new Vector2(5, 5);
     }
 
     public void drawCharacter() {
-        font.draw(batch, "@", position.x, position.y);
+        font.draw(batch, "@", position.x * 32, position.y * 32);
     }
 }
