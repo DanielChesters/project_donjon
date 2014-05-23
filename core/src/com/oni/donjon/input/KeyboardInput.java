@@ -19,11 +19,11 @@ public class KeyboardInput implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        int val;
+        float val;
         if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-            val = 10;
+            val = 5;
         } else {
-            val = 1;
+            val = 0.5f;
         }
         switch (keycode) {
             case Input.Keys.D:

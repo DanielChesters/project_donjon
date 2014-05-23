@@ -19,7 +19,7 @@ public class Character {
         return position;
     }
 
-    public void addX(int x) {
+    public void addX(float x) {
         position.x += x;
         if (position.x > 20) {
             position.x = 0;
@@ -28,7 +28,7 @@ public class Character {
         }
     }
 
-    public void addY(int y) {
+    public void addY(float y) {
         position.y += y;
         if (position.y > 20) {
             position.y = 0;
