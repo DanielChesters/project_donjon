@@ -8,9 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.oni.donjon.entity.Character;
 import com.oni.donjon.input.KeyboardInput;
 
@@ -22,12 +20,12 @@ public class DonjonGame extends ApplicationAdapter {
     Character character;
     KeyboardInput keyboardInput;
     OrthographicCamera cam;
-    Sprite wall;
+    Texture wall;
 
     @Override
     public void create() {
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 0);
+        cam.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         cam.update();
         batch = new SpriteBatch();
         font = new BitmapFont();
@@ -35,7 +33,7 @@ public class DonjonGame extends ApplicationAdapter {
         character = new Character(font, batch, cam);
         keyboardInput = new KeyboardInput(character);
         Gdx.input.setInputProcessor(keyboardInput);
-        wall = new Sprite(new Texture("textures/wall.png"));
+        wall = new Texture("textures/wall.png");
     }
 
     @Override
