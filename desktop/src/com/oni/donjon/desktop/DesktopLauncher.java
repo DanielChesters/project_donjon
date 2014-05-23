@@ -9,6 +9,8 @@ import com.oni.donjon.DonjonGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.height = 600;
+        config.width = 800;
 		new LwjglApplication(new DonjonGame(), config);
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
     }
