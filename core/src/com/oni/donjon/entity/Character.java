@@ -1,6 +1,5 @@
 package com.oni.donjon.entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -60,7 +59,7 @@ public class Character {
         return position.hashCode();
     }
 
-    public Character(BitmapFont font, SpriteBatch batch, OrthographicCamera cam) {
+    public Character(BitmapFont font, SpriteBatch batch) {
         this.font = font;
         this.batch = batch;
         position = new Vector2(5, 5);

@@ -30,7 +30,7 @@ public class DonjonGame extends ApplicationAdapter {
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
-        character = new Character(font, batch, cam);
+        character = new Character(font, batch);
         keyboardInput = new KeyboardInput(character);
         Gdx.input.setInputProcessor(keyboardInput);
         wall = new Texture("textures/wall.png");
