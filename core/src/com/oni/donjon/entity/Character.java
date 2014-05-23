@@ -13,7 +13,6 @@ public class Character {
     private Vector2 position;
     BitmapFont font;
     SpriteBatch batch;
-    OrthographicCamera cam;
 
     public Vector2 getPosition() {
         return position;
@@ -64,7 +63,6 @@ public class Character {
     public Character(BitmapFont font, SpriteBatch batch, OrthographicCamera cam) {
         this.font = font;
         this.batch = batch;
-        this.cam = cam;
         position = new Vector2(5, 5);
     }
 
