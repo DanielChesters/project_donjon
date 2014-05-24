@@ -3,15 +3,13 @@ package com.oni.donjon.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.oni.donjon.entity.Character;
 import com.oni.donjon.map.Map;
 import com.oni.donjon.map.Tile;
+import com.oni.donjon.output.TextOutput;
 
 import java.util.Optional;
 
@@ -23,11 +21,13 @@ public class MouseInput extends InputAdapter {
     private Character character;
     private Map map;
     private OrthographicCamera camera;
+    private TextOutput textOutput;
 
-    public MouseInput(Character character, Map map, OrthographicCamera camera) {
+    public MouseInput(Character character, Map map, OrthographicCamera camera, TextOutput textOutput) {
         this.character = character;
         this.map = map;
         this.camera = camera;
+        this.textOutput = textOutput;
     }
 
     @Override
@@ -41,17 +41,16 @@ public class MouseInput extends InputAdapter {
 
         switch (button) {
             case Input.Buttons.LEFT:
-                Optional<Tile> tile = map.getTile((int)(mouseLocation.x / Tile.SIZE), (int)(mouseLocation.y / Tile.SIZE));
+                Optional<Tile> tile = map.getTile((int) (mouseLocation.x / Tile.SIZE), (int) (mouseLocation.y / Tile.SIZE));
                 if (tile.isPresent()) {
                     Gdx.app.debug("Tile", tile.get().toString());
                     switch (tile.get().getType()) {
                         case GROUND:
-                            Gdx.app.log("Look", "Nothing…");
+                            textOutput.getMessages().add("Nothing…");
                             break;
                         case WALL:
-                            Gdx.app.log("Look", "A wall…");
+                            textOutput.getMessages().add("A wall…");
                             break;
-
                     }
                 }
                 break;
