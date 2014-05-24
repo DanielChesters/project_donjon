@@ -9,8 +9,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Character {
     private Vector2 position;
-    BitmapFont font;
-    SpriteBatch batch;
+    private BitmapFont font;
+    private SpriteBatch batch;
 
     public Vector2 getPosition() {
         return position;

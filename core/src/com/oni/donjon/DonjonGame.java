@@ -7,7 +7,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -24,23 +23,18 @@ import com.oni.donjon.map.TileType;
 import java.util.stream.IntStream;
 
 public class DonjonGame extends ApplicationAdapter {
-    SpriteBatch batch;
-    BitmapFont font;
-    Character character;
-    KeyboardInput keyboardInput;
-    MouseInput mouseInput;
-    OrthographicCamera cam;
-    Map map;
-    ShapeRenderer debugRenderer;
-    Skin skin;
-    Stage stage;
+    private SpriteBatch batch;
+    private Character character;
+    private OrthographicCamera cam;
+    private Map map;
+    private ShapeRenderer debugRenderer;
+    private Stage stage;
 
     @Override
     public void create() {
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         stage = new Stage();
-        final Label label = new Label("Test", skin);
-        label.setColor(Color.BLUE);
+        final Label label = new Label("", skin, "default-font", Color.BLUE);
         label.setWidth(100f);
         label.setHeight(20f);
         label.setPosition(10f, Gdx.graphics.getHeight() - 50f);
@@ -49,9 +43,7 @@ public class DonjonGame extends ApplicationAdapter {
         cam.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         cam.update();
         batch = new SpriteBatch();
-        font = new BitmapFont();
-        font.setColor(Color.WHITE);
-        character = new Character(font, batch);
+        character = new Character(skin.getFont("default-font"), batch);
         map = new Map();
         IntStream.rangeClosed(0, 20).forEach(x -> IntStream.rangeClosed(0, 20).forEach(y -> {
             if ((x > 1 && x < 19) && (y > 1 && y < 19)) {
@@ -59,10 +51,9 @@ public class DonjonGame extends ApplicationAdapter {
             } else {
                 map.getTiles().add(new Tile(x, y, TileType.WALL));
             }
-
         }));
-        keyboardInput = new KeyboardInput(character, map);
-        mouseInput = new MouseInput(character, map, cam, label);
+        KeyboardInput keyboardInput = new KeyboardInput(character, map);
+        MouseInput mouseInput = new MouseInput(character, map, cam, label);
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(keyboardInput);
         multiplexer.addProcessor(mouseInput);
@@ -80,15 +71,15 @@ public class DonjonGame extends ApplicationAdapter {
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
         map.getTiles().stream().forEach(t -> batch.draw(t.getType().getTexture(), t.getRectangle().getX() * Tile.SIZE, t.getRectangle().getY() * Tile.SIZE));
+        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
+            drawDebug();
+//            debugCharacter();
+        }
         stage.draw();
         character.drawCharacter();
 
         batch.end();
 
-        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
-            drawDebug();
-//            debugCharacter();
-        }
     }
 
     private void debugCharacter() {

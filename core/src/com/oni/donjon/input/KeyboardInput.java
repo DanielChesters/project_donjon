@@ -14,8 +14,8 @@ import java.util.Optional;
  * @author Daniel Chesters (on 20/05/14).
  */
 public class KeyboardInput extends InputAdapter {
-    Character character;
-    Map map;
+    private Character character;
+    private Map map;
 
     public KeyboardInput(Character character, Map map) {
         this.character = character;

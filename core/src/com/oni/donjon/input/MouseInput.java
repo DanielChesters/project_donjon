@@ -33,11 +33,11 @@ public class MouseInput extends InputAdapter {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Gdx.app.debug("Mouse", String.format("Down : %d,%d : %d%n", screenX, screenY, button));
-        Vector2 centerPosition = character.getPosition();
         Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
         camera.unproject(worldCoordinates);
         Vector2 mouseLocation = new Vector2(worldCoordinates.x, worldCoordinates.y);
         Gdx.app.debug("Mouse", String.format("%f,%f%n", mouseLocation.x, mouseLocation.y));
+        Gdx.app.debug("Tile", String.format("%d,%d%n", (int) (mouseLocation.x / Tile.SIZE), (int) (mouseLocation.y / Tile.SIZE)));
 
         switch (button) {
             case Input.Buttons.LEFT:

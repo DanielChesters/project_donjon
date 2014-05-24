@@ -1,7 +1,6 @@
 package com.oni.donjon.map;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.NumberUtils;
 
 /**
@@ -22,10 +21,6 @@ public class Tile {
 
     public Rectangle getRectangle() {
         return rectangle;
-    }
-
-    public void setRectangle(Rectangle rectangle) {
-        this.rectangle = rectangle;
     }
 
     public Tile(float x, float y, TileType type) {
