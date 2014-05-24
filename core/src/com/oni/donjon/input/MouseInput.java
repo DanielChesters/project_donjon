@@ -44,16 +44,21 @@ public class MouseInput extends InputAdapter {
                 Optional<Tile> tile = map.getTile((int) (mouseLocation.x / Tile.SIZE), (int) (mouseLocation.y / Tile.SIZE));
                 if (tile.isPresent()) {
                     Gdx.app.debug("Tile", tile.get().toString());
-                    switch (tile.get().getType()) {
-                        case GROUND:
-                            Gdx.app.log("Look", "Nothing");
-                            messageLabel.setText("Nothing");
-                            break;
-                        case WALL:
-                            Gdx.app.log("Look", "A wall");
-                            messageLabel.setText("A wall");
-                            break;
+                    if (tile.get().getRectangle().getX() == character.getPosition().x && tile.get().getRectangle().getY() == character.getPosition().y) {
+                        messageLabel.setText("It is me...");
+                    } else {
+                        switch (tile.get().getType()) {
+                            case GROUND:
+                                Gdx.app.log("Look", "Nothing");
+                                messageLabel.setText("Nothing");
+                                break;
+                            case WALL:
+                                Gdx.app.log("Look", "A wall");
+                                messageLabel.setText("A wall");
+                                break;
+                        }
                     }
+
                 }
                 break;
             default:
