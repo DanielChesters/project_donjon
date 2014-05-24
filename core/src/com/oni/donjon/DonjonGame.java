@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.oni.donjon.entity.Character;
 import com.oni.donjon.input.KeyboardInput;
 import com.oni.donjon.map.Map;
@@ -23,6 +25,7 @@ public class DonjonGame extends ApplicationAdapter {
     KeyboardInput keyboardInput;
     OrthographicCamera cam;
     Map map;
+    ShapeRenderer debugRenderer;
 
     @Override
     public void create() {
@@ -44,6 +47,7 @@ public class DonjonGame extends ApplicationAdapter {
         }));
         keyboardInput = new KeyboardInput(character, map);
         Gdx.input.setInputProcessor(keyboardInput);
+        debugRenderer = new ShapeRenderer();
     }
 
     @Override
@@ -57,12 +61,25 @@ public class DonjonGame extends ApplicationAdapter {
         map.getTiles().stream().forEach(t -> batch.draw(t.getType().getTexture(), t.getRectangle().getX() * Tile.SIZE, t.getRectangle().getY() * Tile.SIZE));
         character.drawCharacter();
         batch.end();
+
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
-            debugCharacter();
+            drawDebug();
+//            debugCharacter();
         }
     }
 
     private void debugCharacter() {
         Gdx.app.debug("Character", character.toString());
+    }
+
+    private void drawDebug() {
+        debugRenderer.setProjectionMatrix(cam.combined);
+        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        map.getTiles().stream().forEach(t -> {
+            Rectangle rectangle = t.getRectangle();
+            debugRenderer.setColor(Color.RED);
+            debugRenderer.rect(rectangle.getX() * Tile.SIZE, rectangle.getY() * Tile.SIZE, Tile.SIZE, Tile.SIZE);
+        });
+        debugRenderer.end();
     }
 }
