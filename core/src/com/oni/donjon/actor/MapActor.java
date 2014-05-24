@@ -17,8 +17,10 @@ public class MapActor extends Actor {
     public MapActor() {
         this.map = new Map();
         IntStream.rangeClosed(0, 20).forEach(x -> IntStream.rangeClosed(0, 20).forEach(y -> {
-            if ((x > 1 && x < 19) && (y > 1 && y < 19)) {
+            if ((x > 1 && x < 19) && (y > 1 && y < 19) && x != 10) {
                 map.getTiles().add(new Tile(x, y, TileType.GROUND));
+            } else if (x == 10 && y == 10) {
+                map.getTiles().add(new Tile(x, y, TileType.DOOR_CLOSE));
             } else {
                 map.getTiles().add(new Tile(x, y, TileType.WALL));
             }

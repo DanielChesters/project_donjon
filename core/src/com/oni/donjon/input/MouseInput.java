@@ -56,6 +56,14 @@ public class MouseInput extends InputAdapter {
                                 Gdx.app.log("Look", "A wall");
                                 messageLabel.setText("A wall");
                                 break;
+                            case DOOR_OPEN:
+                                messageLabel.setText("A opened door");
+                                break;
+                            case DOOR_CLOSE:
+                                messageLabel.setText("A closed door");
+                                break;
+                            default:
+                                break;
                         }
                     }
 
