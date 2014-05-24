@@ -4,17 +4,23 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.MathUtils;
 import com.oni.donjon.entity.Character;
+import com.oni.donjon.map.Map;
+import com.oni.donjon.map.Tile;
+
+import java.util.Optional;
 
 /**
  * @author Daniel Chesters (on 20/05/14).
- *
  */
 public class KeyboardInput implements InputProcessor {
     Character character;
+    Map map;
 
-    public KeyboardInput(Character character) {
+    public KeyboardInput(Character character, Map map) {
         this.character = character;
+        this.map = map;
     }
 
     @Override
@@ -28,19 +34,35 @@ public class KeyboardInput implements InputProcessor {
         switch (keycode) {
             case Input.Keys.D:
             case Input.Keys.RIGHT:
-                character.addX(val);
+                Gdx.app.debug("Key", MathUtils.round(character.getPosition().x + val) + "," + MathUtils.round(character.getPosition().y));
+                Optional<Tile> tileRight = map.getTile(MathUtils.round(character.getPosition().x + val), MathUtils.round(character.getPosition().y));
+                if (tileRight.isPresent() && !tileRight.get().getType().isBlock()) {
+                    character.addX(val);
+                }
                 break;
             case Input.Keys.Q:
             case Input.Keys.LEFT:
-                character.addX(-val);
+                Gdx.app.debug("Key", MathUtils.round(character.getPosition().x - val) + "," + MathUtils.round(character.getPosition().y));
+                Optional<Tile> tileLeft = map.getTile(MathUtils.round(character.getPosition().x - val), MathUtils.round(character.getPosition().y));
+                if (tileLeft.isPresent() && !tileLeft.get().getType().isBlock()) {
+                    character.addX(-val);
+                }
                 break;
             case Input.Keys.Z:
             case Input.Keys.UP:
-                character.addY(val);
+                Gdx.app.debug("Key", MathUtils.round(character.getPosition().x) + "," + MathUtils.round(character.getPosition().y + val));
+                Optional<Tile> tileUp = map.getTile(MathUtils.round(character.getPosition().x), MathUtils.round(character.getPosition().y + val));
+                if (tileUp.isPresent() && !tileUp.get().getType().isBlock()) {
+                    character.addY(val);
+                }
                 break;
             case Input.Keys.S:
             case Input.Keys.DOWN:
-                character.addY(-val);
+                Gdx.app.debug("Key", MathUtils.round(character.getPosition().x) + "," + MathUtils.round(character.getPosition().y - val));
+                Optional<Tile> tileDown = map.getTile(MathUtils.round(character.getPosition().x), MathUtils.round(character.getPosition().y - val));
+                if (tileDown.isPresent() && !tileDown.get().getType().isBlock()) {
+                    character.addY(-val);
+                }
                 break;
             default:
                 break;

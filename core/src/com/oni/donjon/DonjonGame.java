@@ -33,19 +33,17 @@ public class DonjonGame extends ApplicationAdapter {
         font = new BitmapFont();
         font.setColor(Color.WHITE);
         character = new Character(font, batch);
-        keyboardInput = new KeyboardInput(character);
-        Gdx.input.setInputProcessor(keyboardInput);
         map = new Map();
-        IntStream.rangeClosed(0, 20).forEach(x -> {
-            IntStream.rangeClosed(0, 20).forEach(y -> {
-                if ((x > 1 && x < 19) && (y > 1 && y < 19)) {
-                    map.getTiles().add(new Tile(x, y, TileType.GROUND));
-                } else {
-                    map.getTiles().add(new Tile(x, y, TileType.WALL));
-                }
+        IntStream.rangeClosed(0, 20).forEach(x -> IntStream.rangeClosed(0, 20).forEach(y -> {
+            if ((x > 1 && x < 19) && (y > 1 && y < 19)) {
+                map.getTiles().add(new Tile(x, y, TileType.GROUND));
+            } else {
+                map.getTiles().add(new Tile(x, y, TileType.WALL));
+            }
 
-            });
-        });
+        }));
+        keyboardInput = new KeyboardInput(character, map);
+        Gdx.input.setInputProcessor(keyboardInput);
     }
 
     @Override
