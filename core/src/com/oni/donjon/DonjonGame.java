@@ -6,11 +6,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.oni.donjon.entity.Character;
 import com.oni.donjon.input.KeyboardInput;
+import com.oni.donjon.map.Map;
+import com.oni.donjon.map.Tile;
+import com.oni.donjon.map.TileType;
 
 import java.util.stream.IntStream;
 
@@ -20,7 +22,7 @@ public class DonjonGame extends ApplicationAdapter {
     Character character;
     KeyboardInput keyboardInput;
     OrthographicCamera cam;
-    Texture wall;
+    Map map;
 
     @Override
     public void create() {
@@ -33,7 +35,17 @@ public class DonjonGame extends ApplicationAdapter {
         character = new Character(font, batch);
         keyboardInput = new KeyboardInput(character);
         Gdx.input.setInputProcessor(keyboardInput);
-        wall = new Texture("textures/wall.png");
+        map = new Map();
+        IntStream.rangeClosed(0, 20).forEach(x -> {
+            IntStream.rangeClosed(0, 20).forEach(y -> {
+                if ((x > 1 && x < 19) && (y > 1 && y < 19)) {
+                    map.getTiles().add(new Tile(x, y, TileType.GROUND));
+                } else {
+                    map.getTiles().add(new Tile(x, y, TileType.WALL));
+                }
+
+            });
+        });
     }
 
     @Override
@@ -44,11 +56,7 @@ public class DonjonGame extends ApplicationAdapter {
         cam.update();
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
-        IntStream.rangeClosed(0, 20).filter(x -> x % 2 == 0).forEach(x -> {
-            IntStream.rangeClosed(0, 20).filter(y -> y % 2 == 0).forEach(y -> {
-                batch.draw(wall, x * wall.getWidth(), y * wall.getHeight());
-            });
-        });
+        map.getTiles().stream().forEach(t -> batch.draw(t.getType().getTexture(), t.getRectangle().getX() * Tile.SIZE, t.getRectangle().getY() * Tile.SIZE));
         character.drawCharacter();
         batch.end();
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
