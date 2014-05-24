@@ -3,6 +3,7 @@ package com.oni.donjon;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.oni.donjon.entity.Character;
 import com.oni.donjon.input.KeyboardInput;
+import com.oni.donjon.input.MouseInput;
 import com.oni.donjon.map.Map;
 import com.oni.donjon.map.Tile;
 import com.oni.donjon.map.TileType;
@@ -23,6 +25,7 @@ public class DonjonGame extends ApplicationAdapter {
     BitmapFont font;
     Character character;
     KeyboardInput keyboardInput;
+    MouseInput mouseInput;
     OrthographicCamera cam;
     Map map;
     ShapeRenderer debugRenderer;
@@ -46,7 +49,11 @@ public class DonjonGame extends ApplicationAdapter {
 
         }));
         keyboardInput = new KeyboardInput(character, map);
-        Gdx.input.setInputProcessor(keyboardInput);
+        mouseInput = new MouseInput(character, map, cam, font, batch);
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(keyboardInput);
+        multiplexer.addProcessor(mouseInput);
+        Gdx.input.setInputProcessor(multiplexer);
         debugRenderer = new ShapeRenderer();
     }
 
