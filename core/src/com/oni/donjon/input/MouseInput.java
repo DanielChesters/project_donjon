@@ -16,7 +16,7 @@ import com.oni.donjon.map.Tile;
 import java.util.Optional;
 
 /**
- * Created by daniel on 24/05/14.
+ * @author Daniel Chesters (on 24/05/14).
  */
 public class MouseInput extends InputAdapter {
 
