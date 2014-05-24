@@ -33,28 +33,28 @@ public class KeyboardInput extends InputAdapter {
         switch (keycode) {
             case Input.Keys.D:
             case Input.Keys.RIGHT:
-                Optional<Tile> tileRight = map.getTile((int) (character.getPosition().x + val), Math.round(character.getPosition().y) - 1);
+                Optional<Tile> tileRight = map.getTile((int) (character.getPosition().x + val), (int) (character.getPosition().y));
                 if (tileRight.isPresent() && !tileRight.get().getType().isBlock()) {
                     character.addX(val);
                 }
                 break;
             case Input.Keys.Q:
             case Input.Keys.LEFT:
-                Optional<Tile> tileLeft = map.getTile((int) (character.getPosition().x - val), Math.round(character.getPosition().y) - 1);
+                Optional<Tile> tileLeft = map.getTile((int) (character.getPosition().x - val), (int) (character.getPosition().y));
                 if (tileLeft.isPresent() && !tileLeft.get().getType().isBlock()) {
                     character.addX(-val);
                 }
                 break;
             case Input.Keys.Z:
             case Input.Keys.UP:
-                Optional<Tile> tileUp = map.getTile((int) (character.getPosition().x), Math.round(character.getPosition().y + val) - 1);
+                Optional<Tile> tileUp = map.getTile((int) (character.getPosition().x), (int) (character.getPosition().y + val));
                 if (tileUp.isPresent() && !tileUp.get().getType().isBlock()) {
                     character.addY(val);
                 }
                 break;
             case Input.Keys.S:
             case Input.Keys.DOWN:
-                Optional<Tile> tileDown = map.getTile((int) (character.getPosition().x), Math.round(character.getPosition().y - val) - 1);
+                Optional<Tile> tileDown = map.getTile((int) (character.getPosition().x), (int) (character.getPosition().y - val));
                 if (tileDown.isPresent() && !tileDown.get().getType().isBlock()) {
                     character.addY(-val);
                 }
@@ -62,6 +62,7 @@ public class KeyboardInput extends InputAdapter {
             default:
                 break;
         }
+        character.updateCharacter();
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             debugMessage(keycode);
         }

@@ -3,7 +3,7 @@ package com.oni.donjon.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -20,14 +20,14 @@ public class MouseInput extends InputAdapter {
 
     private Character character;
     private Map map;
-    private OrthographicCamera camera;
-    private Label label;
+    private Camera camera;
+    private Label messageLabel;
 
-    public MouseInput(Character character, Map map, OrthographicCamera camera, Label label) {
+    public MouseInput(Character character, Map map, Camera camera, Label messageLabel) {
         this.character = character;
         this.map = map;
         this.camera = camera;
-        this.label = label;
+        this.messageLabel = messageLabel;
     }
 
     @Override
@@ -47,11 +47,11 @@ public class MouseInput extends InputAdapter {
                     switch (tile.get().getType()) {
                         case GROUND:
                             Gdx.app.log("Look", "Nothing");
-                            label.setText("Nothing");
+                            messageLabel.setText("Nothing");
                             break;
                         case WALL:
                             Gdx.app.log("Look", "A wall");
-                            label.setText("A wall");
+                            messageLabel.setText("A wall");
                             break;
                     }
                 }

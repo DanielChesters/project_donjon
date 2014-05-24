@@ -1,16 +1,14 @@
 package com.oni.donjon.entity;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 /**
  * @author Daniel Chesters (on 20/05/14).
  */
 public class Character {
     private Vector2 position;
-    private BitmapFont font;
-    private SpriteBatch batch;
+    private Label label;
 
     public Vector2 getPosition() {
         return position;
@@ -58,13 +56,13 @@ public class Character {
         return position.hashCode();
     }
 
-    public Character(BitmapFont font, SpriteBatch batch) {
-        this.font = font;
-        this.batch = batch;
+    public Character(Label label) {
+        this.label = label;
         position = new Vector2(5, 5);
+        updateCharacter();
     }
 
-    public void drawCharacter() {
-        font.draw(batch, "@", position.x * 32, position.y * 32);
+    public void updateCharacter() {
+        label.setPosition(position.x * 32, position.y * 32);
     }
 }
