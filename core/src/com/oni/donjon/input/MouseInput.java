@@ -58,7 +58,7 @@ public class MouseInput extends InputAdapter {
 
     private void mainAction(Vector2 mouseLocation) {
         Optional<Tile> tile = map.getTile((int) (mouseLocation.x / Tile.SIZE), (int) (mouseLocation.y / Tile.SIZE));
-        if (tile.isPresent()) {
+        if (tile.isPresent() && tile.get().isVisible()) {
             Tile realTile = tile.get();
             if (characterSamePositionAsTile(realTile)) {
                 messageLabel.setText("It is me...");
