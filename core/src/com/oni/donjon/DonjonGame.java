@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -19,7 +18,6 @@ import com.oni.donjon.input.MouseInput;
 import com.oni.donjon.map.Tile;
 
 public class DonjonGame extends ApplicationAdapter {
-    private SpriteBatch batch;
     private Character character;
     private MapActor mapActor;
     private ShapeRenderer debugRenderer;
@@ -34,7 +32,6 @@ public class DonjonGame extends ApplicationAdapter {
 
         mapActor = new MapActor();
         Label characterLabel = createGameScene(skin);
-        batch = new SpriteBatch();
         character = new Character(characterLabel);
 
         createInput(messageLabel);
@@ -80,16 +77,12 @@ public class DonjonGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getCamera().position.set(character.getPosition().x * Tile.SIZE, character.getPosition().y * Tile.SIZE, 0);
         stage.getCamera().update();
-        batch.setProjectionMatrix(stage.getCamera().combined);
-        batch.begin();
         stage.draw();
         stageUi.draw();
 
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             drawDebug();
         }
-        batch.end();
-
     }
 
     private void drawDebug() {
