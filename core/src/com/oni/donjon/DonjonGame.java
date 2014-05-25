@@ -29,24 +29,20 @@ public class DonjonGame extends ApplicationAdapter {
     @Override
     public void create() {
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        stageUi = new Stage();
-        stage = new Stage();
-        final Label messageLabel = new Label("", skin, "default");
-        messageLabel.setWidth(100f);
-        messageLabel.setHeight(20f);
-        messageLabel.setPosition(10f, Gdx.graphics.getHeight() - 50f);
 
-        Label characterLabel = new Label("@", skin, "default");
-        characterLabel.setWidth(16);
-        characterLabel.setHeight(16);
-        stageUi.addActor(messageLabel);
+        final Label messageLabel = createUi(skin);
 
-        stage.getCamera().position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
+        mapActor = new MapActor();
+        Label characterLabel = createGameScene(skin);
         batch = new SpriteBatch();
         character = new Character(characterLabel);
-        mapActor = new MapActor();
-        stage.addActor(mapActor);
-        stage.addActor(characterLabel);
+
+        createInput(messageLabel);
+
+        debugRenderer = new ShapeRenderer();
+    }
+
+    private void createInput(Label messageLabel) {
         KeyboardInput keyboardInput = new KeyboardInput(character, mapActor.getMap());
         MouseInput mouseInput = new MouseInput(character, mapActor.getMap(), stage.getCamera(), messageLabel);
 
@@ -55,14 +51,34 @@ public class DonjonGame extends ApplicationAdapter {
         multiplexer.addProcessor(mouseInput);
         multiplexer.addProcessor(stageUi);
         Gdx.input.setInputProcessor(multiplexer);
-        debugRenderer = new ShapeRenderer();
+    }
+
+    private Label createGameScene(Skin skin) {
+        stage = new Stage();
+        Label characterLabel = new Label("@", skin, "default");
+        characterLabel.setWidth(16);
+        characterLabel.setHeight(16);
+        stage.getCamera().position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
+        stage.addActor(mapActor);
+        stage.addActor(characterLabel);
+        return characterLabel;
+    }
+
+    private Label createUi(Skin skin) {
+        stageUi = new Stage();
+        final Label messageLabel = new Label("", skin, "default");
+        messageLabel.setWidth(100f);
+        messageLabel.setHeight(20f);
+        messageLabel.setPosition(10f, Gdx.graphics.getHeight() - 50f);
+        stageUi.addActor(messageLabel);
+        return messageLabel;
     }
 
     @Override
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.getCamera().position.set(character.getPosition().x * 32, character.getPosition().y * 32, 0);
+        stage.getCamera().position.set(character.getPosition().x * Tile.SIZE, character.getPosition().y * Tile.SIZE, 0);
         stage.getCamera().update();
         batch.setProjectionMatrix(stage.getCamera().combined);
         batch.begin();
@@ -71,14 +87,9 @@ public class DonjonGame extends ApplicationAdapter {
 
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             drawDebug();
-//            debugCharacter();
         }
         batch.end();
 
-    }
-
-    private void debugCharacter() {
-        Gdx.app.debug("Character", character.toString());
     }
 
     private void drawDebug() {

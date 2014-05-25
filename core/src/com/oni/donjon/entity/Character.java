@@ -2,6 +2,7 @@ package com.oni.donjon.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.oni.donjon.map.Tile;
 
 /**
  * @author Daniel Chesters (on 20/05/14).
@@ -63,6 +64,6 @@ public class Character {
     }
 
     public void updateCharacter() {
-        label.setPosition(position.x * 32, position.y * 32);
+        label.setPosition(position.x * Tile.SIZE, position.y * Tile.SIZE);
     }
 }
