@@ -33,31 +33,19 @@ public class KeyboardInput extends InputAdapter {
         switch (keycode) {
             case Input.Keys.D:
             case Input.Keys.RIGHT:
-                Optional<Tile> tileRight = map.getTile((int) (character.getPosition().x + val), (int) (character.getPosition().y));
-                if (tileRight.isPresent() && !tileRight.get().getType().isBlock()) {
-                    character.addX(val);
-                }
+                goRight(val);
                 break;
             case Input.Keys.Q:
             case Input.Keys.LEFT:
-                Optional<Tile> tileLeft = map.getTile((int) (character.getPosition().x - val), (int) (character.getPosition().y));
-                if (tileLeft.isPresent() && !tileLeft.get().getType().isBlock()) {
-                    character.addX(-val);
-                }
+                goLeft(val);
                 break;
             case Input.Keys.Z:
             case Input.Keys.UP:
-                Optional<Tile> tileUp = map.getTile((int) (character.getPosition().x), (int) (character.getPosition().y + val));
-                if (tileUp.isPresent() && !tileUp.get().getType().isBlock()) {
-                    character.addY(val);
-                }
+                goUp(val);
                 break;
             case Input.Keys.S:
             case Input.Keys.DOWN:
-                Optional<Tile> tileDown = map.getTile((int) (character.getPosition().x), (int) (character.getPosition().y - val));
-                if (tileDown.isPresent() && !tileDown.get().getType().isBlock()) {
-                    character.addY(-val);
-                }
+                goDown(val);
                 break;
             default:
                 break;
@@ -67,6 +55,34 @@ public class KeyboardInput extends InputAdapter {
             debugMessage(keycode);
         }
         return true;
+    }
+
+    private void goDown(float val) {
+        Optional<Tile> tileDown = map.getTile((int) (character.getPosition().x), (int) (character.getPosition().y - val));
+        if (tileDown.isPresent() && !tileDown.get().getType().isBlock()) {
+            character.addY(-val);
+        }
+    }
+
+    private void goUp(float val) {
+        Optional<Tile> tileUp = map.getTile((int) (character.getPosition().x), (int) (character.getPosition().y + val));
+        if (tileUp.isPresent() && !tileUp.get().getType().isBlock()) {
+            character.addY(val);
+        }
+    }
+
+    private void goLeft(float val) {
+        Optional<Tile> tileLeft = map.getTile((int) (character.getPosition().x - val), (int) (character.getPosition().y));
+        if (tileLeft.isPresent() && !tileLeft.get().getType().isBlock()) {
+            character.addX(-val);
+        }
+    }
+
+    private void goRight(float val) {
+        Optional<Tile> tileRight = map.getTile((int) (character.getPosition().x + val), (int) (character.getPosition().y));
+        if (tileRight.isPresent() && !tileRight.get().getType().isBlock()) {
+            character.addX(val);
+        }
     }
 
     private void debugMessage(int keycode) {
