@@ -18,11 +18,11 @@ public class MapActor extends Actor {
         this.map = new Map();
         IntStream.rangeClosed(0, 20).forEach(x -> IntStream.rangeClosed(0, 20).forEach(y -> {
             if (isGroundTile(x, y)) {
-                map.getTiles().add(new Tile(x, y, TileType.GROUND, true));
+                map.getTiles().add(new Tile(x, y, TileType.GROUND, false));
             } else if (x == 10 && y == 10) {
-                map.getTiles().add(new Tile(x, y, TileType.DOOR_CLOSE, true));
+                map.getTiles().add(new Tile(x, y, TileType.DOOR_CLOSE, false));
             } else {
-                map.getTiles().add(new Tile(x, y, TileType.WALL, true));
+                map.getTiles().add(new Tile(x, y, TileType.WALL, false));
             }
         }));
     }

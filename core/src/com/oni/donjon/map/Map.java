@@ -1,12 +1,11 @@
 package com.oni.donjon.map;
 
-import com.badlogic.gdx.math.Circle;
 import com.oni.donjon.entity.Character;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author Daniel Chesters (on 22/05/14).
@@ -37,12 +36,13 @@ public class Map {
     }
 
     public void updateVisibility() {
-        Circle circle = new Circle((int) character.getPosition().x, (int) character.getPosition().y, 6);
-        tiles.stream().forEach(t -> t.setVisible(false));
-        Set<Tile> tilesAroundCharacter = tiles.stream().filter(t ->
-                circle.contains(t.getRectangle().getX(), t.getRectangle().getY())).collect(Collectors.toSet());
-
-        tilesAroundCharacter.forEach(t -> t.setVisible(true));
-        //Set<Tile> tilesBlock = tilesAroundCharacter.stream().filter(t -> t.getType().isBlock()).collect(Collectors.toSet());
+        IntStream.rangeClosed((int) character.getPosition().x - 1, (int) character.getPosition().x + 1).forEach(x ->
+                        IntStream.rangeClosed((int) character.getPosition().y - 1, (int) character.getPosition().y + 1).forEach(y -> {
+                            Optional<Tile> tile = getTile(x, y);
+                            if (tile.isPresent()) {
+                                tile.get().setVisible(true);
+                            }
+                        })
+        );
     }
 }
