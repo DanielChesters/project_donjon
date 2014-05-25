@@ -24,28 +24,23 @@ public class KeyboardInput extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        float val;
-        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-            val = 5;
-        } else {
-            val = 0.5f;
-        }
+        float speed = getSpeed();
         switch (keycode) {
             case Input.Keys.D:
             case Input.Keys.RIGHT:
-                goRight(val);
+                goRight(speed);
                 break;
             case Input.Keys.Q:
             case Input.Keys.LEFT:
-                goLeft(val);
+                goLeft(speed);
                 break;
             case Input.Keys.Z:
             case Input.Keys.UP:
-                goUp(val);
+                goUp(speed);
                 break;
             case Input.Keys.S:
             case Input.Keys.DOWN:
-                goDown(val);
+                goDown(speed);
                 break;
             default:
                 break;
@@ -57,10 +52,20 @@ public class KeyboardInput extends InputAdapter {
         return true;
     }
 
-    private void goDown(float val) {
-        Optional<Tile> tileDown = map.getTile((int) (character.getPosition().x), (int) (character.getPosition().y - val));
+    private float getSpeed() {
+        float val;
+        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+            val = 5;
+        } else {
+            val = 0.5f;
+        }
+        return val;
+    }
+
+    private void goDown(float speed) {
+        Optional<Tile> tileDown = map.getTile((int) (character.getPosition().x), (int) (character.getPosition().y - speed));
         if (tileDown.isPresent() && !tileDown.get().getType().isBlock()) {
-            character.addY(-val);
+            character.addY(-speed);
         }
     }
 
