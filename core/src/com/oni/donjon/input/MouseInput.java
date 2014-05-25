@@ -101,6 +101,6 @@ public class MouseInput extends InputAdapter {
     private boolean isNearCharacter(Tile tile) {
         Rectangle tileRectangle = tile.getRectangle();
         Vector2 characterPosition = character.getPosition();
-        return Math.abs(characterPosition.x - tileRectangle.getX()) < 2 || Math.abs(characterPosition.y - tileRectangle.getY()) < 2;
+        return Math.abs(characterPosition.x - tileRectangle.getX()) < 2 && Math.abs(characterPosition.y - tileRectangle.getY()) < 2;
     }
 }
