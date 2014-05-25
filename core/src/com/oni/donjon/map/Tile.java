@@ -10,6 +10,15 @@ public class Tile {
     public static final float SIZE = 32f;
     private TileType type;
     private Rectangle rectangle;
+    private boolean visible;
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 
     public TileType getType() {
         return type;
@@ -23,9 +32,10 @@ public class Tile {
         return rectangle;
     }
 
-    public Tile(float x, float y, TileType type) {
+    public Tile(float x, float y, TileType type, boolean visible) {
         this.rectangle = new Rectangle(x, y, SIZE, SIZE);
         this.type = type;
+        this.visible = visible;
     }
 
     @Override

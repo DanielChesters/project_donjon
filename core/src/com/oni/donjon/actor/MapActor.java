@@ -18,11 +18,11 @@ public class MapActor extends Actor {
         this.map = new Map();
         IntStream.rangeClosed(0, 20).forEach(x -> IntStream.rangeClosed(0, 20).forEach(y -> {
             if (isGroundTile(x, y)) {
-                map.getTiles().add(new Tile(x, y, TileType.GROUND));
+                map.getTiles().add(new Tile(x, y, TileType.GROUND, true));
             } else if (x == 10 && y == 10) {
-                map.getTiles().add(new Tile(x, y, TileType.DOOR_CLOSE));
+                map.getTiles().add(new Tile(x, y, TileType.DOOR_CLOSE, true));
             } else {
-                map.getTiles().add(new Tile(x, y, TileType.WALL));
+                map.getTiles().add(new Tile(x, y, TileType.WALL, true));
             }
         }));
     }
@@ -37,6 +37,6 @@ public class MapActor extends Actor {
 
     @Override
     public void draw(Batch batch, float alpha) {
-        map.getTiles().stream().forEach(t -> batch.draw(t.getType().getTexture(), t.getRectangle().getX() * Tile.SIZE, t.getRectangle().getY() * Tile.SIZE));
+        map.getTiles().stream().filter(Tile::isVisible).forEach(t -> batch.draw(t.getType().getTexture(), t.getRectangle().getX() * Tile.SIZE, t.getRectangle().getY() * Tile.SIZE));
     }
 }

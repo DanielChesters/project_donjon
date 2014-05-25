@@ -35,7 +35,8 @@ public class GameScreen extends ScreenAdapter {
         mapActor = new MapActor();
         Label characterLabel = createGameScene(skin);
         character = new Character(characterLabel);
-
+        mapActor.getMap().setCharacter(character);
+        mapActor.getMap().updateVisibility();
         createInput(messageLabel);
 
         debugRenderer = new ShapeRenderer();
@@ -92,7 +93,11 @@ public class GameScreen extends ScreenAdapter {
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
         mapActor.getMap().getTiles().stream().forEach(t -> {
             Rectangle rectangle = t.getRectangle();
-            debugRenderer.setColor(Color.RED);
+            if (t.isVisible()) {
+                debugRenderer.setColor(Color.RED);
+            } else {
+                debugRenderer.setColor(Color.BLUE);
+            }
             debugRenderer.rect(rectangle.getX() * Tile.SIZE, rectangle.getY() * Tile.SIZE, Tile.SIZE, Tile.SIZE);
         });
         debugRenderer.end();

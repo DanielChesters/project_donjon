@@ -46,6 +46,7 @@ public class KeyboardInput extends InputAdapter {
                 break;
         }
         character.updateCharacter();
+        map.updateVisibility();
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             debugMessage(keycode);
         }
