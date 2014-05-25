@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.oni.donjon.entity.Character;
 import com.oni.donjon.map.Map;
 import com.oni.donjon.map.Tile;
+import com.oni.donjon.map.TileType;
 
 import java.util.Optional;
 
@@ -43,35 +45,53 @@ public class MouseInput extends InputAdapter {
             case Input.Buttons.LEFT:
                 Optional<Tile> tile = map.getTile((int) (mouseLocation.x / Tile.SIZE), (int) (mouseLocation.y / Tile.SIZE));
                 if (tile.isPresent()) {
-                    Gdx.app.debug("Tile", tile.get().toString());
-                    if (tile.get().getRectangle().getX() == character.getPosition().x && tile.get().getRectangle().getY() == character.getPosition().y) {
+                    Tile realTile = tile.get();
+                    if (characterSamePositionAsTile(realTile)) {
                         messageLabel.setText("It is me...");
                     } else {
-                        switch (tile.get().getType()) {
+                        switch (realTile.getType()) {
                             case GROUND:
-                                Gdx.app.log("Look", "Nothing");
                                 messageLabel.setText("Nothing");
                                 break;
                             case WALL:
-                                Gdx.app.log("Look", "A wall");
                                 messageLabel.setText("A wall");
                                 break;
                             case DOOR_OPEN:
-                                messageLabel.setText("A opened door");
+                                changeStateDoorOrLookDoor(realTile, "The door is closed", TileType.DOOR_CLOSE, "A opened door");
                                 break;
                             case DOOR_CLOSE:
-                                messageLabel.setText("A closed door");
+                                changeStateDoorOrLookDoor(realTile, "The door is opened", TileType.DOOR_OPEN, "A closed door");
                                 break;
                             default:
                                 break;
                         }
                     }
-
                 }
                 break;
             default:
                 break;
         }
         return true;
+    }
+
+    private boolean characterSamePositionAsTile(Tile tile) {
+        Rectangle tileRectangle = tile.getRectangle();
+        Vector2 characterPosition = character.getPosition();
+        return tileRectangle.getX() == characterPosition.x && tileRectangle.getY() == characterPosition.y;
+    }
+
+    private void changeStateDoorOrLookDoor(Tile realTile, String changeStateDoorText, TileType newTypeDoor, String lookText) {
+        if (isNearCharacter(realTile)) {
+            messageLabel.setText(changeStateDoorText);
+            realTile.setType(newTypeDoor);
+        } else {
+            messageLabel.setText(lookText);
+        }
+    }
+
+    private boolean isNearCharacter(Tile tile) {
+        Rectangle tileRectangle = tile.getRectangle();
+        Vector2 characterPosition = character.getPosition();
+        return Math.abs(characterPosition.x - tileRectangle.getX()) < 2 || Math.abs(characterPosition.y - tileRectangle.getY()) < 2;
     }
 }
