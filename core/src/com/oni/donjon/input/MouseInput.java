@@ -86,7 +86,7 @@ public class MouseInput extends InputAdapter {
     private boolean characterSamePositionAsTile(Tile tile) {
         Rectangle tileRectangle = tile.getRectangle();
         Vector2 characterPosition = character.getPosition();
-        return tileRectangle.getX() == characterPosition.x && tileRectangle.getY() == characterPosition.y;
+        return Math.abs(tileRectangle.getX() - characterPosition.x) < 1 && Math.abs(tileRectangle.getY() - characterPosition.y) < 1;
     }
 
     private void changeStateDoorOrLookDoor(Tile realTile, String changeStateDoorText, TileType newTypeDoor, String lookText) {
