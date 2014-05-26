@@ -14,6 +14,7 @@ import com.oni.donjon.entity.Character;
 import com.oni.donjon.map.Map;
 import com.oni.donjon.map.Tile;
 import com.oni.donjon.map.TileType;
+import com.oni.donjon.screen.GameScreen;
 
 import java.util.Optional;
 
@@ -94,22 +95,22 @@ public class MouseInput extends InputAdapter {
 
     private void close(Tile tile) {
         if (characterSamePositionAsTile(tile)) {
-            messageLabel.setText("I cannot close me");
+            messageLabel.setText(GameScreen.bundle.get("close.me"));
         } else {
             switch (tile.getType()) {
                 case DOOR_CLOSE:
-                    messageLabel.setText("Already closed");
+                    messageLabel.setText(GameScreen.bundle.get("close.door.already.close"));
                     break;
                 case DOOR_OPEN:
                     if (isNearCharacter(tile)) {
                         tile.setType(TileType.DOOR_CLOSE);
-                        messageLabel.setText("The door is closed");
+                        messageLabel.setText(GameScreen.bundle.get("close.door"));
                     } else {
-                        messageLabel.setText("The door is too far to be close");
+                        messageLabel.setText(GameScreen.bundle.get("close.door.too.far"));
                     }
                     break;
                 default:
-                    messageLabel.setText("Nothing to close here");
+                    messageLabel.setText(GameScreen.bundle.get("close.nothing"));
                     break;
             }
         }
@@ -117,22 +118,22 @@ public class MouseInput extends InputAdapter {
 
     private void open(Tile tile) {
         if (characterSamePositionAsTile(tile)) {
-            messageLabel.setText("I cannot open me");
+            messageLabel.setText(GameScreen.bundle.get("open.me"));
         } else {
             switch (tile.getType()) {
                 case DOOR_OPEN:
-                    messageLabel.setText("Already opened");
+                    messageLabel.setText(GameScreen.bundle.get("open.door.already.open"));
                     break;
                 case DOOR_CLOSE:
                     if (isNearCharacter(tile)) {
                         tile.setType(TileType.DOOR_OPEN);
-                        messageLabel.setText("The door is opened");
+                        messageLabel.setText(GameScreen.bundle.get("open.door"));
                     } else {
-                        messageLabel.setText("The door is too far to be open");
+                        messageLabel.setText(GameScreen.bundle.get("open.door.too.far"));
                     }
                     break;
                 default:
-                    messageLabel.setText("Nothing to open here");
+                    messageLabel.setText(GameScreen.bundle.get("open.nothing"));
                     break;
             }
         }
@@ -140,26 +141,26 @@ public class MouseInput extends InputAdapter {
 
     private void look(Tile tile) {
         if (characterSamePositionAsTile(tile)) {
-            messageLabel.setText("It is me...");
+            messageLabel.setText(GameScreen.bundle.get("look.me"));
         } else {
             switch (tile.getType()) {
                 case GROUND:
-                    messageLabel.setText("Nothing");
+                    messageLabel.setText(GameScreen.bundle.get("look.ground"));
                     break;
                 case WALL:
-                    messageLabel.setText("A wall");
+                    messageLabel.setText(GameScreen.bundle.get("look.wall"));
                     break;
                 case DOOR_OPEN:
-                    messageLabel.setText("A opened door");
+                    messageLabel.setText(GameScreen.bundle.get("look.door.open"));
                     break;
                 case DOOR_CLOSE:
-                    messageLabel.setText("A closed door");
+                    messageLabel.setText(GameScreen.bundle.get("look.door.close"));
                     break;
                 case STAIR_UP:
-                    messageLabel.setText("A stair to up stage");
+                    messageLabel.setText(GameScreen.bundle.get("look.stair.up"));
                     break;
                 case STAIR_DOWN:
-                    messageLabel.setText("A stair to down stage");
+                    messageLabel.setText(GameScreen.bundle.get("look.stair.down"));
                     break;
                 default:
                     break;
