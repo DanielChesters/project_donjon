@@ -35,21 +35,8 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen() {
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-
         final Label messageLabel = createUi(skin);
-
-        Window actionWindow = new Window("Action", skin);
-        actionWindow.setPosition(20, Gdx.graphics.getHeight() / 2);
-        actionWindow.setHeight(50);
-        actionWindow.setWidth(200);
-        actionList = new List<>(skin);
-        actionList.setItems(Action.values());
-        actionList.getSelection().setRequired(false);
-        actionList.getSelection().setMultiple(false);
-        actionWindow.add(actionList);
-        actionWindow.pack();
-
-        stageUi.addActor(actionWindow);
+        createActionWindow(skin);
         mapActor = new MapActor();
         Label characterLabel = createGameScene(skin);
         Tile startTile = mapActor.getMap().getTiles().stream().filter(t -> t.getType().equals(TileType.STAIR_UP)).findFirst().get();
@@ -60,6 +47,20 @@ public class GameScreen extends ScreenAdapter {
         createInput(messageLabel);
 
         debugRenderer = new ShapeRenderer();
+    }
+
+    private void createActionWindow(Skin skin) {
+        Window actionWindow = new Window("Action", skin);
+        actionWindow.setPosition(20, Gdx.graphics.getHeight() / 2);
+        actionWindow.setHeight(50);
+        actionWindow.setWidth(200);
+        actionList = new List<>(skin);
+        actionList.setItems(Action.values());
+        actionList.getSelection().setRequired(false);
+        actionList.getSelection().setMultiple(false);
+        actionWindow.add(actionList);
+        actionWindow.pack();
+        stageUi.addActor(actionWindow);
     }
 
     private void createInput(Label messageLabel) {
