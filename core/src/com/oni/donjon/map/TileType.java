@@ -9,7 +9,9 @@ public enum TileType {
     WALL("textures/wall.png", true),
     DOOR_CLOSE("textures/door_close.png", true),
     DOOR_OPEN("textures/door_open.png", false),
-    GROUND("textures/ground.png", false);
+    GROUND("textures/ground.png", false),
+    STAIR_UP("textures/stair_up.png", true),
+    STAIR_DOWN("textures/stair_down.png", true);
 
     private Texture texture;
     private boolean block;
