@@ -17,7 +17,9 @@ public class MapActor extends Actor {
     public MapActor() {
         this.map = new Map();
         IntStream.rangeClosed(0, 20).forEach(x -> IntStream.rangeClosed(0, 20).forEach(y -> {
-            if (isGroundTile(x, y)) {
+            if (x == 6 && y == 4) {
+                map.getTiles().add(new Tile(x, y, TileType.STAIR_UP, false));
+            } else if (isGroundTile(x, y)) {
                 map.getTiles().add(new Tile(x, y, TileType.GROUND, false));
             } else if (x == 10 && y == 10) {
                 map.getTiles().add(new Tile(x, y, TileType.DOOR_CLOSE, false));
