@@ -11,7 +11,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.oni.donjon.action.Action;
 import com.oni.donjon.actor.MapActor;
 import com.oni.donjon.entity.Character;
 import com.oni.donjon.input.KeyboardInput;
@@ -28,12 +31,25 @@ public class GameScreen extends ScreenAdapter {
     private ShapeRenderer debugRenderer;
     private Stage stageUi;
     private Stage stage;
+    private List<Action> actionList;
 
     public GameScreen() {
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
         final Label messageLabel = createUi(skin);
 
+        Window actionWindow = new Window("Action", skin);
+        actionWindow.setPosition(20, Gdx.graphics.getHeight() / 2);
+        actionWindow.setHeight(50);
+        actionWindow.setWidth(200);
+        actionList = new List<>(skin);
+        actionList.setItems(Action.values());
+        actionList.getSelection().setRequired(false);
+        actionList.getSelection().setMultiple(false);
+        actionWindow.add(actionList);
+        actionWindow.pack();
+
+        stageUi.addActor(actionWindow);
         mapActor = new MapActor();
         Label characterLabel = createGameScene(skin);
         Tile startTile = mapActor.getMap().getTiles().stream().filter(t -> t.getType().equals(TileType.STAIR_UP)).findFirst().get();
@@ -48,12 +64,18 @@ public class GameScreen extends ScreenAdapter {
 
     private void createInput(Label messageLabel) {
         KeyboardInput keyboardInput = new KeyboardInput(character, mapActor.getMap());
-        MouseInput mouseInput = new MouseInput(character, mapActor.getMap(), stage.getCamera(), messageLabel);
+        MouseInput mouseInput = new MouseInput();
+        mouseInput.setCharacter(character);
+        mouseInput.setMap(mapActor.getMap());
+        mouseInput.setCamera(stage.getCamera());
+        mouseInput.setMessageLabel(messageLabel);
+        mouseInput.setActionList(actionList);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stageUi);
         multiplexer.addProcessor(keyboardInput);
         multiplexer.addProcessor(mouseInput);
-        multiplexer.addProcessor(stageUi);
+
         Gdx.input.setInputProcessor(multiplexer);
     }
 
