@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -16,6 +17,7 @@ import com.oni.donjon.entity.Character;
 import com.oni.donjon.input.KeyboardInput;
 import com.oni.donjon.input.MouseInput;
 import com.oni.donjon.map.Tile;
+import com.oni.donjon.map.TileType;
 
 /**
  * @author Daniel Chesters (on 25/05/14).
@@ -34,7 +36,9 @@ public class GameScreen extends ScreenAdapter {
 
         mapActor = new MapActor();
         Label characterLabel = createGameScene(skin);
-        character = new Character(characterLabel);
+        Tile startTile = mapActor.getMap().getTiles().stream().filter(t -> t.getType().equals(TileType.STAIR_UP)).findFirst().get();
+        Vector2 startPosition = new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());
+        character = new Character(characterLabel, startPosition);
         mapActor.getMap().setCharacter(character);
         mapActor.getMap().updateVisibility();
         createInput(messageLabel);

@@ -61,9 +61,9 @@ public class Character {
         return position.hashCode();
     }
 
-    public Character(Label label) {
+    public Character(Label label, Vector2 startPosition) {
         this.label = label;
-        position = new Vector2(5, 5);
+        position = startPosition;
         updateCharacter();
     }
 
