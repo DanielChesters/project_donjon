@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.utils.I18NBundle;
 import com.oni.donjon.action.Action;
 import com.oni.donjon.actor.MapActor;
 import com.oni.donjon.entity.Character;
@@ -27,8 +26,6 @@ import com.oni.donjon.map.TileType;
  * @author Daniel Chesters (on 25/05/14).
  */
 public class GameScreen extends ScreenAdapter {
-    public static final I18NBundle bundle = I18NBundle.createBundle(Gdx.files.internal("i18n/messages"));
-
     private Character character;
     private MapActor mapActor;
     private ShapeRenderer debugRenderer;

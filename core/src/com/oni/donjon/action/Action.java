@@ -1,14 +1,14 @@
 package com.oni.donjon.action;
 
-import com.oni.donjon.screen.GameScreen;
+import com.oni.donjon.Resources;
 
 /**
  * @author Daniel Chesters (on 26/05/14).
  */
 public enum Action {
-    LOOK(GameScreen.bundle.get("action.look")),
-    OPEN(GameScreen.bundle.get("action.open")),
-    CLOSE(GameScreen.bundle.get("action.close"));
+    LOOK(Resources.bundle.get("action.look")),
+    OPEN(Resources.bundle.get("action.open")),
+    CLOSE(Resources.bundle.get("action.close"));
 
     private String label;
 
