@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.oni.donjon.Resources;
 import com.oni.donjon.action.Action;
 import com.oni.donjon.actor.MapActor;
 import com.oni.donjon.entity.Character;
@@ -49,7 +50,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void createActionWindow(Skin skin) {
-        Window actionWindow = new Window("Action", skin);
+        Window actionWindow = new Window(Resources.bundle.get("window.action.title"), skin);
         actionWindow.setPosition(20, Gdx.graphics.getHeight() / 2);
         actionWindow.setHeight(50);
         actionWindow.setWidth(200);
