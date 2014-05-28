@@ -38,11 +38,11 @@ public class MapActor extends Actor {
     }
 
     private boolean rowGround(int y) {
-        return (y > 1 && y < 19);
+        return y > 1 && y < 19;
     }
 
     private boolean columnGround(int x) {
-        return (x > 1 && x < 19);
+        return x > 1 && x < 19;
     }
 
     public Map getMap() {
