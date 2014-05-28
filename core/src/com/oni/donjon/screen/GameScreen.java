@@ -50,7 +50,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void createActionWindow(Skin skin) {
-        Window actionWindow = new Window(Resources.bundle.get("window.action.title"), skin);
+        Window actionWindow = new Window(Resources.BUNDLE.get("window.action.title"), skin);
         actionWindow.setPosition(20, Gdx.graphics.getHeight() / 2);
         actionWindow.setHeight(50);
         actionWindow.setWidth(200);

@@ -6,9 +6,9 @@ import com.oni.donjon.Resources;
  * @author Daniel Chesters (on 26/05/14).
  */
 public enum Action {
-    LOOK(Resources.bundle.get("action.look")),
-    OPEN(Resources.bundle.get("action.open")),
-    CLOSE(Resources.bundle.get("action.close"));
+    LOOK(Resources.BUNDLE.get("action.look")),
+    OPEN(Resources.BUNDLE.get("action.open")),
+    CLOSE(Resources.BUNDLE.get("action.close"));
 
     private String label;
 

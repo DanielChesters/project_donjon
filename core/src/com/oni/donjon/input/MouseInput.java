@@ -95,22 +95,22 @@ public class MouseInput extends InputAdapter {
 
     private void close(Tile tile) {
         if (characterSamePositionAsTile(tile)) {
-            messageLabel.setText(Resources.bundle.get("close.me"));
+            messageLabel.setText(Resources.BUNDLE.get("close.me"));
         } else {
             switch (tile.getType()) {
                 case DOOR_CLOSE:
-                    messageLabel.setText(Resources.bundle.get("close.door.already.close"));
+                    messageLabel.setText(Resources.BUNDLE.get("close.door.already.close"));
                     break;
                 case DOOR_OPEN:
                     if (isNearCharacter(tile)) {
                         tile.setType(TileType.DOOR_CLOSE);
-                        messageLabel.setText(Resources.bundle.get("close.door"));
+                        messageLabel.setText(Resources.BUNDLE.get("close.door"));
                     } else {
-                        messageLabel.setText(Resources.bundle.get("close.door.too.far"));
+                        messageLabel.setText(Resources.BUNDLE.get("close.door.too.far"));
                     }
                     break;
                 default:
-                    messageLabel.setText(Resources.bundle.get("close.nothing"));
+                    messageLabel.setText(Resources.BUNDLE.get("close.nothing"));
                     break;
             }
         }
@@ -118,22 +118,22 @@ public class MouseInput extends InputAdapter {
 
     private void open(Tile tile) {
         if (characterSamePositionAsTile(tile)) {
-            messageLabel.setText(Resources.bundle.get("open.me"));
+            messageLabel.setText(Resources.BUNDLE.get("open.me"));
         } else {
             switch (tile.getType()) {
                 case DOOR_OPEN:
-                    messageLabel.setText(Resources.bundle.get("open.door.already.open"));
+                    messageLabel.setText(Resources.BUNDLE.get("open.door.already.open"));
                     break;
                 case DOOR_CLOSE:
                     if (isNearCharacter(tile)) {
                         tile.setType(TileType.DOOR_OPEN);
-                        messageLabel.setText(Resources.bundle.get("open.door"));
+                        messageLabel.setText(Resources.BUNDLE.get("open.door"));
                     } else {
-                        messageLabel.setText(Resources.bundle.get("open.door.too.far"));
+                        messageLabel.setText(Resources.BUNDLE.get("open.door.too.far"));
                     }
                     break;
                 default:
-                    messageLabel.setText(Resources.bundle.get("open.nothing"));
+                    messageLabel.setText(Resources.BUNDLE.get("open.nothing"));
                     break;
             }
         }
@@ -141,26 +141,26 @@ public class MouseInput extends InputAdapter {
 
     private void look(Tile tile) {
         if (characterSamePositionAsTile(tile)) {
-            messageLabel.setText(Resources.bundle.get("look.me"));
+            messageLabel.setText(Resources.BUNDLE.get("look.me"));
         } else {
             switch (tile.getType()) {
                 case GROUND:
-                    messageLabel.setText(Resources.bundle.get("look.ground"));
+                    messageLabel.setText(Resources.BUNDLE.get("look.ground"));
                     break;
                 case WALL:
-                    messageLabel.setText(Resources.bundle.get("look.wall"));
+                    messageLabel.setText(Resources.BUNDLE.get("look.wall"));
                     break;
                 case DOOR_OPEN:
-                    messageLabel.setText(Resources.bundle.get("look.door.open"));
+                    messageLabel.setText(Resources.BUNDLE.get("look.door.open"));
                     break;
                 case DOOR_CLOSE:
-                    messageLabel.setText(Resources.bundle.get("look.door.close"));
+                    messageLabel.setText(Resources.BUNDLE.get("look.door.close"));
                     break;
                 case STAIR_UP:
-                    messageLabel.setText(Resources.bundle.get("look.stair.up"));
+                    messageLabel.setText(Resources.BUNDLE.get("look.stair.up"));
                     break;
                 case STAIR_DOWN:
-                    messageLabel.setText(Resources.bundle.get("look.stair.down"));
+                    messageLabel.setText(Resources.BUNDLE.get("look.stair.down"));
                     break;
                 default:
                     break;
