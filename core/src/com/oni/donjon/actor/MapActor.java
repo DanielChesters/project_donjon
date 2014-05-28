@@ -30,7 +30,19 @@ public class MapActor extends Actor {
     }
 
     private boolean isGroundTile(int x, int y) {
-        return (x > 1 && x < 19) && (y > 1 && y < 19) && x != 10;
+        return columnGround(x) && rowGround(y) && isNotInnerWall(x);
+    }
+
+    private boolean isNotInnerWall(int x) {
+        return x != 10;
+    }
+
+    private boolean rowGround(int y) {
+        return (y > 1 && y < 19);
+    }
+
+    private boolean columnGround(int x) {
+        return (x > 1 && x < 19);
     }
 
     public Map getMap() {
