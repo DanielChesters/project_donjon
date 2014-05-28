@@ -69,12 +69,14 @@ public class MouseInput extends InputAdapter {
         camera.unproject(worldCoordinates);
         Vector2 mouseLocation = new Vector2(worldCoordinates.x, worldCoordinates.y);
         Gdx.app.debug("Mouse", String.format("%f,%f%n", mouseLocation.x, mouseLocation.y));
-        Gdx.app.debug("Tile", String.format("%d,%d%n", (int) (mouseLocation.x / Tile.SIZE), (int) (mouseLocation.y / Tile.SIZE)));
+        Gdx.app.debug("Tile", String.format("%d,%d%n", (int) (mouseLocation.x / Tile.SIZE),
+            (int) (mouseLocation.y / Tile.SIZE)));
         return mouseLocation;
     }
 
     private void mainAction(Vector2 mouseLocation) {
-        Optional<Tile> tile = map.getTile((int) (mouseLocation.x / Tile.SIZE), (int) (mouseLocation.y / Tile.SIZE));
+        Optional<Tile> tile =
+            map.getTile((int) (mouseLocation.x / Tile.SIZE), (int) (mouseLocation.y / Tile.SIZE));
         if (tile.isPresent() && tile.get().isVisible()) {
             Tile realTile = tile.get();
             switch (actionList.getSelected()) {
@@ -172,12 +174,14 @@ public class MouseInput extends InputAdapter {
     private boolean characterSamePositionAsTile(Tile tile) {
         Rectangle tileRectangle = tile.getRectangle();
         Vector2 characterPosition = character.getPosition();
-        return Math.abs(tileRectangle.getX() - (int) characterPosition.x) < 1 && Math.abs(tileRectangle.getY() - (int) characterPosition.y) < 1;
+        return Math.abs(tileRectangle.getX() - (int) characterPosition.x) < 1
+            && Math.abs(tileRectangle.getY() - (int) characterPosition.y) < 1;
     }
 
     private boolean isNearCharacter(Tile tile) {
         Rectangle tileRectangle = tile.getRectangle();
         Vector2 characterPosition = character.getPosition();
-        return Math.abs(tileRectangle.getX() - (int) characterPosition.x) < 1.5 && Math.abs(tileRectangle.getY() - (int) characterPosition.y) < 1.5;
+        return Math.abs(tileRectangle.getX() - (int) characterPosition.x) < 1.5
+            && Math.abs(tileRectangle.getY() - (int) characterPosition.y) < 1.5;
     }
 }

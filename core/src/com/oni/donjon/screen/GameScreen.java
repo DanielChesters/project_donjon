@@ -40,8 +40,11 @@ public class GameScreen extends ScreenAdapter {
         createActionWindow(skin);
         mapActor = new MapActor();
         Label characterLabel = createGameScene(skin);
-        Tile startTile = mapActor.getMap().getTiles().stream().filter(t -> t.getType().equals(TileType.STAIR_UP)).findFirst().get();
-        Vector2 startPosition = new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());
+        Tile startTile =
+            mapActor.getMap().getTiles().stream().filter(t -> t.getType().equals(TileType.STAIR_UP))
+                .findFirst().get();
+        Vector2 startPosition =
+            new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());
         character = new Character(characterLabel, startPosition);
         mapActor.getMap().setCharacter(character);
         mapActor.getMap().updateVisibility();
@@ -85,7 +88,8 @@ public class GameScreen extends ScreenAdapter {
         Label characterLabel = new Label("@", skin, "default");
         characterLabel.setWidth(16);
         characterLabel.setHeight(16);
-        stage.getCamera().position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
+        stage.getCamera().position
+            .set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         stage.addActor(mapActor);
         stage.addActor(characterLabel);
         return characterLabel;
@@ -105,7 +109,8 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.getCamera().position.set(character.getPosition().x * Tile.SIZE, character.getPosition().y * Tile.SIZE, 0);
+        stage.getCamera().position
+            .set(character.getPosition().x * Tile.SIZE, character.getPosition().y * Tile.SIZE, 0);
         stage.getCamera().update();
         stage.draw();
         stageUi.draw();
@@ -125,7 +130,9 @@ public class GameScreen extends ScreenAdapter {
             } else {
                 debugRenderer.setColor(Color.BLUE);
             }
-            debugRenderer.rect(rectangle.getX() * Tile.SIZE, rectangle.getY() * Tile.SIZE, Tile.SIZE, Tile.SIZE);
+            debugRenderer
+                .rect(rectangle.getX() * Tile.SIZE, rectangle.getY() * Tile.SIZE, Tile.SIZE,
+                    Tile.SIZE);
         });
         debugRenderer.end();
     }

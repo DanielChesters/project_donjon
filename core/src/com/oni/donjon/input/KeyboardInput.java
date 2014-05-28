@@ -55,7 +55,8 @@ public class KeyboardInput extends InputAdapter {
 
     private float getSpeed() {
         float val;
-        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || Gdx.input
+            .isKeyPressed(Input.Keys.CONTROL_LEFT)) {
             val = 5;
         } else {
             val = 0.5f;
@@ -64,28 +65,32 @@ public class KeyboardInput extends InputAdapter {
     }
 
     private void goDown(float speed) {
-        Optional<Tile> tileDown = map.getTile((int) (character.getPosition().x), (int) (character.getPosition().y - speed));
+        Optional<Tile> tileDown = map.getTile((int) (character.getPosition().x),
+            (int) (character.getPosition().y - speed));
         if (tileDown.isPresent() && !tileDown.get().getType().isBlock()) {
             character.addY(-speed);
         }
     }
 
     private void goUp(float val) {
-        Optional<Tile> tileUp = map.getTile((int) (character.getPosition().x), (int) (character.getPosition().y + val));
+        Optional<Tile> tileUp =
+            map.getTile((int) (character.getPosition().x), (int) (character.getPosition().y + val));
         if (tileUp.isPresent() && !tileUp.get().getType().isBlock()) {
             character.addY(val);
         }
     }
 
     private void goLeft(float val) {
-        Optional<Tile> tileLeft = map.getTile((int) (character.getPosition().x - val), (int) (character.getPosition().y));
+        Optional<Tile> tileLeft =
+            map.getTile((int) (character.getPosition().x - val), (int) (character.getPosition().y));
         if (tileLeft.isPresent() && !tileLeft.get().getType().isBlock()) {
             character.addX(-val);
         }
     }
 
     private void goRight(float val) {
-        Optional<Tile> tileRight = map.getTile((int) (character.getPosition().x + val), (int) (character.getPosition().y));
+        Optional<Tile> tileRight =
+            map.getTile((int) (character.getPosition().x + val), (int) (character.getPosition().y));
         if (tileRight.isPresent() && !tileRight.get().getType().isBlock()) {
             character.addX(val);
         }

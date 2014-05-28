@@ -50,7 +50,8 @@ public class Tile {
 
         Tile tile = (Tile) o;
 
-        return this.rectangle.getX() == tile.rectangle.getX() && this.rectangle.getY() == tile.rectangle.getY();
+        return this.rectangle.getX() == tile.rectangle.getX()
+            && this.rectangle.getY() == tile.rectangle.getY();
     }
 
     @Override

@@ -24,7 +24,8 @@ public class Map {
     private Character character;
 
     public Optional<Tile> getTile(float x, float y) {
-        return tiles.stream().filter(t -> t.getRectangle().getX() == x && t.getRectangle().getY() == y).findFirst();
+        return tiles.stream()
+            .filter(t -> t.getRectangle().getX() == x && t.getRectangle().getY() == y).findFirst();
     }
 
     public Map() {
@@ -36,13 +37,16 @@ public class Map {
     }
 
     public void updateVisibility() {
-        IntStream.rangeClosed((int) character.getPosition().x - 1, (int) character.getPosition().x + 1).forEach(x ->
-                        IntStream.rangeClosed((int) character.getPosition().y - 1, (int) character.getPosition().y + 1).forEach(y -> {
-                            Optional<Tile> tile = getTile(x, y);
-                            if (tile.isPresent()) {
-                                tile.get().setVisible(true);
-                            }
-                        })
-        );
+        IntStream
+            .rangeClosed((int) character.getPosition().x - 1, (int) character.getPosition().x + 1)
+            .forEach(x ->
+                    IntStream.rangeClosed((int) character.getPosition().y - 1,
+                        (int) character.getPosition().y + 1).forEach(y -> {
+                        Optional<Tile> tile = getTile(x, y);
+                        if (tile.isPresent()) {
+                            tile.get().setVisible(true);
+                        }
+                    })
+            );
     }
 }

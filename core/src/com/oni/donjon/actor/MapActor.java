@@ -39,6 +39,8 @@ public class MapActor extends Actor {
 
     @Override
     public void draw(Batch batch, float alpha) {
-        map.getTiles().stream().filter(Tile::isVisible).forEach(t -> batch.draw(t.getType().getTexture(), t.getRectangle().getX() * Tile.SIZE, t.getRectangle().getY() * Tile.SIZE));
+        map.getTiles().stream().filter(Tile::isVisible).forEach(t -> batch
+            .draw(t.getType().getTexture(), t.getRectangle().getX() * Tile.SIZE,
+                t.getRectangle().getY() * Tile.SIZE));
     }
 }

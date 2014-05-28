@@ -36,9 +36,9 @@ public class Character {
     @Override
     public String toString() {
         return "@{" +
-                "x=" + position.x +
-                ", y=" + position.y +
-                '}';
+            "x=" + position.x +
+            ", y=" + position.y +
+            '}';
     }
 
     @Override
