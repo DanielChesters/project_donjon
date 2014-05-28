@@ -10,8 +10,4 @@ public class DonjonGame extends Game {
         setScreen(new GameScreen());
     }
 
-    @Override
-    public void render() {
-        super.render();
-    }
 }
