@@ -104,17 +104,21 @@ public class MouseInput extends InputAdapter {
                     messageLabel.setText(Resources.BUNDLE.get("close.door.already.close"));
                     break;
                 case DOOR_OPEN:
-                    if (isNearCharacter(tile)) {
-                        tile.setType(TileType.DOOR_CLOSE);
-                        messageLabel.setText(Resources.BUNDLE.get("close.door"));
-                    } else {
-                        messageLabel.setText(Resources.BUNDLE.get("close.door.too.far"));
-                    }
+                    closeOpenedDoor(tile);
                     break;
                 default:
                     messageLabel.setText(Resources.BUNDLE.get("close.nothing"));
                     break;
             }
+        }
+    }
+
+    private void closeOpenedDoor(Tile tile) {
+        if (isNearCharacter(tile)) {
+            tile.setType(TileType.DOOR_CLOSE);
+            messageLabel.setText(Resources.BUNDLE.get("close.door"));
+        } else {
+            messageLabel.setText(Resources.BUNDLE.get("close.door.too.far"));
         }
     }
 
@@ -127,17 +131,21 @@ public class MouseInput extends InputAdapter {
                     messageLabel.setText(Resources.BUNDLE.get("open.door.already.open"));
                     break;
                 case DOOR_CLOSE:
-                    if (isNearCharacter(tile)) {
-                        tile.setType(TileType.DOOR_OPEN);
-                        messageLabel.setText(Resources.BUNDLE.get("open.door"));
-                    } else {
-                        messageLabel.setText(Resources.BUNDLE.get("open.door.too.far"));
-                    }
+                    openClosedDoor(tile);
                     break;
                 default:
                     messageLabel.setText(Resources.BUNDLE.get("open.nothing"));
                     break;
             }
+        }
+    }
+
+    private void openClosedDoor(Tile tile) {
+        if (isNearCharacter(tile)) {
+            tile.setType(TileType.DOOR_OPEN);
+            messageLabel.setText(Resources.BUNDLE.get("open.door"));
+        } else {
+            messageLabel.setText(Resources.BUNDLE.get("open.door.too.far"));
         }
     }
 
