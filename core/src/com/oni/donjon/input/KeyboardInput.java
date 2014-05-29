@@ -29,19 +29,31 @@ public class KeyboardInput extends InputAdapter {
         switch (keycode) {
             case Input.Keys.D:
             case Input.Keys.RIGHT:
-                IntStream.range(0, numberCase).forEach(i -> goRight());
+                IntStream.range(0, numberCase).forEach(i -> {
+                    goRight();
+                    map.updateVisibility();
+                });
                 break;
             case Input.Keys.Q:
             case Input.Keys.LEFT:
-                IntStream.range(0, numberCase).forEach(i -> goLeft());
+                IntStream.range(0, numberCase).forEach(i -> {
+                    goLeft();
+                    map.updateVisibility();
+                });
                 break;
             case Input.Keys.Z:
             case Input.Keys.UP:
-                IntStream.range(0, numberCase).forEach(i -> goUp());
+                IntStream.range(0, numberCase).forEach(i -> {
+                    goUp();
+                    map.updateVisibility();
+                });
                 break;
             case Input.Keys.S:
             case Input.Keys.DOWN:
-                IntStream.range(0, numberCase).forEach(i -> goDown());
+                IntStream.range(0, numberCase).forEach(i -> {
+                    goDown();
+                    map.updateVisibility();
+                });
                 break;
             default:
                 break;
