@@ -9,6 +9,7 @@ import com.oni.donjon.map.Map;
 import com.oni.donjon.map.Tile;
 
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  * @author Daniel Chesters (on 20/05/14).
@@ -24,23 +25,23 @@ public class KeyboardInput extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        float speed = getSpeed();
+        int numberCase = getCaseToGo();
         switch (keycode) {
             case Input.Keys.D:
             case Input.Keys.RIGHT:
-                goRight(speed);
+                IntStream.range(0, numberCase).forEach(i -> goRight());
                 break;
             case Input.Keys.Q:
             case Input.Keys.LEFT:
-                goLeft(speed);
+                IntStream.range(0, numberCase).forEach(i -> goLeft());
                 break;
             case Input.Keys.Z:
             case Input.Keys.UP:
-                goUp(speed);
+                IntStream.range(0, numberCase).forEach(i -> goUp());
                 break;
             case Input.Keys.S:
             case Input.Keys.DOWN:
-                goDown(speed);
+                IntStream.range(0, numberCase).forEach(i -> goDown());
                 break;
             default:
                 break;
@@ -53,46 +54,49 @@ public class KeyboardInput extends InputAdapter {
         return true;
     }
 
-    private float getSpeed() {
-        float val;
+    private int getCaseToGo() {
+        int numberCase;
         if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || Gdx.input
             .isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-            val = 5;
+            numberCase = 10;
         } else {
-            val = 0.5f;
+            numberCase = 1;
         }
-        return val;
+        return numberCase;
     }
 
-    private void goDown(float speed) {
+    private void goDown() {
         Optional<Tile> tileDown = map.getTile((int) (character.getPosition().x),
-            (int) (character.getPosition().y - speed));
+            (int) (character.getPosition().y - 0.5f));
         if (tileDown.isPresent() && !tileDown.get().getType().isBlock()) {
-            character.addY(-speed);
+            character.addY(-0.5f);
         }
     }
 
-    private void goUp(float val) {
+    private void goUp() {
         Optional<Tile> tileUp =
-            map.getTile((int) (character.getPosition().x), (int) (character.getPosition().y + val));
+            map.getTile((int) (character.getPosition().x),
+                (int) (character.getPosition().y + 0.5f));
         if (tileUp.isPresent() && !tileUp.get().getType().isBlock()) {
-            character.addY(val);
+            character.addY(0.5f);
         }
     }
 
-    private void goLeft(float val) {
+    private void goLeft() {
         Optional<Tile> tileLeft =
-            map.getTile((int) (character.getPosition().x - val), (int) (character.getPosition().y));
+            map.getTile((int) (character.getPosition().x - 0.5f),
+                (int) (character.getPosition().y));
         if (tileLeft.isPresent() && !tileLeft.get().getType().isBlock()) {
-            character.addX(-val);
+            character.addX(-0.5f);
         }
     }
 
-    private void goRight(float val) {
+    private void goRight() {
         Optional<Tile> tileRight =
-            map.getTile((int) (character.getPosition().x + val), (int) (character.getPosition().y));
+            map.getTile((int) (character.getPosition().x + 0.5f),
+                (int) (character.getPosition().y));
         if (tileRight.isPresent() && !tileRight.get().getType().isBlock()) {
-            character.addX(val);
+            character.addX(0.5f);
         }
     }
 
