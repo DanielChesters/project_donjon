@@ -37,7 +37,21 @@ public class MainScreen extends ScreenAdapter {
             }
         });
 
+        TextButton exitGameButton =
+            new TextButton(Resources.BUNDLE.get("main.screen.exit.title"), skin);
+        exitGameButton.pack();
+        exitGameButton.setPosition(Gdx.graphics.getWidth() / 2 - exitGameButton.getWidth() / 2,
+            Gdx.graphics.getHeight() / 2 - (exitGameButton.getHeight() + 20));
+        exitGameButton.addListener(new InputListener() {
+            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
+                int button) {
+                Gdx.app.exit();
+                return true;
+            }
+        });
+
         stage.addActor(newGameButton);
+        stage.addActor(exitGameButton);
         Gdx.input.setInputProcessor(stage);
     }
 
