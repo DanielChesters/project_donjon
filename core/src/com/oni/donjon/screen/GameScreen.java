@@ -47,22 +47,9 @@ public class GameScreen extends ScreenAdapter {
     private void createUi(Skin skin) {
         uiStage = new UIStage();
 
-        final Label messageLabel = new Label("", skin, "default");
-        messageLabel.setWidth(100);
-        messageLabel.setHeight(20);
-        messageLabel.setPosition(10, Gdx.graphics.getHeight() - 50);
-
-        final List<Action> actionList = new List<>(skin);
-        actionList.setItems(Action.values());
-        actionList.getSelection().setRequired(false);
-        actionList.getSelection().setMultiple(false);
-
-        final Window actionWindow = new Window(Resources.BUNDLE.get("window.action.title"), skin);
-        actionWindow.setPosition(20, Gdx.graphics.getHeight() / 2);
-        actionWindow.setHeight(50);
-        actionWindow.setWidth(200);
-        actionWindow.add(actionList);
-        actionWindow.pack();
+        final Label messageLabel = createMessageLabel(skin);
+        final List<Action> actionList = createActionList(skin);
+        final Window actionWindow = createActionWindow(skin, actionList);
 
         uiStage.setMessageLabel(messageLabel);
         uiStage.setActionList(actionList);
@@ -72,13 +59,37 @@ public class GameScreen extends ScreenAdapter {
         stage.addActor(actionWindow);
     }
 
+    private Window createActionWindow(Skin skin, List<Action> actionList) {
+        final Window actionWindow = new Window(Resources.BUNDLE.get("window.action.title"), skin);
+        actionWindow.setPosition(20, Gdx.graphics.getHeight() / 2);
+        actionWindow.setHeight(50);
+        actionWindow.setWidth(200);
+        actionWindow.add(actionList);
+        actionWindow.pack();
+        return actionWindow;
+    }
+
+    private List<Action> createActionList(Skin skin) {
+        final List<Action> actionList = new List<>(skin);
+        actionList.setItems(Action.values());
+        actionList.getSelection().setRequired(false);
+        actionList.getSelection().setMultiple(false);
+        return actionList;
+    }
+
+    private Label createMessageLabel(Skin skin) {
+        final Label messageLabel = new Label("", skin, "default");
+        messageLabel.setWidth(100);
+        messageLabel.setHeight(20);
+        messageLabel.setPosition(10, Gdx.graphics.getHeight() - 50);
+        return messageLabel;
+    }
+
     private void createGameStage(Skin skin) {
         gameStage = new GameStage();
         MapActor mapActor = new MapActor();
 
-        Label playerLabel = new Label("@", skin, "default");
-        playerLabel.setWidth(16);
-        playerLabel.setHeight(16);
+        Label playerLabel = createPlayerLabel(skin);
 
         gameStage.setMapActor(mapActor);
         gameStage.setPlayerLabel(playerLabel);
@@ -89,6 +100,13 @@ public class GameScreen extends ScreenAdapter {
         stage.addActor(mapActor);
         stage.addActor(playerLabel);
 
+    }
+
+    private Label createPlayerLabel(Skin skin) {
+        Label playerLabel = new Label("@", skin, "default");
+        playerLabel.setWidth(16);
+        playerLabel.setHeight(16);
+        return playerLabel;
     }
 
     private void createData() {
@@ -111,21 +129,35 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void createInput() {
-        KeyboardInput keyboardInput = new KeyboardInput();
-        keyboardInput.setData(data);
-        keyboardInput.setGameStage(gameStage);
+        final KeyboardInput keyboardInput = createKeyboardInput();
+        final MouseInput mouseInput = createMouseInput();
+        final InputMultiplexer multiplexer = createInputMultiplexer(keyboardInput, mouseInput);
 
-        MouseInput mouseInput = new MouseInput();
-        mouseInput.setData(data);
-        mouseInput.setGameStage(gameStage);
-        mouseInput.setUiStage(uiStage);
+        Gdx.input.setInputProcessor(multiplexer);
+    }
 
+    private InputMultiplexer createInputMultiplexer(KeyboardInput keyboardInput,
+        MouseInput mouseInput) {
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(uiStage.getStage());
         multiplexer.addProcessor(keyboardInput);
         multiplexer.addProcessor(mouseInput);
+        return multiplexer;
+    }
 
-        Gdx.input.setInputProcessor(multiplexer);
+    private MouseInput createMouseInput() {
+        MouseInput mouseInput = new MouseInput();
+        mouseInput.setData(data);
+        mouseInput.setGameStage(gameStage);
+        mouseInput.setUiStage(uiStage);
+        return mouseInput;
+    }
+
+    private KeyboardInput createKeyboardInput() {
+        KeyboardInput keyboardInput = new KeyboardInput();
+        keyboardInput.setData(data);
+        keyboardInput.setGameStage(gameStage);
+        return keyboardInput;
     }
 
     private void createDebugStage() {
