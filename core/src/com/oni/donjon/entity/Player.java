@@ -16,7 +16,16 @@ public class Player {
         return position;
     }
 
-    public void addX(float x) {
+    public void move(float deltaX, float deltaY) {
+        if (deltaX != 0) {
+            addX(deltaX);
+        }
+        if (deltaY != 0) {
+            addY(deltaY);
+        }
+    }
+
+    private void addX(float x) {
         position.x += x;
         if (position.x > 20) {
             position.x = 0;
@@ -25,7 +34,7 @@ public class Player {
         }
     }
 
-    public void addY(float y) {
+    private void addY(float y) {
         position.y += y;
         if (position.y > 20) {
             position.y = 0;

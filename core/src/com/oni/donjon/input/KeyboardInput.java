@@ -70,55 +70,30 @@ public class KeyboardInput extends InputAdapter {
     }
 
     private void goDown(int numberCase) {
-        Player player = data.getPlayer();
-        Map map = data.getMap();
-        IntStream.range(0, numberCase).forEach(i -> {
-            Optional<Tile> tileDown = map.getTile((int) (player.getPosition().x),
-                (int) (player.getPosition().y - 0.5f));
-            if (tileDown.isPresent() && !tileDown.get().getType().isBlock()) {
-                player.addY(-0.5f);
-            }
-            map.updateVisibility();
-        });
+        movePlayer(numberCase, 0, -0.5f);
     }
 
     private void goUp(int numberCase) {
-        Player player = data.getPlayer();
-        Map map = data.getMap();
-        IntStream.range(0, numberCase).forEach(i -> {
-            Optional<Tile> tileUp =
-                map.getTile((int) (player.getPosition().x),
-                    (int) (player.getPosition().y + 0.5f));
-            if (tileUp.isPresent() && !tileUp.get().getType().isBlock()) {
-                player.addY(0.5f);
-            }
-            map.updateVisibility();
-        });
+        movePlayer(numberCase, 0, 0.5f);
     }
 
     private void goLeft(int numberCase) {
-        Player player = data.getPlayer();
-        Map map = data.getMap();
-        IntStream.range(0, numberCase).forEach(i -> {
-            Optional<Tile> tileLeft =
-                map.getTile((int) (player.getPosition().x - 0.5f),
-                    (int) (player.getPosition().y));
-            if (tileLeft.isPresent() && !tileLeft.get().getType().isBlock()) {
-                player.addX(-0.5f);
-            }
-            map.updateVisibility();
-        });
+        movePlayer(numberCase, -0.5f, 0);
     }
 
     private void goRight(int numberCase) {
+        movePlayer(numberCase, 0.5f, 0);
+    }
+
+    private void movePlayer(int numberCase, float deltaX, float deltaY) {
         Player player = data.getPlayer();
         Map map = data.getMap();
         IntStream.range(0, numberCase).forEach(i -> {
             Optional<Tile> tileRight =
-                map.getTile((int) (player.getPosition().x + 0.5f),
-                    (int) (player.getPosition().y));
+                map.getTile((int) (player.getPosition().x + deltaX),
+                    (int) (player.getPosition().y + deltaY));
             if (tileRight.isPresent() && !tileRight.get().getType().isBlock()) {
-                player.addX(0.5f);
+                player.move(deltaX, deltaY);
             }
             map.updateVisibility();
         });
