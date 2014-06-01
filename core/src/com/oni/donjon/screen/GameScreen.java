@@ -33,6 +33,7 @@ public class GameScreen extends ScreenAdapter {
     private UIStage uiStage;
     private GameStage gameStage;
     private DebugStage debugStage;
+    private InputMultiplexer gameInput;
 
     public GameScreen(DonjonGame game) {
         this.game = game;
@@ -184,11 +185,13 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void createInput() {
-        final KeyboardInput keyboardInput = createKeyboardInput();
-        final MouseInput mouseInput = createMouseInput();
-        final InputMultiplexer multiplexer = createInputMultiplexer(keyboardInput, mouseInput);
+        if (gameInput == null) {
+            final KeyboardInput keyboardInput = createKeyboardInput();
+            final MouseInput mouseInput = createMouseInput();
+            gameInput = createInputMultiplexer(keyboardInput, mouseInput);
+        }
 
-        Gdx.input.setInputProcessor(multiplexer);
+        Gdx.input.setInputProcessor(gameInput);
     }
 
     private InputMultiplexer createInputMultiplexer(KeyboardInput keyboardInput,
