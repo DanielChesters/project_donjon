@@ -1,5 +1,6 @@
 package com.oni.donjon.screen;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
@@ -19,6 +20,7 @@ import com.oni.donjon.input.KeyboardInput;
 import com.oni.donjon.input.MouseInput;
 import com.oni.donjon.map.Map;
 import com.oni.donjon.map.Tile;
+import com.oni.donjon.stage.DebugStage;
 import com.oni.donjon.stage.GameStage;
 import com.oni.donjon.stage.UIStage;
 
@@ -29,6 +31,7 @@ public class GameScreen extends ScreenAdapter {
     private GameData data;
     private UIStage uiStage;
     private GameStage gameStage;
+    private DebugStage debugStage;
 
     public GameScreen() {
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -36,6 +39,9 @@ public class GameScreen extends ScreenAdapter {
         createGameScene(skin);
         createData();
         createInput();
+        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
+            createDebugStage();
+        }
     }
 
     private void createUi(Skin skin) {
@@ -122,6 +128,12 @@ public class GameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(multiplexer);
     }
 
+    private void createDebugStage() {
+        debugStage = new DebugStage();
+        debugStage.setData(data);
+        debugStage.setGameStage(gameStage);
+    }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -133,5 +145,9 @@ public class GameScreen extends ScreenAdapter {
         stageGame.getCamera().update();
         stageGame.draw();
         uiStage.getStage().draw();
+
+        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
+            debugStage.drawDebug();
+        }
     }
 }
