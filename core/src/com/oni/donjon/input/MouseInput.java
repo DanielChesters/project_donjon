@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.oni.donjon.Resources;
+import com.oni.donjon.action.Action;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.map.Tile;
 import com.oni.donjon.map.TileType;
@@ -55,18 +56,21 @@ public class MouseInput extends InputAdapter {
                 (int) (mouseLocation.y / Tile.SIZE));
         if (tile.isPresent() && tile.get().isVisible()) {
             Tile realTile = tile.get();
-            switch (uiStage.getActionList().getSelected()) {
-                case LOOK:
-                    look(realTile);
-                    break;
-                case OPEN:
-                    open(realTile);
-                    break;
-                case CLOSE:
-                    close(realTile);
-                    break;
-                default:
-                    break;
+            Action action = uiStage.getActionList().getSelected();
+            if (action != null) {
+                switch (action) {
+                    case LOOK:
+                        look(realTile);
+                        break;
+                    case OPEN:
+                        open(realTile);
+                        break;
+                    case CLOSE:
+                        close(realTile);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
