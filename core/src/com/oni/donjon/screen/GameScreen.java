@@ -36,7 +36,7 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen() {
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         createUi(skin);
-        createGameScene(skin);
+        createGameStage(skin);
         createData();
         createInput();
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
@@ -72,7 +72,7 @@ public class GameScreen extends ScreenAdapter {
         stage.addActor(actionWindow);
     }
 
-    private void createGameScene(Skin skin) {
+    private void createGameStage(Skin skin) {
         gameStage = new GameStage();
         MapActor mapActor = new MapActor();
 
