@@ -3,18 +3,16 @@ package com.oni.donjon.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.oni.donjon.Resources;
-import com.oni.donjon.action.Action;
-import com.oni.donjon.entity.Character;
-import com.oni.donjon.map.Map;
+import com.oni.donjon.data.GameData;
 import com.oni.donjon.map.Tile;
 import com.oni.donjon.map.TileType;
+import com.oni.donjon.stage.GameStage;
+import com.oni.donjon.stage.UIStage;
 
 import java.util.Optional;
 
@@ -22,32 +20,9 @@ import java.util.Optional;
  * @author Daniel Chesters (on 24/05/14).
  */
 public class MouseInput extends InputAdapter {
-
-    private Character character;
-    private Map map;
-    private Camera camera;
-    private Label messageLabel;
-    private List<Action> actionList;
-
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
-
-    public void setMap(Map map) {
-        this.map = map;
-    }
-
-    public void setCamera(Camera camera) {
-        this.camera = camera;
-    }
-
-    public void setMessageLabel(Label messageLabel) {
-        this.messageLabel = messageLabel;
-    }
-
-    public void setActionList(List<Action> actionList) {
-        this.actionList = actionList;
-    }
+    private GameData data;
+    private GameStage gameStage;
+    private UIStage uiStage;
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -66,7 +41,7 @@ public class MouseInput extends InputAdapter {
     private Vector2 getMouseLocation(int screenX, int screenY, int button) {
         Gdx.app.debug("Mouse", String.format("Down : %d,%d : %d%n", screenX, screenY, button));
         Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
-        camera.unproject(worldCoordinates);
+        gameStage.getStage().getCamera().unproject(worldCoordinates);
         Vector2 mouseLocation = new Vector2(worldCoordinates.x, worldCoordinates.y);
         Gdx.app.debug("Mouse", String.format("%f,%f%n", mouseLocation.x, mouseLocation.y));
         Gdx.app.debug("Tile", String.format("%d,%d%n", (int) (mouseLocation.x / Tile.SIZE),
@@ -76,10 +51,11 @@ public class MouseInput extends InputAdapter {
 
     private void mainAction(Vector2 mouseLocation) {
         Optional<Tile> tile =
-            map.getTile((int) (mouseLocation.x / Tile.SIZE), (int) (mouseLocation.y / Tile.SIZE));
+            data.getMap().getTile((int) (mouseLocation.x / Tile.SIZE),
+                (int) (mouseLocation.y / Tile.SIZE));
         if (tile.isPresent() && tile.get().isVisible()) {
             Tile realTile = tile.get();
-            switch (actionList.getSelected()) {
+            switch (uiStage.getActionList().getSelected()) {
                 case LOOK:
                     look(realTile);
                     break;
@@ -96,6 +72,7 @@ public class MouseInput extends InputAdapter {
     }
 
     private void close(Tile tile) {
+        Label messageLabel = uiStage.getMessageLabel();
         if (characterSamePositionAsTile(tile)) {
             messageLabel.setText(Resources.BUNDLE.get("close.me"));
         } else {
@@ -114,6 +91,7 @@ public class MouseInput extends InputAdapter {
     }
 
     private void closeOpenedDoor(Tile tile) {
+        Label messageLabel = uiStage.getMessageLabel();
         if (isNearCharacter(tile)) {
             tile.setType(TileType.DOOR_CLOSE);
             messageLabel.setText(Resources.BUNDLE.get("close.door"));
@@ -123,6 +101,7 @@ public class MouseInput extends InputAdapter {
     }
 
     private void open(Tile tile) {
+        Label messageLabel = uiStage.getMessageLabel();
         if (characterSamePositionAsTile(tile)) {
             messageLabel.setText(Resources.BUNDLE.get("open.me"));
         } else {
@@ -141,6 +120,7 @@ public class MouseInput extends InputAdapter {
     }
 
     private void openClosedDoor(Tile tile) {
+        Label messageLabel = uiStage.getMessageLabel();
         if (isNearCharacter(tile)) {
             tile.setType(TileType.DOOR_OPEN);
             messageLabel.setText(Resources.BUNDLE.get("open.door"));
@@ -150,6 +130,7 @@ public class MouseInput extends InputAdapter {
     }
 
     private void look(Tile tile) {
+        Label messageLabel = uiStage.getMessageLabel();
         if (characterSamePositionAsTile(tile)) {
             messageLabel.setText(Resources.BUNDLE.get("look.me"));
         } else {
@@ -181,15 +162,27 @@ public class MouseInput extends InputAdapter {
 
     private boolean characterSamePositionAsTile(Tile tile) {
         Rectangle tileRectangle = tile.getRectangle();
-        Vector2 characterPosition = character.getPosition();
-        return Math.abs(tileRectangle.getX() - (int) characterPosition.x) < 1
-            && Math.abs(tileRectangle.getY() - (int) characterPosition.y) < 1;
+        Vector2 playerPosition = data.getPlayer().getPosition();
+        return Math.abs(tileRectangle.getX() - (int) playerPosition.x) < 1
+            && Math.abs(tileRectangle.getY() - (int) playerPosition.y) < 1;
     }
 
     private boolean isNearCharacter(Tile tile) {
         Rectangle tileRectangle = tile.getRectangle();
-        Vector2 characterPosition = character.getPosition();
-        return Math.abs(tileRectangle.getX() - (int) characterPosition.x) < 1.5
-            && Math.abs(tileRectangle.getY() - (int) characterPosition.y) < 1.5;
+        Vector2 playerPosition = data.getPlayer().getPosition();
+        return Math.abs(tileRectangle.getX() - (int) playerPosition.x) < 1.5
+            && Math.abs(tileRectangle.getY() - (int) playerPosition.y) < 1.5;
+    }
+
+    public void setData(GameData data) {
+        this.data = data;
+    }
+
+    public void setGameStage(GameStage gameStage) {
+        this.gameStage = gameStage;
+    }
+
+    public void setUiStage(UIStage uiStage) {
+        this.uiStage = uiStage;
     }
 }

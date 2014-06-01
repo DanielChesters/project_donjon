@@ -1,15 +1,16 @@
 package com.oni.donjon.entity;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.oni.donjon.map.Tile;
 
 /**
  * @author Daniel Chesters (on 20/05/14).
  */
-public class Character {
+public class Player {
     private Vector2 position;
-    private Label label;
+
+    public Player(Vector2 startPosition) {
+        position = startPosition;
+    }
 
     public Vector2 getPosition() {
         return position;
@@ -50,7 +51,7 @@ public class Character {
             return false;
         }
 
-        Character character = (Character) o;
+        Player character = (Player) o;
 
         return position.equals(character.position);
 
@@ -59,15 +60,5 @@ public class Character {
     @Override
     public int hashCode() {
         return position.hashCode();
-    }
-
-    public Character(Label label, Vector2 startPosition) {
-        this.label = label;
-        position = startPosition;
-        updateCharacter();
-    }
-
-    public void updateCharacter() {
-        label.setPosition(position.x * Tile.SIZE, position.y * Tile.SIZE);
     }
 }
