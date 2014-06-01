@@ -31,35 +31,22 @@ public class KeyboardInput extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
         int numberCase = getCaseToGo();
-        Map map = data.getMap();
         switch (keycode) {
             case Input.Keys.D:
             case Input.Keys.RIGHT:
-                IntStream.range(0, numberCase).forEach(i -> {
-                    goRight();
-                    map.updateVisibility();
-                });
+                goRight(numberCase);
                 break;
             case Input.Keys.Q:
             case Input.Keys.LEFT:
-                IntStream.range(0, numberCase).forEach(i -> {
-                    goLeft();
-                    map.updateVisibility();
-                });
+                goLeft(numberCase);
                 break;
             case Input.Keys.Z:
             case Input.Keys.UP:
-                IntStream.range(0, numberCase).forEach(i -> {
-                    goUp();
-                    map.updateVisibility();
-                });
+                goUp(numberCase);
                 break;
             case Input.Keys.S:
             case Input.Keys.DOWN:
-                IntStream.range(0, numberCase).forEach(i -> {
-                    goDown();
-                    map.updateVisibility();
-                });
+                goDown(numberCase);
                 break;
             default:
                 break;
@@ -82,43 +69,59 @@ public class KeyboardInput extends InputAdapter {
         return numberCase;
     }
 
-    private void goDown() {
+    private void goDown(int numberCase) {
         Player player = data.getPlayer();
-        Optional<Tile> tileDown = data.getMap().getTile((int) (player.getPosition().x),
-            (int) (player.getPosition().y - 0.5f));
-        if (tileDown.isPresent() && !tileDown.get().getType().isBlock()) {
-            player.addY(-0.5f);
-        }
+        Map map = data.getMap();
+        IntStream.range(0, numberCase).forEach(i -> {
+            Optional<Tile> tileDown = map.getTile((int) (player.getPosition().x),
+                (int) (player.getPosition().y - 0.5f));
+            if (tileDown.isPresent() && !tileDown.get().getType().isBlock()) {
+                player.addY(-0.5f);
+            }
+            map.updateVisibility();
+        });
     }
 
-    private void goUp() {
+    private void goUp(int numberCase) {
         Player player = data.getPlayer();
-        Optional<Tile> tileUp =
-            data.getMap().getTile((int) (player.getPosition().x),
-                (int) (player.getPosition().y + 0.5f));
-        if (tileUp.isPresent() && !tileUp.get().getType().isBlock()) {
-            player.addY(0.5f);
-        }
+        Map map = data.getMap();
+        IntStream.range(0, numberCase).forEach(i -> {
+            Optional<Tile> tileUp =
+                map.getTile((int) (player.getPosition().x),
+                    (int) (player.getPosition().y + 0.5f));
+            if (tileUp.isPresent() && !tileUp.get().getType().isBlock()) {
+                player.addY(0.5f);
+            }
+            map.updateVisibility();
+        });
     }
 
-    private void goLeft() {
+    private void goLeft(int numberCase) {
         Player player = data.getPlayer();
-        Optional<Tile> tileLeft =
-            data.getMap().getTile((int) (player.getPosition().x - 0.5f),
-                (int) (player.getPosition().y));
-        if (tileLeft.isPresent() && !tileLeft.get().getType().isBlock()) {
-            player.addX(-0.5f);
-        }
+        Map map = data.getMap();
+        IntStream.range(0, numberCase).forEach(i -> {
+            Optional<Tile> tileLeft =
+                map.getTile((int) (player.getPosition().x - 0.5f),
+                    (int) (player.getPosition().y));
+            if (tileLeft.isPresent() && !tileLeft.get().getType().isBlock()) {
+                player.addX(-0.5f);
+            }
+            map.updateVisibility();
+        });
     }
 
-    private void goRight() {
+    private void goRight(int numberCase) {
         Player player = data.getPlayer();
-        Optional<Tile> tileRight =
-            data.getMap().getTile((int) (player.getPosition().x + 0.5f),
-                (int) (player.getPosition().y));
-        if (tileRight.isPresent() && !tileRight.get().getType().isBlock()) {
-            player.addX(0.5f);
-        }
+        Map map = data.getMap();
+        IntStream.range(0, numberCase).forEach(i -> {
+            Optional<Tile> tileRight =
+                map.getTile((int) (player.getPosition().x + 0.5f),
+                    (int) (player.getPosition().y));
+            if (tileRight.isPresent() && !tileRight.get().getType().isBlock()) {
+                player.addX(0.5f);
+            }
+            map.updateVisibility();
+        });
     }
 
     private void debugMessage(int keycode) {
