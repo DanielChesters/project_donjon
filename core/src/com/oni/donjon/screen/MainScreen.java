@@ -32,7 +32,7 @@ public class MainScreen extends ScreenAdapter {
         newGameButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen());
+                game.setScreen(new GameScreen(game));
                 return true;
             }
         });

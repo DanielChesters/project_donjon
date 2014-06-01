@@ -6,11 +6,11 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
 import com.oni.donjon.action.Action;
 import com.oni.donjon.actor.MapActor;
@@ -28,12 +28,14 @@ import com.oni.donjon.stage.UIStage;
  * @author Daniel Chesters (on 25/05/14).
  */
 public class GameScreen extends ScreenAdapter {
+    private DonjonGame game;
     private GameData data;
     private UIStage uiStage;
     private GameStage gameStage;
     private DebugStage debugStage;
 
-    public GameScreen() {
+    public GameScreen(DonjonGame game) {
+        this.game = game;
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         createUi(skin);
         createGameStage(skin);
@@ -50,6 +52,8 @@ public class GameScreen extends ScreenAdapter {
         final Label messageLabel = createMessageLabel(skin);
         final List<Action> actionList = createActionList(skin);
         final Window actionWindow = createActionWindow(skin, actionList);
+        final Window menuWindow = createMenuWindow(skin);
+        final TextButton menuButton = createMenuButton(skin, menuWindow);
 
         uiStage.setMessageLabel(messageLabel);
         uiStage.setActionList(actionList);
@@ -57,6 +61,57 @@ public class GameScreen extends ScreenAdapter {
         Stage stage = uiStage.getStage();
         stage.addActor(messageLabel);
         stage.addActor(actionWindow);
+        stage.addActor(menuWindow);
+        stage.addActor(menuButton);
+    }
+
+    private TextButton createMenuButton(Skin skin, Window menuWindow) {
+        TextButton menuButton = new TextButton(Resources.BUNDLE.get("game_menu.title"), skin);
+        menuButton.addListener(new InputListener() {
+            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
+                int button) {
+                menuWindow.setVisible(true);
+                Gdx.input.setInputProcessor(uiStage.getStage());
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+        menuButton.pack();
+        menuButton.setPosition(Gdx.graphics.getWidth() - (menuButton.getWidth() + 5),
+            Gdx.graphics.getHeight() - (menuButton.getHeight() + 5));
+        return menuButton;
+    }
+
+    private Window createMenuWindow(Skin skin) {
+        Window menuWindow = new Window(Resources.BUNDLE.get("game_menu.title"), skin);
+        TextButton exitButton = new TextButton(Resources.BUNDLE.get("game_menu.action.exit"), skin);
+        exitButton.addListener(new InputListener() {
+            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
+                int button) {
+                game.setScreen(new MainScreen(game));
+                return true;
+            }
+        });
+        exitButton.pack();
+        menuWindow.add(exitButton);
+        TextButton closeButton =
+            new TextButton(Resources.BUNDLE.get("game_menu.action.close"), skin);
+        closeButton.addListener(new InputListener() {
+            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
+                int button) {
+                menuWindow.setVisible(false);
+                createInput();
+                return true;
+            }
+        });
+        closeButton.pack();
+        menuWindow.add(closeButton);
+        menuWindow.pack();
+        menuWindow.setPosition(Gdx.graphics.getWidth() / 2 - menuWindow.getWidth() / 2,
+            Gdx.graphics.getHeight() / 2 - menuWindow.getHeight() / 2);
+        menuWindow.setModal(true);
+        menuWindow.setMovable(false);
+        menuWindow.setVisible(false);
+        return menuWindow;
     }
 
     private Window createActionWindow(Skin skin, List<Action> actionList) {
@@ -176,10 +231,10 @@ public class GameScreen extends ScreenAdapter {
             .set(player.getPosition().x * Tile.SIZE, player.getPosition().y * Tile.SIZE, 0);
         stageGame.getCamera().update();
         stageGame.draw();
-        uiStage.getStage().draw();
 
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             debugStage.drawDebug();
         }
+        uiStage.getStage().draw();
     }
 }
