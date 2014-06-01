@@ -82,7 +82,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private Window createMenuWindow(Skin skin) {
-        Window menuWindow = new Window(Resources.BUNDLE.get("game_menu.title"), skin);
+        Window menuWindow = new Window(Resources.BUNDLE.get("game_menu.title"), skin, "dialog");
         TextButton exitButton = new TextButton(Resources.BUNDLE.get("game_menu.action.exit"), skin);
         exitButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
