@@ -73,7 +73,7 @@ public class MouseInput extends InputAdapter {
 
     private void close(Tile tile) {
         Label messageLabel = uiStage.getMessageLabel();
-        if (characterSamePositionAsTile(tile)) {
+        if (isPlayerSamePositionAsTile(tile)) {
             messageLabel.setText(Resources.BUNDLE.get("close.me"));
         } else {
             switch (tile.getType()) {
@@ -92,7 +92,7 @@ public class MouseInput extends InputAdapter {
 
     private void closeOpenedDoor(Tile tile) {
         Label messageLabel = uiStage.getMessageLabel();
-        if (isNearCharacter(tile)) {
+        if (isNearPlayer(tile)) {
             tile.setType(TileType.DOOR_CLOSE);
             messageLabel.setText(Resources.BUNDLE.get("close.door"));
         } else {
@@ -102,7 +102,7 @@ public class MouseInput extends InputAdapter {
 
     private void open(Tile tile) {
         Label messageLabel = uiStage.getMessageLabel();
-        if (characterSamePositionAsTile(tile)) {
+        if (isPlayerSamePositionAsTile(tile)) {
             messageLabel.setText(Resources.BUNDLE.get("open.me"));
         } else {
             switch (tile.getType()) {
@@ -121,7 +121,7 @@ public class MouseInput extends InputAdapter {
 
     private void openClosedDoor(Tile tile) {
         Label messageLabel = uiStage.getMessageLabel();
-        if (isNearCharacter(tile)) {
+        if (isNearPlayer(tile)) {
             tile.setType(TileType.DOOR_OPEN);
             messageLabel.setText(Resources.BUNDLE.get("open.door"));
         } else {
@@ -131,7 +131,7 @@ public class MouseInput extends InputAdapter {
 
     private void look(Tile tile) {
         Label messageLabel = uiStage.getMessageLabel();
-        if (characterSamePositionAsTile(tile)) {
+        if (isPlayerSamePositionAsTile(tile)) {
             messageLabel.setText(Resources.BUNDLE.get("look.me"));
         } else {
             switch (tile.getType()) {
@@ -160,18 +160,19 @@ public class MouseInput extends InputAdapter {
     }
 
 
-    private boolean characterSamePositionAsTile(Tile tile) {
-        Rectangle tileRectangle = tile.getRectangle();
-        Vector2 playerPosition = data.getPlayer().getPosition();
-        return Math.abs(tileRectangle.getX() - (int) playerPosition.x) < 1
-            && Math.abs(tileRectangle.getY() - (int) playerPosition.y) < 1;
+    private boolean isPlayerSamePositionAsTile(Tile tile) {
+        return testPositionBetweenTileAndPlayer(tile, 1);
     }
 
-    private boolean isNearCharacter(Tile tile) {
+    private boolean isNearPlayer(Tile tile) {
+        return testPositionBetweenTileAndPlayer(tile, 1.5f);
+    }
+
+    private boolean testPositionBetweenTileAndPlayer(Tile tile, float distance) {
         Rectangle tileRectangle = tile.getRectangle();
         Vector2 playerPosition = data.getPlayer().getPosition();
-        return Math.abs(tileRectangle.getX() - (int) playerPosition.x) < 1.5
-            && Math.abs(tileRectangle.getY() - (int) playerPosition.y) < 1.5;
+        return Math.abs(tileRectangle.getX() - (int) playerPosition.x) < distance
+            && Math.abs(tileRectangle.getY() - (int) playerPosition.y) < distance;
     }
 
     public void setData(GameData data) {
