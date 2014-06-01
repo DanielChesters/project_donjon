@@ -19,7 +19,6 @@ import com.oni.donjon.input.KeyboardInput;
 import com.oni.donjon.input.MouseInput;
 import com.oni.donjon.map.Map;
 import com.oni.donjon.map.Tile;
-import com.oni.donjon.map.TileType;
 import com.oni.donjon.stage.GameStage;
 import com.oni.donjon.stage.UIStage;
 
@@ -89,11 +88,8 @@ public class GameScreen extends ScreenAdapter {
     private void createData() {
         data = new GameData();
         Map map = new Map();
-        Tile startTile =
-            map.getTiles().stream().filter(t -> t.getType().equals(TileType.STAIR_UP))
-                .findFirst().get();
+        Tile startTile = map.getStartTile();
         Vector2 startPosition =
-
             new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());
         Player player = new Player(startPosition);
 
@@ -137,26 +133,5 @@ public class GameScreen extends ScreenAdapter {
         stageGame.getCamera().update();
         stageGame.draw();
         uiStage.getStage().draw();
-
-        //        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
-        //            drawDebug();
-        //        }
     }
-
-    //    private void drawDebug() {
-    //        debugRenderer.setProjectionMatrix(stage.getCamera().combined);
-    //        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-    //        mapActor.getMap().getTiles().stream().forEach(t -> {
-    //            Rectangle rectangle = t.getRectangle();
-    //            if (t.isVisible()) {
-    //                debugRenderer.setColor(Color.RED);
-    //            } else {
-    //                debugRenderer.setColor(Color.BLUE);
-    //            }
-    //            debugRenderer
-    //                .rect(rectangle.getX() * Tile.SIZE, rectangle.getY() * Tile.SIZE, Tile.SIZE,
-    //                    Tile.SIZE);
-    //        });
-    //        debugRenderer.end();
-    //    }
 }

@@ -71,4 +71,8 @@ public class Map {
                     })
             );
     }
+
+    public Tile getStartTile() {
+        return tiles.stream().filter(t -> t.getType().equals(TileType.STAIR_UP)).findFirst().get();
+    }
 }
