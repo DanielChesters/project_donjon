@@ -16,9 +16,7 @@ allprojects {
         appName = 'Projet-donjon'
         gdxVersion = '1.1.0'
         roboVMVersion = '0.0.12'
-        testngVersion = '6.8.8'
         box2dlightsVersion = '1.2'
-        coverallsGradlePluginVersion = '0.4.0'
     }
 
     repositories {
@@ -57,7 +55,6 @@ project(":core") {
         compile "com.badlogicgames.box2dlights:box2dlights:$box2dlightsVersion"
         compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
-        testCompile "org.testng:testng:$testngVersion"
     }
 }
 

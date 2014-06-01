@@ -1,36 +1,12 @@
 apply plugin: "java"
-apply plugin: "jacoco"
-apply plugin: "coveralls"
 apply plugin: "sonar-runner"
 
 sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.test.java.srcDirs = [ "test/" ]
+sourceSets.main.java.srcDirs = ["src/"]
 
 
 eclipse.project {
     name = appName + "-core"
-}
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:$coverallsGradlePluginVersion"
-    }
-}
-
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled = true // coveralls plugin depends on xml format report
-        html.enabled = true
-    }
 }
