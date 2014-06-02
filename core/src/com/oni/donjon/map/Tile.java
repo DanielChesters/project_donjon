@@ -32,6 +32,10 @@ public class Tile {
         return rectangle;
     }
 
+    public Tile() {
+        this.rectangle = new Rectangle();
+    }
+
     public Tile(float x, float y, TileType type, boolean visible) {
         this.rectangle = new Rectangle(x, y, SIZE, SIZE);
         this.type = type;
