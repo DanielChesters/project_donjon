@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
-import com.oni.donjon.action.Action;
+import com.oni.donjon.action.Actions;
 import com.oni.donjon.actor.MapActor;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.entity.Player;
@@ -51,7 +51,7 @@ public class GameScreen extends ScreenAdapter {
         uiStage = new UIStage();
 
         final Label messageLabel = createMessageLabel(skin);
-        final List<Action> actionList = createActionList(skin);
+        final List<Actions> actionList = createActionList(skin);
         final Window actionWindow = createActionWindow(skin, actionList);
         final Window menuWindow = createMenuWindow(skin);
         final TextButton menuButton = createMenuButton(skin, menuWindow);
@@ -115,7 +115,7 @@ public class GameScreen extends ScreenAdapter {
         return menuWindow;
     }
 
-    private Window createActionWindow(Skin skin, List<Action> actionList) {
+    private Window createActionWindow(Skin skin, List<Actions> actionList) {
         final Window actionWindow = new Window(Resources.BUNDLE.get("window.action.title"), skin);
         actionWindow.setPosition(20, Gdx.graphics.getHeight() / 2);
         actionWindow.setHeight(50);
@@ -125,9 +125,9 @@ public class GameScreen extends ScreenAdapter {
         return actionWindow;
     }
 
-    private List<Action> createActionList(Skin skin) {
-        final List<Action> actionList = new List<>(skin);
-        actionList.setItems(Action.values());
+    private List<Actions> createActionList(Skin skin) {
+        final List<Actions> actionList = new List<>(skin);
+        actionList.setItems(Actions.values());
         actionList.getSelection().setRequired(false);
         actionList.getSelection().setMultiple(false);
         return actionList;

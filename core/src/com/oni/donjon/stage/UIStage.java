@@ -3,7 +3,7 @@ package com.oni.donjon.stage;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.oni.donjon.action.Action;
+import com.oni.donjon.action.Actions;
 
 /**
  * @author Daniel Chesters (on 01/06/14).
@@ -11,7 +11,7 @@ import com.oni.donjon.action.Action;
 public class UIStage {
 
     private Stage stage;
-    private List<Action> actionList;
+    private List<Actions> actionList;
     private Label messageLabel;
 
     public UIStage() {
@@ -22,11 +22,11 @@ public class UIStage {
         return stage;
     }
 
-    public List<Action> getActionList() {
+    public List<Actions> getActionList() {
         return actionList;
     }
 
-    public void setActionList(List<Action> actionList) {
+    public void setActionList(List<Actions> actionList) {
         this.actionList = actionList;
     }
 

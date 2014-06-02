@@ -3,15 +3,11 @@ package com.oni.donjon.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.oni.donjon.Resources;
-import com.oni.donjon.action.Action;
+import com.oni.donjon.action.Actions;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.map.Tile;
-import com.oni.donjon.map.TileType;
 import com.oni.donjon.stage.GameStage;
 import com.oni.donjon.stage.UIStage;
 
@@ -56,127 +52,11 @@ public class MouseInput extends InputAdapter {
                 (int) (mouseLocation.y / Tile.SIZE));
         if (tile.isPresent() && tile.get().isVisible()) {
             Tile realTile = tile.get();
-            Action action = uiStage.getActionList().getSelected();
+            Actions action = uiStage.getActionList().getSelected();
             if (action != null) {
-                switch (action) {
-                    case LOOK:
-                        look(realTile);
-                        break;
-                    case OPEN:
-                        open(realTile);
-                        break;
-                    case CLOSE:
-                        close(realTile);
-                        break;
-                    default:
-                        break;
-                }
+                action.doAction(realTile, data, uiStage);
             }
         }
-    }
-
-    private void close(Tile tile) {
-        Label messageLabel = uiStage.getMessageLabel();
-        if (isPlayerSamePositionAsTile(tile)) {
-            messageLabel.setText(Resources.BUNDLE.get("close.me"));
-        } else {
-            switch (tile.getType()) {
-                case DOOR_CLOSE:
-                    messageLabel.setText(Resources.BUNDLE.get("close.door.already.close"));
-                    break;
-                case DOOR_OPEN:
-                    closeOpenedDoor(tile);
-                    break;
-                default:
-                    messageLabel.setText(Resources.BUNDLE.get("close.nothing"));
-                    break;
-            }
-        }
-    }
-
-    private void closeOpenedDoor(Tile tile) {
-        Label messageLabel = uiStage.getMessageLabel();
-        if (isNearPlayer(tile)) {
-            tile.setType(TileType.DOOR_CLOSE);
-            messageLabel.setText(Resources.BUNDLE.get("close.door"));
-        } else {
-            messageLabel.setText(Resources.BUNDLE.get("close.door.too.far"));
-        }
-    }
-
-    private void open(Tile tile) {
-        Label messageLabel = uiStage.getMessageLabel();
-        if (isPlayerSamePositionAsTile(tile)) {
-            messageLabel.setText(Resources.BUNDLE.get("open.me"));
-        } else {
-            switch (tile.getType()) {
-                case DOOR_OPEN:
-                    messageLabel.setText(Resources.BUNDLE.get("open.door.already.open"));
-                    break;
-                case DOOR_CLOSE:
-                    openClosedDoor(tile);
-                    break;
-                default:
-                    messageLabel.setText(Resources.BUNDLE.get("open.nothing"));
-                    break;
-            }
-        }
-    }
-
-    private void openClosedDoor(Tile tile) {
-        Label messageLabel = uiStage.getMessageLabel();
-        if (isNearPlayer(tile)) {
-            tile.setType(TileType.DOOR_OPEN);
-            messageLabel.setText(Resources.BUNDLE.get("open.door"));
-        } else {
-            messageLabel.setText(Resources.BUNDLE.get("open.door.too.far"));
-        }
-    }
-
-    private void look(Tile tile) {
-        Label messageLabel = uiStage.getMessageLabel();
-        if (isPlayerSamePositionAsTile(tile)) {
-            messageLabel.setText(Resources.BUNDLE.get("look.me"));
-        } else {
-            switch (tile.getType()) {
-                case GROUND:
-                    messageLabel.setText(Resources.BUNDLE.get("look.ground"));
-                    break;
-                case WALL:
-                    messageLabel.setText(Resources.BUNDLE.get("look.wall"));
-                    break;
-                case DOOR_OPEN:
-                    messageLabel.setText(Resources.BUNDLE.get("look.door.open"));
-                    break;
-                case DOOR_CLOSE:
-                    messageLabel.setText(Resources.BUNDLE.get("look.door.close"));
-                    break;
-                case STAIR_UP:
-                    messageLabel.setText(Resources.BUNDLE.get("look.stair.up"));
-                    break;
-                case STAIR_DOWN:
-                    messageLabel.setText(Resources.BUNDLE.get("look.stair.down"));
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-
-    private boolean isPlayerSamePositionAsTile(Tile tile) {
-        return testPositionBetweenTileAndPlayer(tile, 1);
-    }
-
-    private boolean isNearPlayer(Tile tile) {
-        return testPositionBetweenTileAndPlayer(tile, 1.5f);
-    }
-
-    private boolean testPositionBetweenTileAndPlayer(Tile tile, float distance) {
-        Rectangle tileRectangle = tile.getRectangle();
-        Vector2 playerPosition = data.getPlayer().getPosition();
-        return Math.abs(tileRectangle.getX() - (int) playerPosition.x) < distance
-            && Math.abs(tileRectangle.getY() - (int) playerPosition.y) < distance;
     }
 
     public void setData(GameData data) {
