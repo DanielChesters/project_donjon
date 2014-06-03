@@ -100,7 +100,7 @@ public class KeyboardInput extends InputAdapter {
     }
 
     private void debugMessage(int keycode) {
-        Gdx.app.debug("Keyboard", Integer.toString(keycode));
+        Gdx.app.debug("Keyboard", Input.Keys.toString(keycode));
         Gdx.app.debug("Player", data.getPlayer().toString());
     }
 }
