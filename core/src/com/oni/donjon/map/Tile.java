@@ -32,6 +32,14 @@ public class Tile {
         return rectangle;
     }
 
+    @Override public String toString() {
+        return "Tile{" +
+            "type=" + type +
+            ", rectangle=" + rectangle +
+            ", visible=" + visible +
+            '}';
+    }
+
     public Tile() {
         this.rectangle = new Rectangle();
     }

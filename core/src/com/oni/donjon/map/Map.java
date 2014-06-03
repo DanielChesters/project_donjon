@@ -3,6 +3,7 @@ package com.oni.donjon.map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.oni.donjon.entity.Player;
 
 import java.util.HashSet;
@@ -13,9 +14,9 @@ import java.util.stream.IntStream;
 /**
  * @author Daniel Chesters (on 22/05/14).
  */
-public class Map {
+public class Map implements Json.Serializable {
     private Set<Tile> tiles;
-    private Player player;
+    transient private Player player;
 
     public Map() {
         this.tiles = new HashSet<>();
@@ -57,5 +58,26 @@ public class Map {
 
     public Tile getStartTile() {
         return tiles.stream().filter(t -> t.getType().equals(TileType.STAIR_UP)).findFirst().get();
+    }
+
+    @Override public void write(Json json) {
+        json.writeArrayStart("tiles");
+        tiles.forEach(t -> json.writeValue(t, Tile.class));
+        json.writeArrayEnd();
+    }
+
+    @Override public String toString() {
+        return "Map{" +
+            "tiles=" + tiles +
+            '}';
+    }
+
+    @Override public void read(Json json, JsonValue jsonData) {
+        tiles = new HashSet<>();
+        @SuppressWarnings("unchecked")
+        Array<Tile> array = json.readValue("tiles", Array.class, Tile.class, jsonData);
+        for (Tile tile : array) {
+            tiles.add(tile);
+        }
     }
 }

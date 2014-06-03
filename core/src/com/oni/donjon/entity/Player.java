@@ -12,6 +12,10 @@ public class Player {
         position = startPosition;
     }
 
+    public Player() {
+        position = new Vector2();
+    }
+
     public Vector2 getPosition() {
         return position;
     }

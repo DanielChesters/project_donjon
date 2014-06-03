@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Json;
 import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
 import com.oni.donjon.action.Actions;
@@ -84,6 +85,22 @@ public class GameScreen extends ScreenAdapter {
 
     private Window createMenuWindow(Skin skin) {
         Window menuWindow = new Window(Resources.BUNDLE.get("game_menu.title"), skin, "dialog");
+        TextButton saveButton = new TextButton(Resources.BUNDLE.get("game_menu.action.save"), skin);
+        saveButton.addListener(new InputListener() {
+            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
+                int button) {
+                Json json = new Json();
+                String save = json.prettyPrint(data);
+                Gdx.app.debug("Save", save);
+                GameData testData = json.fromJson(GameData.class, save);
+                Gdx.app.debug("Read", testData.getMap().toString());
+                menuWindow.setVisible(false);
+                createInput();
+                return true;
+            }
+        });
+        saveButton.pack();
+        menuWindow.add(saveButton);
         TextButton exitButton = new TextButton(Resources.BUNDLE.get("game_menu.action.exit"), skin);
         exitButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
