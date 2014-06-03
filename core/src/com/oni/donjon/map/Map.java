@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
  */
 public class Map implements Json.Serializable {
     private Set<Tile> tiles;
-    transient private Player player;
+    private transient Player player;
 
     public Map() {
         this.tiles = new HashSet<>();
