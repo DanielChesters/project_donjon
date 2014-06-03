@@ -66,12 +66,6 @@ public class Map implements Json.Serializable {
         json.writeArrayEnd();
     }
 
-    @Override public String toString() {
-        return "Map{" +
-            "tiles=" + tiles +
-            '}';
-    }
-
     @Override public void read(Json json, JsonValue jsonData) {
         tiles = new HashSet<>();
         @SuppressWarnings("unchecked")
@@ -79,5 +73,11 @@ public class Map implements Json.Serializable {
         for (Tile tile : array) {
             tiles.add(tile);
         }
+    }
+
+    @Override public String toString() {
+        return "Map{" +
+            "tiles=" + tiles +
+            '}';
     }
 }
