@@ -20,6 +20,10 @@ public class Map implements Json.Serializable {
 
     public Map() {
         this.tiles = new HashSet<>();
+    }
+
+    public Map(String mapFile) {
+        this.tiles = new HashSet<>();
         Json json = new Json();
         @SuppressWarnings("unchecked")
         Array<Tile> tileArray =

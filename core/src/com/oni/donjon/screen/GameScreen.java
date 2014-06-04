@@ -187,7 +187,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void createData() {
         data = new GameData();
-        Map map = new Map();
+        Map map = new Map("map/map.json");
         Tile startTile = map.getStartTile();
         Vector2 startPosition =
             new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());
