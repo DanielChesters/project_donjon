@@ -231,7 +231,6 @@ public class GameScreen extends ScreenAdapter {
     private KeyboardInput createKeyboardInput() {
         KeyboardInput keyboardInput = new KeyboardInput();
         keyboardInput.setData(data);
-        keyboardInput.setGameStage(gameStage);
         return keyboardInput;
     }
 
@@ -247,6 +246,8 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Stage stageGame = gameStage.getStage();
         Player player = data.getPlayer();
+        player.updateMove(data.getMap());
+        gameStage.updatePlayer();
         stageGame.getCamera().position
             .set(player.getPosition().x * Tile.SIZE, player.getPosition().y * Tile.SIZE, 0);
         stageGame.getCamera().update();
