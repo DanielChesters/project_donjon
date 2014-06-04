@@ -37,11 +37,25 @@ public class MainScreen extends ScreenAdapter {
             }
         });
 
+        TextButton loadGameButton =
+            new TextButton(Resources.BUNDLE.get("main.screen.load_game.title"), skin);
+        loadGameButton.pack();
+        loadGameButton.setPosition(Gdx.graphics.getWidth() / 2 - loadGameButton.getWidth() / 2,
+            Gdx.graphics.getHeight() / 2 - (loadGameButton.getHeight() + 20));
+        loadGameButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new GameScreen(game, "data/tmp/donjon/save.json"));
+                return true;
+            }
+        });
+
         TextButton exitGameButton =
             new TextButton(Resources.BUNDLE.get("main.screen.exit.title"), skin);
         exitGameButton.pack();
         exitGameButton.setPosition(Gdx.graphics.getWidth() / 2 - exitGameButton.getWidth() / 2,
-            Gdx.graphics.getHeight() / 2 - (exitGameButton.getHeight() + 20));
+            Gdx.graphics.getHeight() / 2 - (exitGameButton.getHeight() + loadGameButton.getHeight()
+                + 30));
         exitGameButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
@@ -51,6 +65,7 @@ public class MainScreen extends ScreenAdapter {
         });
 
         stage.addActor(newGameButton);
+        stage.addActor(loadGameButton);
         stage.addActor(exitGameButton);
         Gdx.input.setInputProcessor(stage);
     }

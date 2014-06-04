@@ -49,6 +49,18 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
+    public GameScreen(DonjonGame game, String saveFile) {
+        this.game = game;
+        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        createUi(skin);
+        createGameStage(skin);
+        loadData(saveFile);
+        createInput();
+        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
+            createDebugStage();
+        }
+    }
+
     private void createUi(Skin skin) {
         uiStage = new UIStage();
 
@@ -183,6 +195,16 @@ public class GameScreen extends ScreenAdapter {
         playerLabel.setWidth(16);
         playerLabel.setHeight(16);
         return playerLabel;
+    }
+
+    private void loadData(String saveFile) {
+        Json json = new Json();
+        FileHandle file = Gdx.files.external(saveFile);
+        data = json.fromJson(GameData.class, null, file);
+        data.getMap().setPlayer(data.getPlayer());
+        gameStage.setData(data);
+        gameStage.getMapActor().setData(data);
+        gameStage.updatePlayer();
     }
 
     private void createData() {
