@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -90,7 +91,9 @@ public class GameScreen extends ScreenAdapter {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
                 Json json = new Json();
+                FileHandle file = Gdx.files.external("data/tmp/donjon/save.json");
                 String save = json.prettyPrint(data);
+                file.writeString(save, false);
                 Gdx.app.debug("Save", save);
                 GameData testData = json.fromJson(GameData.class, save);
                 Gdx.app.debug("Read", testData.getMap().toString());
