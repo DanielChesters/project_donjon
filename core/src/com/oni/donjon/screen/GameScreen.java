@@ -103,7 +103,7 @@ public class GameScreen extends ScreenAdapter {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
                 Json json = new Json();
-                FileHandle file = Gdx.files.external("data/tmp/donjon/save.json");
+                FileHandle file = Gdx.files.external(".config/donjon/save/save1.json");
                 String save = json.prettyPrint(data);
                 file.writeString(save, false);
                 Gdx.app.debug("Save", save);

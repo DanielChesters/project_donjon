@@ -45,7 +45,7 @@ public class MainScreen extends ScreenAdapter {
         loadGameButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game, "data/tmp/donjon/save.json"));
+                game.setScreen(new GameScreen(game, ".config/donjon/save/save1.json"));
                 return true;
             }
         });
