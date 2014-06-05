@@ -2,12 +2,16 @@ package com.oni.donjon.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.utils.Array;
 import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
 
@@ -23,6 +27,48 @@ public class MainScreen extends ScreenAdapter {
         this.game = game;
         this.stage = new Stage();
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+
+        Window loadWindow =
+            new Window(Resources.BUNDLE.get("main.screen.load.title"), skin, "dialog");
+
+
+
+        List<String> saveList = new List<>(skin);
+        saveList.getSelection().setRequired(true);
+        saveList.getSelection().setMultiple(false);
+
+
+        TextButton okLoadButton = new TextButton(Resources.BUNDLE.get("main.screen.load.ok"), skin);
+        okLoadButton.pack();
+        okLoadButton.addListener(new InputListener() {
+            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
+                int button) {
+                String save = saveList.getSelected();
+                game.setScreen(new GameScreen(game, String.format(".config/donjon/save/%s", save)));
+                return true;
+            }
+        });
+
+        TextButton closeLoadWindowButton =
+            new TextButton(Resources.BUNDLE.get("main.screen.load.cancel"), skin);
+        closeLoadWindowButton.pack();
+        closeLoadWindowButton.addListener(new InputListener() {
+            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
+                int button) {
+                loadWindow.setVisible(false);
+                return true;
+            }
+        });
+
+        loadWindow.add(saveList);
+        loadWindow.add(okLoadButton);
+        loadWindow.add(closeLoadWindowButton);
+
+        loadWindow.setModal(true);
+        loadWindow.pack();
+        loadWindow.setPosition(Gdx.graphics.getWidth() / 2 - loadWindow.getWidth() / 2,
+            Gdx.graphics.getHeight() / 2 - loadWindow.getHeight() / 2);
+        loadWindow.setVisible(false);
 
         TextButton newGameButton =
             new TextButton(Resources.BUNDLE.get("main.screen.new_game.title"), skin);
@@ -45,7 +91,13 @@ public class MainScreen extends ScreenAdapter {
         loadGameButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game, ".config/donjon/save/save1.json"));
+                FileHandle saveFolder = Gdx.files.external(".config/donjon/save");
+                Array<String> saveArray = new Array<>();
+                for (FileHandle file : saveFolder.list((dir, name) -> name.endsWith(".json"))) {
+                    saveArray.add(file.name());
+                }
+                saveList.setItems(saveArray);
+                loadWindow.setVisible(true);
                 return true;
             }
         });
@@ -67,6 +119,7 @@ public class MainScreen extends ScreenAdapter {
         stage.addActor(newGameButton);
         stage.addActor(loadGameButton);
         stage.addActor(exitGameButton);
+        stage.addActor(loadWindow);
         Gdx.input.setInputProcessor(stage);
     }
 
