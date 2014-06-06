@@ -47,9 +47,8 @@ public class SaveWindow extends Window {
     private TextButton cancelButton;
     private TextButton newSaveButton;
 
-    public SaveWindow(String title, Skin skin, GameData data) {
+    public SaveWindow(String title, Skin skin) {
         super(title, skin);
-        this.data = data;
 
         createSaveList(skin);
         createSaveButton(skin);
