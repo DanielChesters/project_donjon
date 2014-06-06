@@ -98,6 +98,54 @@ public class GameScreen extends ScreenAdapter {
 
     private Window createMenuWindow(Skin skin) {
         Window menuWindow = new Window(Resources.BUNDLE.get("game_menu.title"), skin, "dialog");
+        TextButton saveButton = createSaveButton(skin, menuWindow);
+        TextButton exitButton = createExitButton(skin);
+        TextButton closeButton = createCloseButton(skin, menuWindow);
+
+        menuWindow.row();
+        menuWindow.add(saveButton);
+        menuWindow.row();
+        menuWindow.add(exitButton);
+        menuWindow.row();
+        menuWindow.add(closeButton);
+        menuWindow.pack();
+        menuWindow.setPosition(Gdx.graphics.getWidth() / 2 - menuWindow.getWidth() / 2,
+            Gdx.graphics.getHeight() / 2 - menuWindow.getHeight() / 2);
+        menuWindow.setModal(true);
+        menuWindow.setMovable(false);
+        menuWindow.setVisible(false);
+        return menuWindow;
+    }
+
+    private TextButton createCloseButton(Skin skin, final Window menuWindow) {
+        TextButton closeButton =
+            new TextButton(Resources.BUNDLE.get("game_menu.action.close"), skin);
+        closeButton.addListener(new InputListener() {
+            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
+                int button) {
+                menuWindow.setVisible(false);
+                createInput();
+                return true;
+            }
+        });
+        closeButton.pack();
+        return closeButton;
+    }
+
+    private TextButton createExitButton(Skin skin) {
+        TextButton exitButton = new TextButton(Resources.BUNDLE.get("game_menu.action.exit"), skin);
+        exitButton.addListener(new InputListener() {
+            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
+                int button) {
+                game.setScreen(new MainScreen(game));
+                return true;
+            }
+        });
+        exitButton.pack();
+        return exitButton;
+    }
+
+    private TextButton createSaveButton(Skin skin, final Window menuWindow) {
         TextButton saveButton = new TextButton(Resources.BUNDLE.get("game_menu.action.save"), skin);
         saveButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
@@ -115,36 +163,7 @@ public class GameScreen extends ScreenAdapter {
             }
         });
         saveButton.pack();
-        menuWindow.add(saveButton);
-        TextButton exitButton = new TextButton(Resources.BUNDLE.get("game_menu.action.exit"), skin);
-        exitButton.addListener(new InputListener() {
-            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
-                int button) {
-                game.setScreen(new MainScreen(game));
-                return true;
-            }
-        });
-        exitButton.pack();
-        menuWindow.add(exitButton);
-        TextButton closeButton =
-            new TextButton(Resources.BUNDLE.get("game_menu.action.close"), skin);
-        closeButton.addListener(new InputListener() {
-            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
-                int button) {
-                menuWindow.setVisible(false);
-                createInput();
-                return true;
-            }
-        });
-        closeButton.pack();
-        menuWindow.add(closeButton);
-        menuWindow.pack();
-        menuWindow.setPosition(Gdx.graphics.getWidth() / 2 - menuWindow.getWidth() / 2,
-            Gdx.graphics.getHeight() / 2 - menuWindow.getHeight() / 2);
-        menuWindow.setModal(true);
-        menuWindow.setMovable(false);
-        menuWindow.setVisible(false);
-        return menuWindow;
+        return saveButton;
     }
 
     private Window createActionWindow(Skin skin, List<Actions> actionList) {
