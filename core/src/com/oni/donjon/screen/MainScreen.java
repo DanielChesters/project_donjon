@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Array;
 import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
@@ -60,12 +57,16 @@ public class MainScreen extends ScreenAdapter {
             }
         });
 
-        loadWindow.add(saveList);
-        loadWindow.add(okLoadButton);
-        loadWindow.add(closeLoadWindowButton);
-
+        ScrollPane saveScrollPane = new ScrollPane(saveList, skin);
+        saveScrollPane.setFlickScroll(false);
+        loadWindow.defaults().spaceBottom(10);
+        loadWindow.row();
+        loadWindow.add(saveScrollPane).fill().colspan(2).maxHeight(150);
+        loadWindow.row().fill().expandX();
+        loadWindow.add(okLoadButton).colspan(1);
+        loadWindow.add(closeLoadWindowButton).colspan(1);
         loadWindow.setModal(true);
-        loadWindow.pack();
+
         loadWindow.setPosition(Gdx.graphics.getWidth() / 2 - loadWindow.getWidth() / 2,
             Gdx.graphics.getHeight() / 2 - loadWindow.getHeight() / 2);
         loadWindow.setVisible(false);
@@ -98,6 +99,7 @@ public class MainScreen extends ScreenAdapter {
                 }
                 saveList.setItems(saveArray);
                 loadWindow.setVisible(true);
+                loadWindow.pack();
                 return true;
             }
         });
