@@ -16,6 +16,7 @@ import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
 import com.oni.donjon.action.Actions;
 import com.oni.donjon.actor.MapActor;
+import com.oni.donjon.actor.SaveWindow;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.entity.Player;
 import com.oni.donjon.input.KeyboardInput;
@@ -69,15 +70,18 @@ public class GameScreen extends ScreenAdapter {
         final Window actionWindow = createActionWindow(skin, actionList);
         final Window menuWindow = createMenuWindow(skin);
         final TextButton menuButton = createMenuButton(skin, menuWindow);
+        final SaveWindow saveWindow = new SaveWindow("Save Game", skin, data);
 
         uiStage.setMessageLabel(messageLabel);
         uiStage.setActionList(actionList);
+        uiStage.setSaveWindow(saveWindow);
 
         Stage stage = uiStage.getStage();
         stage.addActor(messageLabel);
         stage.addActor(actionWindow);
         stage.addActor(menuWindow);
         stage.addActor(menuButton);
+        stage.addActor(saveWindow);
     }
 
     private TextButton createMenuButton(Skin skin, Window menuWindow) {
@@ -150,13 +154,7 @@ public class GameScreen extends ScreenAdapter {
         saveButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
-                Json json = new Json();
-                FileHandle file = Gdx.files.external(".config/donjon/save/save1.json");
-                String save = json.prettyPrint(data);
-                file.writeString(save, false);
-                Gdx.app.debug("Save", save);
-                GameData testData = json.fromJson(GameData.class, save);
-                Gdx.app.debug("Read", testData.getMap().toString());
+                uiStage.getSaveWindow().show();
                 menuWindow.setVisible(false);
                 createInput();
                 return true;
@@ -221,6 +219,7 @@ public class GameScreen extends ScreenAdapter {
         FileHandle file = Gdx.files.external(saveFile);
         data = json.fromJson(GameData.class, null, file);
         data.getMap().setPlayer(data.getPlayer());
+        uiStage.getSaveWindow().setData(data);
         gameStage.setData(data);
         gameStage.getMapActor().setData(data);
         gameStage.updatePlayer();
@@ -237,6 +236,8 @@ public class GameScreen extends ScreenAdapter {
         data.setMap(map);
         data.setPlayer(player);
         map.setPlayer(player);
+
+        uiStage.getSaveWindow().setData(data);
 
         gameStage.setData(data);
         gameStage.getMapActor().setData(data);
