@@ -70,7 +70,8 @@ public class GameScreen extends ScreenAdapter {
         final Window actionWindow = createActionWindow(skin, actionList);
         final Window menuWindow = createMenuWindow(skin);
         final TextButton menuButton = createMenuButton(skin, menuWindow);
-        final SaveWindow saveWindow = new SaveWindow("Save Game", skin, data);
+        final SaveWindow saveWindow =
+            new SaveWindow(Resources.BUNDLE.get("window.save.title"), skin, data);
 
         uiStage.setMessageLabel(messageLabel);
         uiStage.setActionList(actionList);

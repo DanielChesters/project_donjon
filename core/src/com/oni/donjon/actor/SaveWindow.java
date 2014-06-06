@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.oni.donjon.Resources;
 import com.oni.donjon.data.GameData;
 
 /**
@@ -78,21 +79,23 @@ public class SaveWindow extends Window {
     }
 
     private void createNewSaveButton(Skin skin) {
-        newSaveButton = new TextButton("New...", skin);
+        newSaveButton = new TextButton(Resources.BUNDLE.get("window.save.new"), skin);
         newSaveButton.pack();
         newSaveButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
                 NewSaveInputLister newSaveInputLister =
                     new NewSaveInputLister(data, SaveWindow.this);
-                Gdx.input.getTextInput(newSaveInputLister, "New Save", "save");
+                Gdx.input
+                    .getTextInput(newSaveInputLister, Resources.BUNDLE.get("window.save.new.input"),
+                        "save");
                 return true;
             }
         });
     }
 
     private void createCancelButton(Skin skin) {
-        cancelButton = new TextButton("Cancel", skin);
+        cancelButton = new TextButton(Resources.BUNDLE.get("window.save.cancel"), skin);
         cancelButton.pack();
         cancelButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
@@ -104,7 +107,7 @@ public class SaveWindow extends Window {
     }
 
     private void createSaveButton(Skin skin) {
-        saveButton = new TextButton("Save", skin);
+        saveButton = new TextButton(Resources.BUNDLE.get("window.save.ok"), skin);
         saveButton.pack();
         saveButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
