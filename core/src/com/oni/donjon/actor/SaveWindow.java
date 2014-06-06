@@ -37,6 +37,7 @@ public class SaveWindow extends Window {
 
         @Override
         public void canceled() {
+            saveWindow.setVisible(false);
         }
     }
 
