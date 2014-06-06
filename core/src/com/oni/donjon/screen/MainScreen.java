@@ -2,15 +2,15 @@ package com.oni.donjon.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
+import com.oni.donjon.actor.LoadWindow;
 
 /**
  * @author Daniel Chesters (on 01/06/14).
@@ -25,32 +25,12 @@ public class MainScreen extends ScreenAdapter {
         this.stage = new Stage();
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        Window loadWindow =
-            new Window(Resources.BUNDLE.get("main.screen.load.title"), skin, "dialog");
-
-        List<String> saveList = createSaveList(skin);
-
-        TextButton okLoadButton = createLoadButton(game, skin, saveList);
-
-        TextButton closeLoadWindowButton = createCloseLoadWindowsButton(skin, loadWindow);
-
-        ScrollPane saveScrollPane = new ScrollPane(saveList, skin);
-        saveScrollPane.setFlickScroll(false);
-        loadWindow.defaults().spaceBottom(10);
-        loadWindow.row();
-        loadWindow.add(saveScrollPane).fill().colspan(2).maxHeight(150);
-        loadWindow.row().fill().expandX();
-        loadWindow.add(okLoadButton).colspan(1);
-        loadWindow.add(closeLoadWindowButton).colspan(1);
-        loadWindow.setModal(true);
-
-        loadWindow.setPosition(Gdx.graphics.getWidth() / 2 - loadWindow.getWidth() / 2,
-            Gdx.graphics.getHeight() / 2 - loadWindow.getHeight() / 2);
-        loadWindow.setVisible(false);
+        LoadWindow loadWindow =
+            new LoadWindow(Resources.BUNDLE.get("main.screen.load.title"), skin, game);
 
         TextButton newGameButton = createNewGameButton(game, skin);
 
-        TextButton loadGameButton = createLoadGameButton(skin, loadWindow, saveList);
+        TextButton loadGameButton = createLoadGameButton(skin, loadWindow);
 
         TextButton exitGameButton = createExitGameButton(skin, loadGameButton);
 
@@ -78,8 +58,7 @@ public class MainScreen extends ScreenAdapter {
         return exitGameButton;
     }
 
-    private TextButton createLoadGameButton(Skin skin, final Window loadWindow,
-        final List<String> saveList) {
+    private TextButton createLoadGameButton(Skin skin, final LoadWindow loadWindow) {
         TextButton loadGameButton =
             new TextButton(Resources.BUNDLE.get("main.screen.load_game.title"), skin);
         loadGameButton.pack();
@@ -88,14 +67,7 @@ public class MainScreen extends ScreenAdapter {
         loadGameButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                FileHandle saveFolder = Gdx.files.external(".config/donjon/save");
-                Array<String> saveArray = new Array<>();
-                for (FileHandle file : saveFolder.list((dir, name) -> name.endsWith(".json"))) {
-                    saveArray.add(file.name());
-                }
-                saveList.setItems(saveArray);
-                loadWindow.setVisible(true);
-                loadWindow.pack();
+                loadWindow.show();
                 return true;
             }
         });
@@ -116,42 +88,6 @@ public class MainScreen extends ScreenAdapter {
             }
         });
         return newGameButton;
-    }
-
-    private TextButton createCloseLoadWindowsButton(Skin skin, final Window loadWindow) {
-        TextButton closeLoadWindowButton =
-            new TextButton(Resources.BUNDLE.get("main.screen.load.cancel"), skin);
-        closeLoadWindowButton.pack();
-        closeLoadWindowButton.addListener(new InputListener() {
-            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
-                int button) {
-                loadWindow.setVisible(false);
-                return true;
-            }
-        });
-        return closeLoadWindowButton;
-    }
-
-    private TextButton createLoadButton(final DonjonGame game, Skin skin,
-        final List<String> saveList) {
-        TextButton okLoadButton = new TextButton(Resources.BUNDLE.get("main.screen.load.ok"), skin);
-        okLoadButton.pack();
-        okLoadButton.addListener(new InputListener() {
-            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
-                int button) {
-                String save = saveList.getSelected();
-                game.setScreen(new GameScreen(game, String.format(".config/donjon/save/%s", save)));
-                return true;
-            }
-        });
-        return okLoadButton;
-    }
-
-    private List<String> createSaveList(Skin skin) {
-        List<String> saveList = new List<>(skin);
-        saveList.getSelection().setRequired(true);
-        saveList.getSelection().setMultiple(false);
-        return saveList;
     }
 
     @Override public void render(float delta) {
