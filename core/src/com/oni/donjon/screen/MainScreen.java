@@ -28,34 +28,11 @@ public class MainScreen extends ScreenAdapter {
         Window loadWindow =
             new Window(Resources.BUNDLE.get("main.screen.load.title"), skin, "dialog");
 
+        List<String> saveList = createSaveList(skin);
 
+        TextButton okLoadButton = createLoadButton(game, skin, saveList);
 
-        List<String> saveList = new List<>(skin);
-        saveList.getSelection().setRequired(true);
-        saveList.getSelection().setMultiple(false);
-
-
-        TextButton okLoadButton = new TextButton(Resources.BUNDLE.get("main.screen.load.ok"), skin);
-        okLoadButton.pack();
-        okLoadButton.addListener(new InputListener() {
-            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
-                int button) {
-                String save = saveList.getSelected();
-                game.setScreen(new GameScreen(game, String.format(".config/donjon/save/%s", save)));
-                return true;
-            }
-        });
-
-        TextButton closeLoadWindowButton =
-            new TextButton(Resources.BUNDLE.get("main.screen.load.cancel"), skin);
-        closeLoadWindowButton.pack();
-        closeLoadWindowButton.addListener(new InputListener() {
-            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
-                int button) {
-                loadWindow.setVisible(false);
-                return true;
-            }
-        });
+        TextButton closeLoadWindowButton = createCloseLoadWindowsButton(skin, loadWindow);
 
         ScrollPane saveScrollPane = new ScrollPane(saveList, skin);
         saveScrollPane.setFlickScroll(false);
@@ -71,19 +48,38 @@ public class MainScreen extends ScreenAdapter {
             Gdx.graphics.getHeight() / 2 - loadWindow.getHeight() / 2);
         loadWindow.setVisible(false);
 
-        TextButton newGameButton =
-            new TextButton(Resources.BUNDLE.get("main.screen.new_game.title"), skin);
-        newGameButton.pack();
-        newGameButton.setPosition(Gdx.graphics.getWidth() / 2 - newGameButton.getWidth() / 2,
-            Gdx.graphics.getHeight() / 2 - newGameButton.getHeight() / 2);
-        newGameButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
+        TextButton newGameButton = createNewGameButton(game, skin);
+
+        TextButton loadGameButton = createLoadGameButton(skin, loadWindow, saveList);
+
+        TextButton exitGameButton = createExitGameButton(skin, loadGameButton);
+
+        stage.addActor(newGameButton);
+        stage.addActor(loadGameButton);
+        stage.addActor(exitGameButton);
+        stage.addActor(loadWindow);
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    private TextButton createExitGameButton(Skin skin, TextButton loadGameButton) {
+        TextButton exitGameButton =
+            new TextButton(Resources.BUNDLE.get("main.screen.exit.title"), skin);
+        exitGameButton.pack();
+        exitGameButton.setPosition(Gdx.graphics.getWidth() / 2 - exitGameButton.getWidth() / 2,
+            Gdx.graphics.getHeight() / 2 - (exitGameButton.getHeight() + loadGameButton.getHeight()
+                + 30));
+        exitGameButton.addListener(new InputListener() {
+            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
+                int button) {
+                Gdx.app.exit();
                 return true;
             }
         });
+        return exitGameButton;
+    }
 
+    private TextButton createLoadGameButton(Skin skin, final Window loadWindow,
+        final List<String> saveList) {
         TextButton loadGameButton =
             new TextButton(Resources.BUNDLE.get("main.screen.load_game.title"), skin);
         loadGameButton.pack();
@@ -103,26 +99,59 @@ public class MainScreen extends ScreenAdapter {
                 return true;
             }
         });
+        return loadGameButton;
+    }
 
-        TextButton exitGameButton =
-            new TextButton(Resources.BUNDLE.get("main.screen.exit.title"), skin);
-        exitGameButton.pack();
-        exitGameButton.setPosition(Gdx.graphics.getWidth() / 2 - exitGameButton.getWidth() / 2,
-            Gdx.graphics.getHeight() / 2 - (exitGameButton.getHeight() + loadGameButton.getHeight()
-                + 30));
-        exitGameButton.addListener(new InputListener() {
-            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
-                int button) {
-                Gdx.app.exit();
+    private TextButton createNewGameButton(final DonjonGame game, Skin skin) {
+        TextButton newGameButton =
+            new TextButton(Resources.BUNDLE.get("main.screen.new_game.title"), skin);
+        newGameButton.pack();
+        newGameButton.setPosition(Gdx.graphics.getWidth() / 2 - newGameButton.getWidth() / 2,
+            Gdx.graphics.getHeight() / 2 - newGameButton.getHeight() / 2);
+        newGameButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new GameScreen(game));
                 return true;
             }
         });
+        return newGameButton;
+    }
 
-        stage.addActor(newGameButton);
-        stage.addActor(loadGameButton);
-        stage.addActor(exitGameButton);
-        stage.addActor(loadWindow);
-        Gdx.input.setInputProcessor(stage);
+    private TextButton createCloseLoadWindowsButton(Skin skin, final Window loadWindow) {
+        TextButton closeLoadWindowButton =
+            new TextButton(Resources.BUNDLE.get("main.screen.load.cancel"), skin);
+        closeLoadWindowButton.pack();
+        closeLoadWindowButton.addListener(new InputListener() {
+            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
+                int button) {
+                loadWindow.setVisible(false);
+                return true;
+            }
+        });
+        return closeLoadWindowButton;
+    }
+
+    private TextButton createLoadButton(final DonjonGame game, Skin skin,
+        final List<String> saveList) {
+        TextButton okLoadButton = new TextButton(Resources.BUNDLE.get("main.screen.load.ok"), skin);
+        okLoadButton.pack();
+        okLoadButton.addListener(new InputListener() {
+            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
+                int button) {
+                String save = saveList.getSelected();
+                game.setScreen(new GameScreen(game, String.format(".config/donjon/save/%s", save)));
+                return true;
+            }
+        });
+        return okLoadButton;
+    }
+
+    private List<String> createSaveList(Skin skin) {
+        List<String> saveList = new List<>(skin);
+        saveList.getSelection().setRequired(true);
+        saveList.getSelection().setMultiple(false);
+        return saveList;
     }
 
     @Override public void render(float delta) {
