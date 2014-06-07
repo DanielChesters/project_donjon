@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
@@ -25,6 +26,8 @@ public class MainScreen extends ScreenAdapter {
         this.stage = new Stage();
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
+        Table mainTable = new Table(skin);
+
         LoadWindow loadWindow =
             new LoadWindow(Resources.BUNDLE.get("main.screen.load.title"), skin, game);
 
@@ -34,9 +37,18 @@ public class MainScreen extends ScreenAdapter {
 
         TextButton exitGameButton = createExitGameButton(skin, loadGameButton);
 
-        stage.addActor(newGameButton);
-        stage.addActor(loadGameButton);
-        stage.addActor(exitGameButton);
+        mainTable.defaults().space(5);
+        mainTable.row();
+        mainTable.add(newGameButton).center();
+        mainTable.row();
+        mainTable.add(loadGameButton).center();
+        mainTable.row();
+        mainTable.add(exitGameButton).center();
+        mainTable.pack();
+        mainTable.setPosition(Gdx.graphics.getWidth() / 2 - mainTable.getWidth() / 2,
+            Gdx.graphics.getHeight() / 2 - mainTable.getHeight() / 2);
+
+        stage.addActor(mainTable);
         stage.addActor(loadWindow);
         Gdx.input.setInputProcessor(stage);
     }
