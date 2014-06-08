@@ -38,6 +38,12 @@ public class GameScreen extends ScreenAdapter {
     private GameStage gameStage;
     private DebugStage debugStage;
     private InputMultiplexer gameInput;
+    private GameState state;
+
+
+    public static enum GameState {
+        RUNNING, PAUSE
+    }
 
     public GameScreen(DonjonGame game) {
         this.game = game;
@@ -46,6 +52,7 @@ public class GameScreen extends ScreenAdapter {
         createGameStage(skin);
         createData();
         createInput();
+        state = GameState.RUNNING;
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             createDebugStage();
         }
@@ -72,7 +79,7 @@ public class GameScreen extends ScreenAdapter {
         final SaveWindow saveWindow =
             new SaveWindow(Resources.BUNDLE.get("window.save.title"), skin);
         final MenuGameWindow menuWindow =
-            new MenuGameWindow(Resources.BUNDLE.get("game_menu.title"), skin, saveWindow, game);
+            new MenuGameWindow(skin, saveWindow, game, this);
         final TextButton menuButton = createMenuButton(skin, menuWindow);
 
         uiStage.setMessageLabel(messageLabel);
@@ -93,6 +100,7 @@ public class GameScreen extends ScreenAdapter {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
                 menuWindow.setVisible(true);
+                state = GameState.PAUSE;
                 return true;
             }
         });
@@ -223,8 +231,30 @@ public class GameScreen extends ScreenAdapter {
         debugStage.setGameStage(gameStage);
     }
 
-    @Override
-    public void render(float delta) {
+    @Override public void render(float delta) {
+        switch (state) {
+            case RUNNING:
+                update();
+                break;
+            case PAUSE:
+                updatePause();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void updatePause() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        gameStage.getStage().draw();
+        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
+            debugStage.drawDebug();
+        }
+        uiStage.getStage().draw();
+    }
+
+    private void update() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Stage stageGame = gameStage.getStage();
@@ -235,10 +265,13 @@ public class GameScreen extends ScreenAdapter {
             .set(player.getPosition().x * Tile.SIZE, player.getPosition().y * Tile.SIZE, 0);
         stageGame.getCamera().update();
         stageGame.draw();
-
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             debugStage.drawDebug();
         }
         uiStage.getStage().draw();
+    }
+
+    public void setState(GameState state) {
+        this.state = state;
     }
 }

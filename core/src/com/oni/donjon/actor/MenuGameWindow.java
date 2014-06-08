@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
+import com.oni.donjon.screen.GameScreen;
 import com.oni.donjon.screen.MainScreen;
 
 /**
@@ -18,11 +19,11 @@ public class MenuGameWindow extends Window {
     private TextButton exitButton;
     private TextButton closeButton;
 
-    public MenuGameWindow(String title, Skin skin, SaveWindow saveWindow, DonjonGame game) {
-        super(title, skin, "dialog");
+    public MenuGameWindow(Skin skin, SaveWindow saveWindow, DonjonGame game, GameScreen screen) {
+        super(Resources.BUNDLE.get("game_menu.title"), skin, "dialog");
         createSaveButton(skin, saveWindow);
         createExitButton(skin, game);
-        createCloseButton(skin);
+        createCloseButton(skin, screen);
         createWindow();
     }
 
@@ -41,13 +42,14 @@ public class MenuGameWindow extends Window {
         setVisible(false);
     }
 
-    private void createCloseButton(Skin skin) {
+    private void createCloseButton(Skin skin, GameScreen screen) {
         closeButton =
             new TextButton(Resources.BUNDLE.get("game_menu.action.close"), skin);
         closeButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
                 setVisible(false);
+                screen.setState(GameScreen.GameState.RUNNING);
                 return true;
             }
         });
