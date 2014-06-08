@@ -16,6 +16,7 @@ import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
 import com.oni.donjon.action.Actions;
 import com.oni.donjon.actor.MapActor;
+import com.oni.donjon.actor.MenuGameWindow;
 import com.oni.donjon.actor.SaveWindow;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.entity.Player;
@@ -68,10 +69,11 @@ public class GameScreen extends ScreenAdapter {
         final Label messageLabel = createMessageLabel(skin);
         final List<Actions> actionList = createActionList(skin);
         final Window actionWindow = createActionWindow(skin, actionList);
-        final Window menuWindow = createMenuWindow(skin);
-        final TextButton menuButton = createMenuButton(skin, menuWindow);
         final SaveWindow saveWindow =
             new SaveWindow(Resources.BUNDLE.get("window.save.title"), skin);
+        final MenuGameWindow menuWindow =
+            new MenuGameWindow(Resources.BUNDLE.get("game_menu.title"), skin, saveWindow, game);
+        final TextButton menuButton = createMenuButton(skin, menuWindow);
 
         uiStage.setMessageLabel(messageLabel);
         uiStage.setActionList(actionList);
@@ -91,78 +93,13 @@ public class GameScreen extends ScreenAdapter {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
                 menuWindow.setVisible(true);
-                Gdx.input.setInputProcessor(uiStage.getStage());
-                return super.touchDown(event, x, y, pointer, button);
+                return true;
             }
         });
         menuButton.pack();
         menuButton.setPosition(Gdx.graphics.getWidth() - (menuButton.getWidth() + 5),
             Gdx.graphics.getHeight() - (menuButton.getHeight() + 5));
         return menuButton;
-    }
-
-    private Window createMenuWindow(Skin skin) {
-        Window menuWindow = new Window(Resources.BUNDLE.get("game_menu.title"), skin, "dialog");
-        TextButton saveButton = createSaveButton(skin, menuWindow);
-        TextButton exitButton = createExitButton(skin);
-        TextButton closeButton = createCloseButton(skin, menuWindow);
-
-        menuWindow.row();
-        menuWindow.add(saveButton);
-        menuWindow.row();
-        menuWindow.add(exitButton);
-        menuWindow.row();
-        menuWindow.add(closeButton);
-        menuWindow.pack();
-        menuWindow.setPosition(Gdx.graphics.getWidth() / 2 - menuWindow.getWidth() / 2,
-            Gdx.graphics.getHeight() / 2 - menuWindow.getHeight() / 2);
-        menuWindow.setModal(true);
-        menuWindow.setMovable(false);
-        menuWindow.setVisible(false);
-        return menuWindow;
-    }
-
-    private TextButton createCloseButton(Skin skin, final Window menuWindow) {
-        TextButton closeButton =
-            new TextButton(Resources.BUNDLE.get("game_menu.action.close"), skin);
-        closeButton.addListener(new InputListener() {
-            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
-                int button) {
-                menuWindow.setVisible(false);
-                createInput();
-                return true;
-            }
-        });
-        closeButton.pack();
-        return closeButton;
-    }
-
-    private TextButton createExitButton(Skin skin) {
-        TextButton exitButton = new TextButton(Resources.BUNDLE.get("game_menu.action.exit"), skin);
-        exitButton.addListener(new InputListener() {
-            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
-                int button) {
-                game.setScreen(new MainScreen(game));
-                return true;
-            }
-        });
-        exitButton.pack();
-        return exitButton;
-    }
-
-    private TextButton createSaveButton(Skin skin, final Window menuWindow) {
-        TextButton saveButton = new TextButton(Resources.BUNDLE.get("game_menu.action.save"), skin);
-        saveButton.addListener(new InputListener() {
-            @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
-                int button) {
-                uiStage.getSaveWindow().show();
-                menuWindow.setVisible(false);
-                createInput();
-                return true;
-            }
-        });
-        saveButton.pack();
-        return saveButton;
     }
 
     private Window createActionWindow(Skin skin, List<Actions> actionList) {
