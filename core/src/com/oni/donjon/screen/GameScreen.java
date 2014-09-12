@@ -65,6 +65,7 @@ public class GameScreen extends ScreenAdapter {
         createGameStage(skin);
         loadData(saveFile);
         createInput();
+        state = GameState.RUNNING;
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             createDebugStage();
         }
