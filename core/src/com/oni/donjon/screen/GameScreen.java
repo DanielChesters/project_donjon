@@ -46,11 +46,19 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public GameScreen(DonjonGame game) {
+        createGame(game, () -> createData());
+    }
+
+    public GameScreen(DonjonGame game, String saveFile) {
+        createGame(game, () -> loadData(saveFile));
+    }
+
+    private void createGame(DonjonGame game, Runnable runnable) {
         this.game = game;
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         createUi(skin);
         createGameStage(skin);
-        createData();
+        runnable.run();
         createInput();
         state = GameState.RUNNING;
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
@@ -58,18 +66,7 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
-    public GameScreen(DonjonGame game, String saveFile) {
-        this.game = game;
-        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        createUi(skin);
-        createGameStage(skin);
-        loadData(saveFile);
-        createInput();
-        state = GameState.RUNNING;
-        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
-            createDebugStage();
-        }
-    }
+
 
     private void createUi(Skin skin) {
         uiStage = new UIStage();
