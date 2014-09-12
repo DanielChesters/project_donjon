@@ -66,8 +66,6 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
-
-
     private void createUi(Skin skin) {
         uiStage = new UIStage();
 
