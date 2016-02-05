@@ -88,7 +88,7 @@ public class SaveWindow extends Window {
                     new NewSaveInputLister(data, SaveWindow.this);
                 Gdx.input
                     .getTextInput(newSaveInputLister, Resources.BUNDLE.get("window.save.new.input"),
-                        "save");
+                        "save", "");
                 return true;
             }
         });
