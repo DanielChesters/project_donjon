@@ -1,6 +1,7 @@
 package com.oni.donjon.system;
 
 import com.badlogic.ashley.core.*;
+import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -16,23 +17,18 @@ import java.util.stream.IntStream;
 /**
  * @author Daniel Chesters (on 06/02/16).
  */
-public class MovementSystem extends EntitySystem {
-    private ImmutableArray<Entity> players;
+public class MovementSystem extends IteratingSystem {
     public Map map;
 
     private ComponentMapper<DirectionComponent> dm = ComponentMapper.getFor(DirectionComponent.class);
     private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
 
-    @Override public void addedToEngine(Engine engine) {
-        players = engine
-            .getEntitiesFor(Family.all(PositionComponent.class, DirectionComponent.class).get());
-
+    public MovementSystem() {
+        super(Family.all(PositionComponent.class, DirectionComponent.class).get());
     }
 
-    @Override public void update(float deltaTime) {
-        for (Entity player : players) {
-            updateMove(player);
-        }
+    @Override protected void processEntity(Entity player, float deltaTime) {
+        updateMove(player);
     }
 
     private void move(Entity player, float deltaX, float deltaY) {
