@@ -167,6 +167,9 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void loadData(String saveFile) {
+        engine = new Engine();
+        movementSystem = new MovementSystem();
+        engine.addSystem(movementSystem);
         Json json = new Json();
         FileHandle file = Gdx.files.external(saveFile);
         data = json.fromJson(GameData.class, null, file);
