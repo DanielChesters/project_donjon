@@ -12,3 +12,7 @@ How to run
 3. Run on a terminal in repository folder : `./gradlew run` 
 4. …
 5. Profit
+
+
+Some assets was created by Kenney Vleugels (www.kenney.nl)
+
