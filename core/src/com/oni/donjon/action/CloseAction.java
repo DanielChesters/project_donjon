@@ -5,6 +5,7 @@ import com.oni.donjon.Resources;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.map.Tile;
 import com.oni.donjon.map.TileType;
+import com.oni.donjon.sound.Sounds;
 import com.oni.donjon.stage.UIStage;
 
 /**
@@ -38,5 +39,6 @@ public class CloseAction extends AbstractAction {
         } else {
             messageLabel.setText(Resources.BUNDLE.get("close.door.too.far"));
         }
+        Sounds.CLOSE_DOOR.play();
     }
 }
