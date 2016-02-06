@@ -38,4 +38,7 @@ public class GameData {
         ComponentMapper.getFor(DirectionComponent.class).get(player).direction = direction;
     }
 
+    public GameSave toGameSave() {
+        return new GameSave(map, getPlayerPosition());
+    }
 }

@@ -23,6 +23,7 @@ import com.oni.donjon.actor.SaveWindow;
 import com.oni.donjon.component.DirectionComponent;
 import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
+import com.oni.donjon.data.GameSave;
 import com.oni.donjon.input.KeyboardInput;
 import com.oni.donjon.input.MouseInput;
 import com.oni.donjon.map.Map;
@@ -167,13 +168,25 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void loadData(String saveFile) {
+        Json json = new Json();
+        FileHandle file = Gdx.files.external(saveFile);
+        GameSave save = json.fromJson(GameSave.class, file);
+
+        data = new GameData();
+        data.setMap(save.getMap());
+
+        Entity player = new Entity();
+        player.add(new PositionComponent(save.getPlayerPosition()));
+        player.add(new DirectionComponent());
+        data.setPlayer(player);
+
         engine = new Engine();
         movementSystem = new MovementSystem();
         engine.addSystem(movementSystem);
-        Json json = new Json();
-        FileHandle file = Gdx.files.external(saveFile);
-        data = json.fromJson(GameData.class, null, file);
+        engine.addEntity(player);
+
         data.getMap().setPlayer(data.getPlayer());
+        movementSystem.map = save.getMap();
         uiStage.getSaveWindow().setData(data);
         gameStage.setData(data);
         gameStage.getMapActor().setData(data);

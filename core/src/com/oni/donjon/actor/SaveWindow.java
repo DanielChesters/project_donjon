@@ -116,7 +116,7 @@ public class SaveWindow extends Window {
                 Json json = new Json();
                 FileHandle file =
                     Gdx.files.external(String.format(".config/donjon/save/%s", saveName));
-                String save = json.prettyPrint(data);
+                String save = json.prettyPrint(data.toGameSave());
                 file.writeString(save, false);
                 SaveWindow.this.setVisible(false);
                 return true;
