@@ -1,5 +1,7 @@
 package com.oni.donjon.screen;
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -18,8 +20,9 @@ import com.oni.donjon.action.Actions;
 import com.oni.donjon.actor.MapActor;
 import com.oni.donjon.actor.MenuGameWindow;
 import com.oni.donjon.actor.SaveWindow;
+import com.oni.donjon.component.DirectionComponent;
+import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
-import com.oni.donjon.entity.Player;
 import com.oni.donjon.input.KeyboardInput;
 import com.oni.donjon.input.MouseInput;
 import com.oni.donjon.map.Map;
@@ -27,6 +30,7 @@ import com.oni.donjon.map.Tile;
 import com.oni.donjon.stage.DebugStage;
 import com.oni.donjon.stage.GameStage;
 import com.oni.donjon.stage.UIStage;
+import com.oni.donjon.system.MovementSystem;
 
 /**
  * @author Daniel Chesters (on 25/05/14).
@@ -40,8 +44,11 @@ public class GameScreen extends ScreenAdapter {
     private InputMultiplexer gameInput;
     private GameState state;
 
+    private Engine engine;
+    private MovementSystem movementSystem;
 
-    public static enum GameState {
+
+    public enum GameState {
         RUNNING, PAUSE
     }
 
@@ -56,6 +63,9 @@ public class GameScreen extends ScreenAdapter {
     private void createGame(DonjonGame game, Runnable runnable) {
         this.game = game;
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        engine = new Engine();
+        movementSystem = new MovementSystem();
+        engine.addSystem(movementSystem);
         createUi(skin);
         createGameStage(skin);
         runnable.run();
@@ -173,11 +183,15 @@ public class GameScreen extends ScreenAdapter {
         Tile startTile = map.getStartTile();
         Vector2 startPosition =
             new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());
-        Player player = new Player(startPosition);
+        Entity player = new Entity();
+        player.add(new PositionComponent(startPosition));
+        player.add(new DirectionComponent());
 
         data.setMap(map);
         data.setPlayer(player);
         map.setPlayer(player);
+        movementSystem.map = map;
+        engine.addEntity(player);
 
         uiStage.getSaveWindow().setData(data);
 
@@ -230,7 +244,7 @@ public class GameScreen extends ScreenAdapter {
     @Override public void render(float delta) {
         switch (state) {
             case RUNNING:
-                update();
+                update(delta);
                 break;
             case PAUSE:
                 updatePause();
@@ -250,15 +264,14 @@ public class GameScreen extends ScreenAdapter {
         uiStage.getStage().draw();
     }
 
-    private void update() {
+    private void update(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Stage stageGame = gameStage.getStage();
-        Player player = data.getPlayer();
-        player.updateMove(data.getMap());
+        engine.update(delta);
         gameStage.updatePlayer();
         stageGame.getCamera().position
-            .set(player.getPosition().x * Tile.SIZE, player.getPosition().y * Tile.SIZE, 0);
+            .set(data.getPlayerPosition().x * Tile.SIZE, data.getPlayerPosition().y * Tile.SIZE, 0);
         stageGame.getCamera().update();
         stageGame.draw();
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {

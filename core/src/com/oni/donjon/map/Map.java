@@ -1,10 +1,13 @@
 package com.oni.donjon.map;
 
+import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.oni.donjon.entity.Player;
+import com.oni.donjon.component.PositionComponent;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -16,7 +19,7 @@ import java.util.stream.IntStream;
  */
 public class Map implements Json.Serializable {
     private Set<Tile> tiles;
-    private transient Player player;
+    private transient Entity player;
 
     public Map() {
         this.tiles = new HashSet<>();
@@ -33,7 +36,7 @@ public class Map implements Json.Serializable {
         }
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(Entity player) {
         this.player = player;
     }
 
@@ -47,11 +50,12 @@ public class Map implements Json.Serializable {
     }
 
     public void updateVisibility() {
+        Vector2 position = ComponentMapper.getFor(PositionComponent.class).get(player).position;
         IntStream
-            .rangeClosed((int) player.getPosition().x - 1, (int) player.getPosition().x + 1)
+            .rangeClosed((int) position.x - 1, (int) position.x + 1)
             .forEach(x ->
-                    IntStream.rangeClosed((int) player.getPosition().y - 1,
-                        (int) player.getPosition().y + 1).forEach(y -> {
+                    IntStream.rangeClosed((int) position.y - 1,
+                        (int) position.y + 1).forEach(y -> {
                         Optional<Tile> tile = getTile(x, y);
                         if (tile.isPresent()) {
                             tile.get().setVisible(true);

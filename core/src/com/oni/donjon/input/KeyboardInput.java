@@ -4,8 +4,8 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.oni.donjon.component.DirectionComponent;
 import com.oni.donjon.data.GameData;
-import com.oni.donjon.entity.Player;
 
 /**
  * @author Daniel Chesters (on 20/05/14).
@@ -18,23 +18,22 @@ public class KeyboardInput extends InputAdapter {
     }
 
     @Override public boolean keyDown(int keycode) {
-        Player player = data.getPlayer();
         switch (keycode) {
             case Input.Keys.D:
             case Input.Keys.RIGHT:
-                player.setDirection(Player.Direction.RIGHT);
+                data.setPlayerDirection(DirectionComponent.Direction.RIGHT);
                 break;
             case Input.Keys.Q:
             case Input.Keys.LEFT:
-                player.setDirection(Player.Direction.LEFT);
+                data.setPlayerDirection(DirectionComponent.Direction.LEFT);
                 break;
             case Input.Keys.Z:
             case Input.Keys.UP:
-                player.setDirection(Player.Direction.UP);
+                data.setPlayerDirection(DirectionComponent.Direction.UP);
                 break;
             case Input.Keys.S:
             case Input.Keys.DOWN:
-                player.setDirection(Player.Direction.DOWN);
+                data.setPlayerDirection(DirectionComponent.Direction.DOWN);
                 break;
             default:
                 break;
@@ -55,7 +54,7 @@ public class KeyboardInput extends InputAdapter {
             case Input.Keys.UP:
             case Input.Keys.S:
             case Input.Keys.DOWN:
-                data.getPlayer().setDirection(Player.Direction.NONE);
+                data.setPlayerDirection(DirectionComponent.Direction.NONE);
                 break;
             default:
                 break;

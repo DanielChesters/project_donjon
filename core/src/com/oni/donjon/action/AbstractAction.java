@@ -19,7 +19,7 @@ public abstract class AbstractAction implements Action {
 
     private boolean testPositionBetweenTileAndPlayer(Tile tile, float distance, GameData data) {
         Rectangle tileRectangle = tile.getRectangle();
-        Vector2 playerPosition = data.getPlayer().getPosition();
+        Vector2 playerPosition = data.getPlayerPosition()   ;
         return Math.abs(tileRectangle.getX() - (int) playerPosition.x) < distance
             && Math.abs(tileRectangle.getY() - (int) playerPosition.y) < distance;
     }
