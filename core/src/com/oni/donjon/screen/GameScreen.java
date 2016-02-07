@@ -210,7 +210,6 @@ public class GameScreen extends ScreenAdapter {
         movementSystem.map = save.getMap();
         uiStage.getSaveWindow().setData(data);
         gameStage.setData(data);
-        //gameStage.getMapActor().setData(data);
         gameStage.updatePlayer();
     }
 
@@ -237,7 +236,6 @@ public class GameScreen extends ScreenAdapter {
         uiStage.getSaveWindow().setData(data);
 
         gameStage.setData(data);
-        //gameStage.getMapActor().setData(data);
 
         gameStage.updatePlayer();
         map.updateVisibility();

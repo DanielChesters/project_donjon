@@ -1,17 +1,16 @@
 package com.oni.donjon.system;
 
-import com.badlogic.ashley.core.*;
+import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.oni.donjon.component.DirectionComponent;
 import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.map.Map;
-import com.oni.donjon.map.Tile;
 
-import java.util.Optional;
 import java.util.stream.IntStream;
 
 /**
@@ -20,7 +19,8 @@ import java.util.stream.IntStream;
 public class MovementSystem extends IteratingSystem {
     public Map map;
 
-    private ComponentMapper<DirectionComponent> dm = ComponentMapper.getFor(DirectionComponent.class);
+    private ComponentMapper<DirectionComponent> dm =
+        ComponentMapper.getFor(DirectionComponent.class);
     private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
 
     public MovementSystem() {
@@ -95,27 +95,21 @@ public class MovementSystem extends IteratingSystem {
         movePlayer(player, numberCase, 0, -0.5f);
     }
 
-    private void goUp(Entity player,int numberCase) {
+    private void goUp(Entity player, int numberCase) {
         movePlayer(player, numberCase, 0, 0.5f);
     }
 
-    private void goLeft(Entity player,int numberCase) {
+    private void goLeft(Entity player, int numberCase) {
         movePlayer(player, numberCase, -0.5f, 0);
     }
 
-    private void goRight(Entity player,int numberCase) {
+    private void goRight(Entity player, int numberCase) {
         movePlayer(player, numberCase, 0.5f, 0);
     }
 
     private void movePlayer(Entity player, int numberCase, float deltaX, float deltaY) {
-        Vector2 position = pm.get(player).position;
         IntStream.range(0, numberCase).forEach(i -> {
-            Optional<Tile> tileRight =
-                map.getTile((int) (position.x + deltaX),
-                    (int) (position.y + deltaY));
-            if (tileRight.isPresent() && !tileRight.get().getType().isBlock()) {
-                move(player, deltaX, deltaY);
-            }
+            move(player, deltaX, deltaY);
             map.updateVisibility();
         });
     }
