@@ -7,8 +7,12 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.badlogic.gdx.physics.box2d.World;
 import com.oni.donjon.component.DirectionComponent;
 import com.oni.donjon.component.PositionComponent;
+import com.oni.donjon.screen.GameScreen;
 
 import java.util.stream.IntStream;
 
@@ -16,6 +20,8 @@ import java.util.stream.IntStream;
  * @author Daniel Chesters (on 06/02/16).
  */
 public class MovementSystem extends IteratingSystem {
+
+    boolean canMove;
 
     private ComponentMapper<DirectionComponent> dm =
         ComponentMapper.getFor(DirectionComponent.class);
@@ -37,6 +43,7 @@ public class MovementSystem extends IteratingSystem {
         if (deltaY != 0) {
             addY(deltaY, positionComponent.position);
         }
+        positionComponent.body.setTransform(positionComponent.position, 0);
     }
 
     private void addX(float x, Vector2 position) {
@@ -107,8 +114,28 @@ public class MovementSystem extends IteratingSystem {
 
     private void movePlayer(Entity player, int numberCase, float deltaX, float deltaY) {
         IntStream.range(0, numberCase).forEach(i -> {
-            move(player, deltaX, deltaY);
+            if (checkMovable(player, deltaX, deltaY)) {
+                move(player, deltaX, deltaY);
+            }
         });
+    }
+
+    private boolean checkMovable(Entity player, float deltaX, float deltaY) {
+        canMove = true;
+        Body body = pm.get(player).body;
+        World world = body.getWorld();
+
+        RayCastCallback rayCastCallback = (fixture, point, normal, fraction) -> {
+            if (fixture.getFilterData().categoryBits == GameScreen.WALL_BIT) {
+                canMove = false;
+            }
+            return 0;
+        };
+
+        Vector2 endPosition = new Vector2(body.getPosition().x + deltaX, body.getPosition().y + deltaY);
+        Gdx.app.log("End Position", endPosition.toString());
+        world.rayCast(rayCastCallback, body.getPosition(), endPosition);
+        return canMove;
     }
 
 
