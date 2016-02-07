@@ -191,9 +191,6 @@ public class GameScreen extends ScreenAdapter {
         player.add(new DirectionComponent());
         data.setPlayer(player);
 
-        engine = new Engine();
-        movementSystem = new MovementSystem();
-        engine.addSystem(movementSystem);
         engine.addEntity(player);
 
         uiStage.getSaveWindow().setData(data);
