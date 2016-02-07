@@ -31,7 +31,6 @@ import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.data.GameSave;
 import com.oni.donjon.input.KeyboardInput;
-import com.oni.donjon.map.Tile;
 import com.oni.donjon.sound.Sounds;
 import com.oni.donjon.stage.GameStage;
 import com.oni.donjon.stage.UIStage;
@@ -78,7 +77,7 @@ public class GameScreen extends ScreenAdapter {
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        camera = new OrthographicCamera(10, 10 * (h/w));
+        camera = new OrthographicCamera(10, 10 * (h / w));
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
         tiledMap = new TmxMapLoader().load("map/map0.tmx");
@@ -277,7 +276,8 @@ public class GameScreen extends ScreenAdapter {
         Stage stageGame = gameStage.getStage();
         engine.update(delta);
         gameStage.updatePlayer();
-        stageGame.getCamera().position.set(data.getPlayerPosition().x * 16f, data.getPlayerPosition().y * 16f, 0);
+        stageGame.getCamera().position
+            .set(data.getPlayerPosition().x * 16f, data.getPlayerPosition().y * 16f, 0);
         stageGame.getCamera().update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
