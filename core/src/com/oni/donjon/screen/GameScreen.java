@@ -2,7 +2,6 @@ package com.oni.donjon.screen;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
@@ -32,11 +31,8 @@ import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.data.GameSave;
 import com.oni.donjon.input.KeyboardInput;
-import com.oni.donjon.input.MouseInput;
-import com.oni.donjon.map.Map;
 import com.oni.donjon.map.Tile;
 import com.oni.donjon.sound.Sounds;
-import com.oni.donjon.stage.DebugStage;
 import com.oni.donjon.stage.GameStage;
 import com.oni.donjon.stage.UIStage;
 import com.oni.donjon.system.MovementSystem;
@@ -49,7 +45,6 @@ public class GameScreen extends ScreenAdapter {
     private GameData data;
     private UIStage uiStage;
     private GameStage gameStage;
-    private DebugStage debugStage;
     private InputMultiplexer gameInput;
     private GameState state;
     private TiledMap tiledMap;
@@ -96,9 +91,6 @@ public class GameScreen extends ScreenAdapter {
         runnable.run();
         createInput();
         state = GameState.RUNNING;
-        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
-            createDebugStage();
-        }
     }
 
     private void createUi(Skin skin) {
@@ -194,7 +186,6 @@ public class GameScreen extends ScreenAdapter {
         GameSave save = json.fromJson(GameSave.class, file);
 
         data = new GameData();
-        data.setMap(save.getMap());
 
         Entity player = new Entity();
         player.add(new PositionComponent(save.getPlayerPosition()));
@@ -206,8 +197,6 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(movementSystem);
         engine.addEntity(player);
 
-        data.getMap().setPlayer(data.getPlayer());
-        movementSystem.map = save.getMap();
         uiStage.getSaveWindow().setData(data);
         gameStage.setData(data);
         gameStage.updatePlayer();
@@ -222,15 +211,11 @@ public class GameScreen extends ScreenAdapter {
             startPosition = rectangle.getCenter(Vector2.Zero);
             startPosition.scl(1 / 16f);
         }
-        Map map = new Map("map/map.json");
         Entity player = new Entity();
         player.add(new PositionComponent(startPosition));
         player.add(new DirectionComponent());
 
-        data.setMap(map);
         data.setPlayer(player);
-        map.setPlayer(player);
-        movementSystem.map = map;
         engine.addEntity(player);
 
         uiStage.getSaveWindow().setData(data);
@@ -238,46 +223,29 @@ public class GameScreen extends ScreenAdapter {
         gameStage.setData(data);
 
         gameStage.updatePlayer();
-        map.updateVisibility();
     }
 
     private void createInput() {
         if (gameInput == null) {
             final KeyboardInput keyboardInput = createKeyboardInput();
-            final MouseInput mouseInput = createMouseInput();
-            gameInput = createInputMultiplexer(keyboardInput, mouseInput);
+            gameInput = createInputMultiplexer(keyboardInput);
         }
 
         Gdx.input.setInputProcessor(gameInput);
     }
 
-    private InputMultiplexer createInputMultiplexer(KeyboardInput keyboardInput,
-        MouseInput mouseInput) {
+    private InputMultiplexer createInputMultiplexer(KeyboardInput keyboardInput) {
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(uiStage.getStage());
         multiplexer.addProcessor(keyboardInput);
-        multiplexer.addProcessor(mouseInput);
         return multiplexer;
     }
 
-    private MouseInput createMouseInput() {
-        MouseInput mouseInput = new MouseInput();
-        mouseInput.setData(data);
-        mouseInput.setGameStage(gameStage);
-        mouseInput.setUiStage(uiStage);
-        return mouseInput;
-    }
 
     private KeyboardInput createKeyboardInput() {
         KeyboardInput keyboardInput = new KeyboardInput();
         keyboardInput.setData(data);
         return keyboardInput;
-    }
-
-    private void createDebugStage() {
-        debugStage = new DebugStage();
-        debugStage.setData(data);
-        debugStage.setGameStage(gameStage);
     }
 
     @Override
@@ -298,9 +266,6 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gameStage.getStage().draw();
-        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
-            debugStage.drawDebug();
-        }
         uiStage.getStage().draw();
     }
 
@@ -312,13 +277,10 @@ public class GameScreen extends ScreenAdapter {
         Stage stageGame = gameStage.getStage();
         engine.update(delta);
         gameStage.updatePlayer();
-        stageGame.getCamera().position.set(data.getPlayerPosition().x * Tile.SIZE, data.getPlayerPosition().y * Tile.SIZE, 0);
+        stageGame.getCamera().position.set(data.getPlayerPosition().x * 16f, data.getPlayerPosition().y * 16f, 0);
         stageGame.getCamera().update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
-            debugStage.drawDebug();
-        }
         uiStage.getStage().draw();
         stageGame.draw();
     }

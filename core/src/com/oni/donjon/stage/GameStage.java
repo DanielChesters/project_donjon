@@ -28,7 +28,7 @@ public class GameStage {
 
     public void updatePlayer() {
         Vector2 position = data.getPlayerPosition();
-        playerLabel.setPosition(position.x * Tile.SIZE, position.y * Tile.SIZE);
+        playerLabel.setPosition(position.x * 16f, position.y * 16f);
     }
 
     public void setData(GameData data) {

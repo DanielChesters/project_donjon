@@ -5,22 +5,12 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.oni.donjon.component.DirectionComponent;
 import com.oni.donjon.component.PositionComponent;
-import com.oni.donjon.map.Map;
 
 /**
  * @author Daniel Chesters (on 01/06/14).
  */
 public class GameData {
-    private Map map;
     private Entity player;
-
-    public Map getMap() {
-        return map;
-    }
-
-    public void setMap(Map map) {
-        this.map = map;
-    }
 
     public Entity getPlayer() {
         return player;
@@ -39,6 +29,6 @@ public class GameData {
     }
 
     public GameSave toGameSave() {
-        return new GameSave(map, getPlayerPosition());
+        return new GameSave(getPlayerPosition());
     }
 }

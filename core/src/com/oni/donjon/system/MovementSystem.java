@@ -9,7 +9,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.oni.donjon.component.DirectionComponent;
 import com.oni.donjon.component.PositionComponent;
-import com.oni.donjon.map.Map;
 
 import java.util.stream.IntStream;
 
@@ -17,7 +16,6 @@ import java.util.stream.IntStream;
  * @author Daniel Chesters (on 06/02/16).
  */
 public class MovementSystem extends IteratingSystem {
-    public Map map;
 
     private ComponentMapper<DirectionComponent> dm =
         ComponentMapper.getFor(DirectionComponent.class);
@@ -110,7 +108,6 @@ public class MovementSystem extends IteratingSystem {
     private void movePlayer(Entity player, int numberCase, float deltaX, float deltaY) {
         IntStream.range(0, numberCase).forEach(i -> {
             move(player, deltaX, deltaY);
-            map.updateVisibility();
         });
     }
 
