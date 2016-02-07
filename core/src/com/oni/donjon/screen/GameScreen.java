@@ -9,9 +9,13 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -77,13 +81,6 @@ public class GameScreen extends ScreenAdapter {
     private void createGame(DonjonGame game, Runnable runnable) {
         this.game = game;
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        engine = new Engine();
-        movementSystem = new MovementSystem();
-        engine.addSystem(movementSystem);
-        createUi(skin);
-        createGameStage(skin);
-        runnable.run();
-        createInput();
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         camera = new OrthographicCamera(10, 10 * (h/w));
@@ -91,6 +88,13 @@ public class GameScreen extends ScreenAdapter {
         camera.update();
         tiledMap = new TmxMapLoader().load("map/map0.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 16f);
+        engine = new Engine();
+        movementSystem = new MovementSystem();
+        engine.addSystem(movementSystem);
+        createUi(skin);
+        createGameStage(skin);
+        runnable.run();
+        createInput();
         state = GameState.RUNNING;
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             createDebugStage();
@@ -212,10 +216,14 @@ public class GameScreen extends ScreenAdapter {
 
     private void createData() {
         data = new GameData();
+        MapLayer layer = tiledMap.getLayers().get("Player");
+        Vector2 startPosition = null;
+        for (MapObject mapObject : layer.getObjects()) {
+            Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
+            startPosition = rectangle.getCenter(Vector2.Zero);
+            startPosition.scl(1 / 16f);
+        }
         Map map = new Map("map/map.json");
-        Tile startTile = map.getStartTile();
-        Vector2 startPosition =
-            new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());
         Entity player = new Entity();
         player.add(new PositionComponent(startPosition));
         player.add(new DirectionComponent());
