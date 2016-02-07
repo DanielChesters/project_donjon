@@ -8,10 +8,10 @@ import com.badlogic.gdx.audio.Sound;
  */
 public enum Sounds {
 
-    OPEN_DOOR("doorOpen.ogg"),CLOSE_DOOR("doorClose.ogg");
+    OPEN_DOOR("doorOpen.ogg"), CLOSE_DOOR("doorClose.ogg");
 
     Sounds(String filename) {
-        sound = Gdx.audio.newSound(Gdx.files.internal(String.format("sound/%s", filename)));
+        this.sound = Gdx.audio.newSound(Gdx.files.internal(String.format("sound/%s", filename)));
     }
 
     private Sound sound;

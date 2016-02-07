@@ -8,6 +8,10 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -17,7 +21,6 @@ import com.badlogic.gdx.utils.Json;
 import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
 import com.oni.donjon.action.Actions;
-import com.oni.donjon.actor.MapActor;
 import com.oni.donjon.actor.MenuGameWindow;
 import com.oni.donjon.actor.SaveWindow;
 import com.oni.donjon.component.DirectionComponent;
@@ -28,6 +31,7 @@ import com.oni.donjon.input.KeyboardInput;
 import com.oni.donjon.input.MouseInput;
 import com.oni.donjon.map.Map;
 import com.oni.donjon.map.Tile;
+import com.oni.donjon.sound.Sounds;
 import com.oni.donjon.stage.DebugStage;
 import com.oni.donjon.stage.GameStage;
 import com.oni.donjon.stage.UIStage;
@@ -44,6 +48,9 @@ public class GameScreen extends ScreenAdapter {
     private DebugStage debugStage;
     private InputMultiplexer gameInput;
     private GameState state;
+    private TiledMap tiledMap;
+    private OrthogonalTiledMapRenderer tiledMapRenderer;
+    private OrthographicCamera camera;
 
     private Engine engine;
     private MovementSystem movementSystem;
@@ -61,6 +68,12 @@ public class GameScreen extends ScreenAdapter {
         createGame(game, () -> loadData(saveFile));
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        Sounds.disposeAll();
+    }
+
     private void createGame(DonjonGame game, Runnable runnable) {
         this.game = game;
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -71,6 +84,13 @@ public class GameScreen extends ScreenAdapter {
         createGameStage(skin);
         runnable.run();
         createInput();
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+        camera = new OrthographicCamera(10, 10 * (h/w));
+        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        camera.update();
+        tiledMap = new TmxMapLoader().load("map/map0.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 16f);
         state = GameState.RUNNING;
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             createDebugStage();
@@ -145,25 +165,22 @@ public class GameScreen extends ScreenAdapter {
 
     private void createGameStage(Skin skin) {
         gameStage = new GameStage();
-        MapActor mapActor = new MapActor();
 
         Label playerLabel = createPlayerLabel(skin);
 
-        gameStage.setMapActor(mapActor);
         gameStage.setPlayerLabel(playerLabel);
 
         Stage stage = gameStage.getStage();
         stage.getCamera().position
             .set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
-        stage.addActor(mapActor);
         stage.addActor(playerLabel);
 
     }
 
     private Label createPlayerLabel(Skin skin) {
         Label playerLabel = new Label("@", skin, "default");
-        playerLabel.setWidth(16);
-        playerLabel.setHeight(16);
+        playerLabel.setWidth(8);
+        playerLabel.setHeight(8);
         return playerLabel;
     }
 
@@ -189,7 +206,7 @@ public class GameScreen extends ScreenAdapter {
         movementSystem.map = save.getMap();
         uiStage.getSaveWindow().setData(data);
         gameStage.setData(data);
-        gameStage.getMapActor().setData(data);
+        //gameStage.getMapActor().setData(data);
         gameStage.updatePlayer();
     }
 
@@ -212,7 +229,7 @@ public class GameScreen extends ScreenAdapter {
         uiStage.getSaveWindow().setData(data);
 
         gameStage.setData(data);
-        gameStage.getMapActor().setData(data);
+        //gameStage.getMapActor().setData(data);
 
         gameStage.updatePlayer();
         map.updateVisibility();
@@ -257,7 +274,8 @@ public class GameScreen extends ScreenAdapter {
         debugStage.setGameStage(gameStage);
     }
 
-    @Override public void render(float delta) {
+    @Override
+    public void render(float delta) {
         switch (state) {
             case RUNNING:
                 update(delta);
@@ -283,17 +301,20 @@ public class GameScreen extends ScreenAdapter {
     private void update(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.position.set(data.getPlayerPosition(), 0);
+        camera.update();
         Stage stageGame = gameStage.getStage();
         engine.update(delta);
         gameStage.updatePlayer();
-        stageGame.getCamera().position
-            .set(data.getPlayerPosition().x * Tile.SIZE, data.getPlayerPosition().y * Tile.SIZE, 0);
+        stageGame.getCamera().position.set(data.getPlayerPosition().x * Tile.SIZE, data.getPlayerPosition().y * Tile.SIZE, 0);
         stageGame.getCamera().update();
-        stageGame.draw();
+        tiledMapRenderer.setView(camera);
+        tiledMapRenderer.render();
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             debugStage.drawDebug();
         }
         uiStage.getStage().draw();
+        stageGame.draw();
     }
 
     public void setState(GameState state) {
