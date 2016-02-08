@@ -12,15 +12,18 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.oni.donjon.component.DirectionComponent;
 import com.oni.donjon.component.PositionComponent;
+import com.oni.donjon.map.Map;
+import com.oni.donjon.map.Tile;
 import com.oni.donjon.screen.GameScreen;
 
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 /**
  * @author Daniel Chesters (on 06/02/16).
  */
 public class MovementSystem extends IteratingSystem {
-
+    public Map map;
     boolean canMove;
 
     private ComponentMapper<DirectionComponent> dm =
@@ -113,10 +116,18 @@ public class MovementSystem extends IteratingSystem {
     }
 
     private void movePlayer(Entity player, int numberCase, float deltaX, float deltaY) {
+        PositionComponent positionComponent = pm.get(player);
+        Vector2 position = positionComponent.position;
         IntStream.range(0, numberCase).forEach(i -> {
-            if (checkMovable(player, deltaX, deltaY)) {
+            Optional<Tile> tileRight =
+                map.getTile((int) (position.x + deltaX),
+                    (int) (position.y + deltaY));
+            if (tileRight.isPresent() && checkMovable(player, deltaX, deltaY)) {
                 move(player, deltaX, deltaY);
+                positionComponent.body.setTransform((position.x + 0.25f) * Tile.SIZE + deltaX,
+                    (position.y + 0.25f) * Tile.SIZE + deltaY, 0);
             }
+            map.updateVisibility();
         });
     }
 
@@ -132,11 +143,9 @@ public class MovementSystem extends IteratingSystem {
             return 0;
         };
 
-        Vector2 endPosition = new Vector2(body.getPosition().x + deltaX, body.getPosition().y + deltaY);
-        Gdx.app.log("End Position", endPosition.toString());
+        Vector2 endPosition = new Vector2(body.getPosition().x + deltaX * Tile.SIZE,
+            body.getPosition().y + deltaY * Tile.SIZE);
         world.rayCast(rayCastCallback, body.getPosition(), endPosition);
         return canMove;
     }
-
-
 }

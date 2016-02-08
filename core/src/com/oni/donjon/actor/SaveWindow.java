@@ -17,11 +17,9 @@ import com.oni.donjon.data.GameData;
 public class SaveWindow extends Window {
 
     static class NewSaveInputLister implements Input.TextInputListener {
-        private GameData data;
         private SaveWindow saveWindow;
 
-        NewSaveInputLister(GameData data, SaveWindow saveWindow) {
-            this.data = data;
+        NewSaveInputLister(SaveWindow saveWindow) {
             this.saveWindow = saveWindow;
         }
 
@@ -30,7 +28,7 @@ public class SaveWindow extends Window {
             Json json = new Json();
             FileHandle file =
                 Gdx.files.external(String.format(".config/donjon/save/%s.json", text));
-            String save = json.prettyPrint(data);
+            String save = json.prettyPrint(GameData.INSTANCE);
             file.writeString(save, false);
             saveWindow.setVisible(false);
         }
@@ -42,7 +40,6 @@ public class SaveWindow extends Window {
     }
 
 
-    private GameData data;
     private List<String> saveList;
     private TextButton saveButton;
     private TextButton cancelButton;
@@ -85,7 +82,7 @@ public class SaveWindow extends Window {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
                 NewSaveInputLister newSaveInputLister =
-                    new NewSaveInputLister(data, SaveWindow.this);
+                    new NewSaveInputLister(SaveWindow.this);
                 Gdx.input
                     .getTextInput(newSaveInputLister, Resources.BUNDLE.get("window.save.new.input"),
                         "save", "");
@@ -116,7 +113,7 @@ public class SaveWindow extends Window {
                 Json json = new Json();
                 FileHandle file =
                     Gdx.files.external(String.format(".config/donjon/save/%s", saveName));
-                String save = json.prettyPrint(data.toGameSave());
+                String save = json.prettyPrint(GameData.INSTANCE.toGameSave());
                 file.writeString(save, false);
                 SaveWindow.this.setVisible(false);
                 return true;
@@ -135,9 +132,5 @@ public class SaveWindow extends Window {
         setPosition(Gdx.graphics.getWidth() / 2 - getWidth() / 2,
             Gdx.graphics.getHeight() / 2 - getHeight() / 2);
         setVisible(true);
-    }
-
-    public void setData(GameData data) {
-        this.data = data;
     }
 }
