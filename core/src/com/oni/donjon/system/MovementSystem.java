@@ -46,7 +46,6 @@ public class MovementSystem extends IteratingSystem {
         if (deltaY != 0) {
             addY(deltaY, positionComponent.position);
         }
-        positionComponent.body.setTransform(positionComponent.position, 0);
     }
 
     private void addX(float x, Vector2 position) {

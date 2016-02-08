@@ -84,6 +84,7 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(movementSystem);
         createUi(skin);
         createGameStage(skin);
+        GameData.INSTANCE.setWorld(world);
         runnable.run();
         createInput();
         state = GameState.RUNNING;
@@ -177,13 +178,12 @@ public class GameScreen extends ScreenAdapter {
 
     private Label createPlayerLabel(Skin skin) {
         Label playerLabel = new Label("@", skin, "default");
-        playerLabel.setWidth(8);
-        playerLabel.setHeight(8);
+        playerLabel.setWidth(16);
+        playerLabel.setHeight(16);
         return playerLabel;
     }
 
     private void loadData(String saveFile) {
-        GameData.INSTANCE.setWorld(world);
         Json json = new Json();
         FileHandle file = Gdx.files.external(saveFile);
         GameSave save = json.fromJson(GameSave.class, file);
@@ -204,7 +204,6 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void createData() {
-        GameData.INSTANCE.setWorld(world);
         Map map = new Map("map/map.json");
         Tile startTile = map.getStartTile();
         Vector2 startPosition =
