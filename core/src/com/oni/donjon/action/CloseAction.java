@@ -36,9 +36,9 @@ public class CloseAction extends AbstractAction {
         if (isNearPlayer(tile, data)) {
             tile.setType(TileType.DOOR_CLOSE);
             messageLabel.setText(Resources.BUNDLE.get("close.door"));
+            Sounds.CLOSE_DOOR.play();
         } else {
             messageLabel.setText(Resources.BUNDLE.get("close.door.too.far"));
         }
-        Sounds.CLOSE_DOOR.play();
     }
 }

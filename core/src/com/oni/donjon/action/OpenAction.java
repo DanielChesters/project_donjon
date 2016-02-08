@@ -36,9 +36,9 @@ public class OpenAction extends AbstractAction {
         if (isNearPlayer(tile, data)) {
             tile.setType(TileType.DOOR_OPEN);
             messageLabel.setText(Resources.BUNDLE.get("open.door"));
+            Sounds.OPEN_DOOR.play();
         } else {
             messageLabel.setText(Resources.BUNDLE.get("open.door.too.far"));
         }
-        Sounds.OPEN_DOOR.play();
     }
 }
