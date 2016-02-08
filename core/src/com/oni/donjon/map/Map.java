@@ -4,11 +4,12 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.oni.donjon.component.PositionComponent;
+import com.oni.donjon.data.GameData;
+import com.oni.donjon.data.GameSave;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class Map implements Json.Serializable {
         this.tiles = new HashSet<>();
     }
 
-    public Map(String mapFile, World world) {
+    public Map(String mapFile) {
         this.tiles = new HashSet<>();
         Json json = new Json();
         @SuppressWarnings("unchecked")
@@ -35,7 +36,21 @@ public class Map implements Json.Serializable {
 
         for (Tile t : tileArray) {
             tiles.add(new Tile(t.getRectangle().x, t.getRectangle().y, t.getType(), t.isVisible(),
-                world));
+                GameData.INSTANCE.getWorld()));
+        }
+    }
+
+    public Map(GameSave gameSave) {
+        this.tiles = new HashSet<>();
+
+        for (int x = 1; x <= 20; x++) {
+            for (int y = 1; y <= 20; y++) {
+                GameSave.SavedTile savedTile = gameSave.getMap()[x][y];
+                if (savedTile != null) {
+                    tiles.add(new Tile((float) x, (float) y, savedTile.type, savedTile.visible,
+                        GameData.INSTANCE.getWorld()));
+                }
+            }
         }
     }
 

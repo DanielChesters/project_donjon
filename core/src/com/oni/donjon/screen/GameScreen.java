@@ -176,12 +176,12 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void loadData(String saveFile) {
+        GameData.INSTANCE.setWorld(world);
         Json json = new Json();
         FileHandle file = Gdx.files.external(saveFile);
         GameSave save = json.fromJson(GameSave.class, file);
 
-        GameData.INSTANCE.setMap(save.getMap());
-        GameData.INSTANCE.setWorld(world);
+        GameData.INSTANCE.setMap(new Map(save));
 
         Entity player = new Entity();
         player.add(new PositionComponent(save.getPlayerPosition(),
@@ -195,12 +195,13 @@ public class GameScreen extends ScreenAdapter {
         engine.addEntity(player);
 
         GameData.INSTANCE.getMap().setPlayer(GameData.INSTANCE.getPlayer());
-        movementSystem.map = save.getMap();
+        movementSystem.map = GameData.INSTANCE.getMap();
         gameStage.updatePlayer();
     }
 
     private void createData() {
-        Map map = new Map("map/map.json", world);
+        GameData.INSTANCE.setWorld(world);
+        Map map = new Map("map/map.json");
         Tile startTile = map.getStartTile();
         Vector2 startPosition =
             new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());
@@ -210,7 +211,7 @@ public class GameScreen extends ScreenAdapter {
 
         GameData.INSTANCE.setMap(map);
         GameData.INSTANCE.setPlayer(player);
-        GameData.INSTANCE.setWorld(world);
+
         map.setPlayer(player);
         movementSystem.map = map;
         engine.addEntity(player);

@@ -7,6 +7,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.oni.donjon.component.DirectionComponent;
 import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.map.Map;
+import com.oni.donjon.map.Tile;
+import com.oni.donjon.map.TileType;
 
 /**
  * @author Daniel Chesters (on 01/06/14).
@@ -43,7 +45,14 @@ public enum GameData {
     }
 
     public GameSave toGameSave() {
-        return new GameSave(map, getPlayerPosition());
+        GameSave.SavedTile[][] savedTiles = new GameSave.SavedTile[21][21];
+
+        for (Tile tile: map.getTiles()) {
+            GameSave.SavedTile savedTile = new GameSave.SavedTile(tile.getType(), tile.isVisible());
+            savedTiles[(int)tile.getRectangle().x][(int)tile.getRectangle().y] = savedTile;
+        }
+
+        return new GameSave(savedTiles, getPlayerPosition());
     }
 
     public World getWorld() {
