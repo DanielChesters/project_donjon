@@ -29,6 +29,7 @@ import com.oni.donjon.input.KeyboardInput;
 import com.oni.donjon.input.MouseInput;
 import com.oni.donjon.map.Map;
 import com.oni.donjon.map.Tile;
+import com.oni.donjon.sound.Sounds;
 import com.oni.donjon.stage.DebugStage;
 import com.oni.donjon.stage.GameStage;
 import com.oni.donjon.stage.UIStage;
@@ -67,6 +68,12 @@ public class GameScreen extends ScreenAdapter {
         createGame(game, () -> loadData(saveFile));
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        Sounds.disposeAll();
+    }
+
     private void createGame(DonjonGame game, Runnable runnable) {
         this.game = game;
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -77,6 +84,7 @@ public class GameScreen extends ScreenAdapter {
         engine.addSystem(movementSystem);
         createUi(skin);
         createGameStage(skin);
+        GameData.INSTANCE.setWorld(world);
         runnable.run();
         createInput();
         state = GameState.RUNNING;
@@ -176,7 +184,6 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void loadData(String saveFile) {
-        GameData.INSTANCE.setWorld(world);
         Json json = new Json();
         FileHandle file = Gdx.files.external(saveFile);
         GameSave save = json.fromJson(GameSave.class, file);
@@ -189,9 +196,6 @@ public class GameScreen extends ScreenAdapter {
         player.add(new DirectionComponent());
         GameData.INSTANCE.setPlayer(player);
 
-        engine = new Engine();
-        movementSystem = new MovementSystem();
-        engine.addSystem(movementSystem);
         engine.addEntity(player);
 
         GameData.INSTANCE.getMap().setPlayer(GameData.INSTANCE.getPlayer());
@@ -200,7 +204,6 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void createData() {
-        GameData.INSTANCE.setWorld(world);
         Map map = new Map("map/map.json");
         Tile startTile = map.getStartTile();
         Vector2 startPosition =
