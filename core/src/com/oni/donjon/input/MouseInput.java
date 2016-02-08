@@ -17,7 +17,6 @@ import java.util.Optional;
  * @author Daniel Chesters (on 24/05/14).
  */
 public class MouseInput extends InputAdapter {
-    private GameData data;
     private GameStage gameStage;
     private UIStage uiStage;
 
@@ -48,19 +47,15 @@ public class MouseInput extends InputAdapter {
 
     private void mainAction(Vector2 mouseLocation) {
         Optional<Tile> tile =
-            data.getMap().getTile((int) (mouseLocation.x / Tile.SIZE),
+            GameData.INSTANCE.getMap().getTile((int) (mouseLocation.x / Tile.SIZE),
                 (int) (mouseLocation.y / Tile.SIZE));
         if (tile.isPresent() && tile.get().isVisible()) {
             Tile realTile = tile.get();
             Actions action = uiStage.getActionList().getSelected();
             if (action != null) {
-                action.doAction(realTile, data, uiStage);
+                action.doAction(realTile, GameData.INSTANCE, uiStage);
             }
         }
-    }
-
-    public void setData(GameData data) {
-        this.data = data;
     }
 
     public void setGameStage(GameStage gameStage) {

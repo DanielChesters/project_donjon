@@ -39,7 +39,6 @@ import com.oni.donjon.system.MovementSystem;
  */
 public class GameScreen extends ScreenAdapter {
     private DonjonGame game;
-    private GameData data;
     private UIStage uiStage;
     private GameStage gameStage;
     private DebugStage debugStage;
@@ -181,31 +180,26 @@ public class GameScreen extends ScreenAdapter {
         FileHandle file = Gdx.files.external(saveFile);
         GameSave save = json.fromJson(GameSave.class, file);
 
-        data = GameData.INSTANCE;
-        data.setMap(save.getMap());
-        data.setWorld(world);
+        GameData.INSTANCE.setMap(save.getMap());
+        GameData.INSTANCE.setWorld(world);
 
         Entity player = new Entity();
         player.add(new PositionComponent(save.getPlayerPosition(),
             createPlayerBody(save.getPlayerPosition())));
         player.add(new DirectionComponent());
-        data.setPlayer(player);
+        GameData.INSTANCE.setPlayer(player);
 
         engine = new Engine();
         movementSystem = new MovementSystem();
         engine.addSystem(movementSystem);
         engine.addEntity(player);
 
-        data.getMap().setPlayer(data.getPlayer());
+        GameData.INSTANCE.getMap().setPlayer(GameData.INSTANCE.getPlayer());
         movementSystem.map = save.getMap();
-        uiStage.getSaveWindow().setData(data);
-        gameStage.setData(data);
-        gameStage.getMapActor().setData(data);
         gameStage.updatePlayer();
     }
 
     private void createData() {
-        data = GameData.INSTANCE;
         Map map = new Map("map/map.json", world);
         Tile startTile = map.getStartTile();
         Vector2 startPosition =
@@ -214,17 +208,12 @@ public class GameScreen extends ScreenAdapter {
         player.add(new PositionComponent(startPosition, createPlayerBody(startPosition)));
         player.add(new DirectionComponent());
 
-        data.setMap(map);
-        data.setPlayer(player);
-        data.setWorld(world);
+        GameData.INSTANCE.setMap(map);
+        GameData.INSTANCE.setPlayer(player);
+        GameData.INSTANCE.setWorld(world);
         map.setPlayer(player);
         movementSystem.map = map;
         engine.addEntity(player);
-
-        uiStage.getSaveWindow().setData(data);
-
-        gameStage.setData(data);
-        gameStage.getMapActor().setData(data);
 
         gameStage.updatePlayer();
         map.updateVisibility();
@@ -271,7 +260,6 @@ public class GameScreen extends ScreenAdapter {
 
     private MouseInput createMouseInput() {
         MouseInput mouseInput = new MouseInput();
-        mouseInput.setData(data);
         mouseInput.setGameStage(gameStage);
         mouseInput.setUiStage(uiStage);
         return mouseInput;
@@ -279,13 +267,11 @@ public class GameScreen extends ScreenAdapter {
 
     private KeyboardInput createKeyboardInput() {
         KeyboardInput keyboardInput = new KeyboardInput();
-        keyboardInput.setData(data);
         return keyboardInput;
     }
 
     private void createDebugStage() {
         debugStage = new DebugStage();
-        debugStage.setData(data);
         debugStage.setGameStage(gameStage);
     }
 
@@ -320,7 +306,8 @@ public class GameScreen extends ScreenAdapter {
         engine.update(delta);
         gameStage.updatePlayer();
         stageGame.getCamera().position
-            .set(data.getPlayerPosition().x * Tile.SIZE, data.getPlayerPosition().y * Tile.SIZE, 0);
+            .set(GameData.INSTANCE.getPlayerPosition().x * Tile.SIZE,
+                GameData.INSTANCE.getPlayerPosition().y * Tile.SIZE, 0);
         stageGame.getCamera().update();
         stageGame.draw();
         world.step(1 / 60f, 6, 2);

@@ -14,7 +14,6 @@ public class GameStage {
     private Stage stage;
     private MapActor mapActor;
     private Label playerLabel;
-    private GameData data;
 
     public GameStage() {
         stage = new Stage();
@@ -37,11 +36,7 @@ public class GameStage {
     }
 
     public void updatePlayer() {
-        Vector2 position = data.getPlayerPosition();
+        Vector2 position = GameData.INSTANCE.getPlayerPosition();
         playerLabel.setPosition(position.x * Tile.SIZE, position.y * Tile.SIZE);
-    }
-
-    public void setData(GameData data) {
-        this.data = data;
     }
 }

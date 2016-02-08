@@ -12,7 +12,6 @@ import com.oni.donjon.map.Tile;
 public class DebugStage {
     private ShapeRenderer debugRenderer;
     private GameStage gameStage;
-    private GameData data;
 
     public DebugStage() {
         debugRenderer = new ShapeRenderer();
@@ -22,14 +21,10 @@ public class DebugStage {
         this.gameStage = gameStage;
     }
 
-    public void setData(GameData data) {
-        this.data = data;
-    }
-
     public void drawDebug() {
         debugRenderer.setProjectionMatrix(gameStage.getStage().getCamera().combined);
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        data.getMap().getTiles().stream().forEach(t -> {
+        GameData.INSTANCE.getMap().getTiles().stream().forEach(t -> {
             Rectangle rectangle = t.getRectangle();
             if (t.isVisible()) {
                 debugRenderer.setColor(Color.RED);

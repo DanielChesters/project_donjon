@@ -11,29 +11,23 @@ import com.oni.donjon.data.GameData;
  * @author Daniel Chesters (on 20/05/14).
  */
 public class KeyboardInput extends InputAdapter {
-    private GameData data;
-
-    public void setData(GameData data) {
-        this.data = data;
-    }
-
     @Override public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.D:
             case Input.Keys.RIGHT:
-                data.setPlayerDirection(DirectionComponent.Direction.RIGHT);
+                GameData.INSTANCE.setPlayerDirection(DirectionComponent.Direction.RIGHT);
                 break;
             case Input.Keys.Q:
             case Input.Keys.LEFT:
-                data.setPlayerDirection(DirectionComponent.Direction.LEFT);
+                GameData.INSTANCE.setPlayerDirection(DirectionComponent.Direction.LEFT);
                 break;
             case Input.Keys.Z:
             case Input.Keys.UP:
-                data.setPlayerDirection(DirectionComponent.Direction.UP);
+                GameData.INSTANCE.setPlayerDirection(DirectionComponent.Direction.UP);
                 break;
             case Input.Keys.S:
             case Input.Keys.DOWN:
-                data.setPlayerDirection(DirectionComponent.Direction.DOWN);
+                GameData.INSTANCE.setPlayerDirection(DirectionComponent.Direction.DOWN);
                 break;
             default:
                 break;
@@ -54,7 +48,7 @@ public class KeyboardInput extends InputAdapter {
             case Input.Keys.UP:
             case Input.Keys.S:
             case Input.Keys.DOWN:
-                data.setPlayerDirection(DirectionComponent.Direction.NONE);
+                GameData.INSTANCE.setPlayerDirection(DirectionComponent.Direction.NONE);
                 break;
             default:
                 break;
