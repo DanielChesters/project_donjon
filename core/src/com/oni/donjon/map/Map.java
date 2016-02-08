@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 /**
  * @author Daniel Chesters (on 22/05/14).
  */
-public class Map implements Json.Serializable {
+public class Map {
     private Set<Tile> tiles;
     private transient Entity player;
 
@@ -84,21 +84,6 @@ public class Map implements Json.Serializable {
 
     public Tile getStartTile() {
         return tiles.stream().filter(t -> t.getType().equals(TileType.STAIR_UP)).findFirst().get();
-    }
-
-    @Override public void write(Json json) {
-        json.writeArrayStart("tiles");
-        tiles.forEach(t -> json.writeValue(t, Tile.class));
-        json.writeArrayEnd();
-    }
-
-    @Override public void read(Json json, JsonValue jsonData) {
-        tiles = new HashSet<>();
-        @SuppressWarnings("unchecked")
-        Array<Tile> array = json.readValue("tiles", Array.class, Tile.class, jsonData);
-        for (Tile tile : array) {
-            tiles.add(tile);
-        }
     }
 
     @Override public String toString() {
