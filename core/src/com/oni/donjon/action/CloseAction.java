@@ -1,5 +1,6 @@
 package com.oni.donjon.action;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.oni.donjon.Resources;
 import com.oni.donjon.data.GameData;
@@ -35,6 +36,7 @@ public class CloseAction extends AbstractAction {
         Label messageLabel = stage.getMessageLabel();
         if (isNearPlayer(tile, data)) {
             tile.setType(TileType.DOOR_CLOSE);
+            tile.setBody(tile.createBody(GameData.INSTANCE.getWorld()));
             messageLabel.setText(Resources.BUNDLE.get("close.door"));
             Sounds.CLOSE_DOOR.play();
         } else {

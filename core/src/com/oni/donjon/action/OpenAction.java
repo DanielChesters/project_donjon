@@ -1,5 +1,7 @@
 package com.oni.donjon.action;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.oni.donjon.Resources;
 import com.oni.donjon.data.GameData;
@@ -34,6 +36,9 @@ public class OpenAction extends AbstractAction {
     private void openClosedDoor(Tile tile, UIStage stage, GameData data) {
         Label messageLabel = stage.getMessageLabel();
         if (isNearPlayer(tile, data)) {
+            Body bodyDoor = tile.getBody();
+            Gdx.app.debug("Open Door", bodyDoor.toString());
+            bodyDoor.getWorld().destroyBody(bodyDoor);
             tile.setType(TileType.DOOR_OPEN);
             messageLabel.setText(Resources.BUNDLE.get("open.door"));
             Sounds.OPEN_DOOR.play();

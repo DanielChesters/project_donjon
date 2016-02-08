@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
@@ -25,14 +26,16 @@ public class Map implements Json.Serializable {
         this.tiles = new HashSet<>();
     }
 
-    public Map(String mapFile) {
+    public Map(String mapFile, World world) {
         this.tiles = new HashSet<>();
         Json json = new Json();
         @SuppressWarnings("unchecked")
         Array<Tile> tileArray =
-            json.fromJson(Array.class, Tile.class, Gdx.files.internal("map/map.json"));
+            json.fromJson(Array.class, Tile.class, Gdx.files.internal(mapFile));
+
         for (Tile t : tileArray) {
-            tiles.add(t);
+            tiles.add(new Tile(t.getRectangle().x, t.getRectangle().y, t.getType(), t.isVisible(),
+                world));
         }
     }
 
@@ -54,13 +57,13 @@ public class Map implements Json.Serializable {
         IntStream
             .rangeClosed((int) position.x - 1, (int) position.x + 1)
             .forEach(x ->
-                    IntStream.rangeClosed((int) position.y - 1,
-                        (int) position.y + 1).forEach(y -> {
-                        Optional<Tile> tile = getTile(x, y);
-                        if (tile.isPresent()) {
-                            tile.get().setVisible(true);
-                        }
-                    })
+                IntStream.rangeClosed((int) position.y - 1,
+                    (int) position.y + 1).forEach(y -> {
+                    Optional<Tile> tile = getTile(x, y);
+                    if (tile.isPresent()) {
+                        tile.get().setVisible(true);
+                    }
+                })
             );
     }
 

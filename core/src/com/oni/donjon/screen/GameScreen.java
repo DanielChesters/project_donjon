@@ -9,6 +9,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -47,6 +48,12 @@ public class GameScreen extends ScreenAdapter {
 
     private Engine engine;
     private MovementSystem movementSystem;
+    private World world;
+    private Box2DDebugRenderer debugRenderer;
+
+    public static final short NOTHING_BIT = 0;
+    public static final short WALL_BIT = 1;
+    public static final short PLAYER_BIT = 1 << 1;
 
 
     public enum GameState {
@@ -64,6 +71,8 @@ public class GameScreen extends ScreenAdapter {
     private void createGame(DonjonGame game, Runnable runnable) {
         this.game = game;
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        world = new World(Vector2.Zero, true);
+        debugRenderer = new Box2DDebugRenderer();
         engine = new Engine();
         movementSystem = new MovementSystem();
         engine.addSystem(movementSystem);
@@ -172,11 +181,13 @@ public class GameScreen extends ScreenAdapter {
         FileHandle file = Gdx.files.external(saveFile);
         GameSave save = json.fromJson(GameSave.class, file);
 
-        data = new GameData();
+        data = GameData.INSTANCE;
         data.setMap(save.getMap());
+        data.setWorld(world);
 
         Entity player = new Entity();
-        player.add(new PositionComponent(save.getPlayerPosition()));
+        player.add(new PositionComponent(save.getPlayerPosition(),
+            createPlayerBody(save.getPlayerPosition())));
         player.add(new DirectionComponent());
         data.setPlayer(player);
 
@@ -194,17 +205,18 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void createData() {
-        data = new GameData();
-        Map map = new Map("map/map.json");
+        data = GameData.INSTANCE;
+        Map map = new Map("map/map.json", world);
         Tile startTile = map.getStartTile();
         Vector2 startPosition =
             new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());
         Entity player = new Entity();
-        player.add(new PositionComponent(startPosition));
+        player.add(new PositionComponent(startPosition, createPlayerBody(startPosition)));
         player.add(new DirectionComponent());
 
         data.setMap(map);
         data.setPlayer(player);
+        data.setWorld(world);
         map.setPlayer(player);
         movementSystem.map = map;
         engine.addEntity(player);
@@ -216,6 +228,26 @@ public class GameScreen extends ScreenAdapter {
 
         gameStage.updatePlayer();
         map.updateVisibility();
+    }
+
+    private Body createPlayerBody(Vector2 playerPosition) {
+        Gdx.app.debug("createPlayerBody", playerPosition.toString());
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(playerPosition).add(0.25f, 0.25f).scl(Tile.SIZE);
+
+        Body body = world.createBody(bodyDef);
+
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(10f);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = circleShape;
+        fixtureDef.filter.categoryBits = PLAYER_BIT;
+        fixtureDef.filter.maskBits = WALL_BIT;
+        body.createFixture(fixtureDef);
+        circleShape.dispose();
+        return body;
     }
 
     private void createInput() {
@@ -276,6 +308,7 @@ public class GameScreen extends ScreenAdapter {
         gameStage.getStage().draw();
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             debugStage.drawDebug();
+            debugRenderer.render(world, gameStage.getStage().getCamera().combined);
         }
         uiStage.getStage().draw();
     }
@@ -290,8 +323,10 @@ public class GameScreen extends ScreenAdapter {
             .set(data.getPlayerPosition().x * Tile.SIZE, data.getPlayerPosition().y * Tile.SIZE, 0);
         stageGame.getCamera().update();
         stageGame.draw();
+        world.step(1 / 60f, 6, 2);
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             debugStage.drawDebug();
+            debugRenderer.render(world, gameStage.getStage().getCamera().combined);
         }
         uiStage.getStage().draw();
     }

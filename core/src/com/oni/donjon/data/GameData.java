@@ -3,6 +3,7 @@ package com.oni.donjon.data;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.oni.donjon.component.DirectionComponent;
 import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.map.Map;
@@ -10,9 +11,12 @@ import com.oni.donjon.map.Map;
 /**
  * @author Daniel Chesters (on 01/06/14).
  */
-public class GameData {
+public enum GameData {
+    INSTANCE;
+
     private Map map;
     private Entity player;
+    private World world;
 
     public Map getMap() {
         return map;
@@ -40,5 +44,13 @@ public class GameData {
 
     public GameSave toGameSave() {
         return new GameSave(map, getPlayerPosition());
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
     }
 }
