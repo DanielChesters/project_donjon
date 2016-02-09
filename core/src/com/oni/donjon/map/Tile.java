@@ -68,7 +68,7 @@ public class Tile {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = type.getCategoryBits();
-        fixtureDef.filter.maskBits = GameScreen.PLAYER_BIT;
+        fixtureDef.filter.maskBits = GameScreen.PLAYER_BIT | GameScreen.LIGHT_BIT;
         body.createFixture(fixtureDef);
         polygonShape.dispose();
 

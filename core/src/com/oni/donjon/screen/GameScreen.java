@@ -1,5 +1,7 @@
 package com.oni.donjon.screen;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Application;
@@ -7,7 +9,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -50,10 +54,12 @@ public class GameScreen extends ScreenAdapter {
     private MovementSystem movementSystem;
     private World world;
     private Box2DDebugRenderer debugRenderer;
+    private RayHandler rayHandler;
 
     public static final short NOTHING_BIT = 0;
     public static final short WALL_BIT = 1;
     public static final short PLAYER_BIT = 1 << 1;
+    public static final short LIGHT_BIT = 1 << 5;
 
 
     public enum GameState {
@@ -71,6 +77,9 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         super.dispose();
+        world.dispose();
+        rayHandler.dispose();
+        debugRenderer.dispose();
         Sounds.disposeAll();
     }
 
@@ -82,6 +91,7 @@ public class GameScreen extends ScreenAdapter {
         engine = new Engine();
         movementSystem = new MovementSystem();
         engine.addSystem(movementSystem);
+        rayHandler = new RayHandler(world);
         createUi(skin);
         createGameStage(skin);
         GameData.INSTANCE.setWorld(world);
@@ -223,6 +233,11 @@ public class GameScreen extends ScreenAdapter {
         map.updateVisibility();
     }
 
+    @Override public void resize(int width, int height) {
+        gameStage.getStage().getViewport().update(width, height);
+        uiStage.getStage().getViewport().update(width, height);
+    }
+
     private Body createPlayerBody(Vector2 playerPosition) {
         Gdx.app.debug("createPlayerBody", playerPosition.toString());
         BodyDef bodyDef = new BodyDef();
@@ -240,6 +255,15 @@ public class GameScreen extends ScreenAdapter {
         fixtureDef.filter.maskBits = WALL_BIT;
         body.createFixture(fixtureDef);
         circleShape.dispose();
+
+        PointLight pointLight =
+            new PointLight(rayHandler, 50, Color.FIREBRICK, 100, body.getPosition().x,
+                body.getPosition().y);
+        pointLight.setContactFilter(LIGHT_BIT, NOTHING_BIT, WALL_BIT);
+        pointLight.setSoft(true);
+        pointLight.setSoftnessLength(2);
+        pointLight.attachToBody(body);
+
         return body;
     }
 
@@ -313,7 +337,9 @@ public class GameScreen extends ScreenAdapter {
             .set(GameData.INSTANCE.getPlayerPosition().x * Tile.SIZE,
                 GameData.INSTANCE.getPlayerPosition().y * Tile.SIZE, 0);
         stageGame.getCamera().update();
+        rayHandler.setCombinedMatrix((OrthographicCamera) gameStage.getStage().getCamera());
         stageGame.draw();
+        rayHandler.updateAndRender();
         world.step(1 / 60f, 6, 2);
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             debugStage.drawDebug();
