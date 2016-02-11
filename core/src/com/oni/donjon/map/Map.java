@@ -6,10 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.data.GameSave;
+import com.oni.donjon.generator.MapGenerator;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -24,7 +24,15 @@ public class Map {
     private transient Entity player;
 
     public Map() {
+        MapGenerator generator = new MapGenerator();
+        generator.generate();
         this.tiles = new HashSet<>();
+        for (int x = 0; x < MapGenerator.MAP_WIDTH; x++) {
+            for (int y = 0; y < MapGenerator.MAP_HEIGHT; y++) {
+                tiles.add(new Tile(x, y, generator.getTileTypes()[x][y], true,
+                    GameData.INSTANCE.getWorld()));
+            }
+        }
     }
 
     public Map(String mapFile) {

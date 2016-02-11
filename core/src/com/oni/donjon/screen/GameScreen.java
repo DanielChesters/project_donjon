@@ -214,7 +214,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void createData() {
-        Map map = new Map("map/map.json");
+        Map map = new Map();
         Tile startTile = map.getStartTile();
         Vector2 startPosition =
             new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());
@@ -337,9 +337,9 @@ public class GameScreen extends ScreenAdapter {
             .set(GameData.INSTANCE.getPlayerPosition().x * Tile.SIZE,
                 GameData.INSTANCE.getPlayerPosition().y * Tile.SIZE, 0);
         stageGame.getCamera().update();
-        rayHandler.setCombinedMatrix((OrthographicCamera) gameStage.getStage().getCamera());
         stageGame.draw();
-        rayHandler.updateAndRender();
+//        rayHandler.setCombinedMatrix((OrthographicCamera) gameStage.getStage().getCamera());
+//        rayHandler.updateAndRender();
         world.step(1 / 60f, 6, 2);
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             debugStage.drawDebug();

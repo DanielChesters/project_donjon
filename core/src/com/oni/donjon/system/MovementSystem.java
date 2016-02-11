@@ -50,20 +50,20 @@ public class MovementSystem extends IteratingSystem {
 
     private void addX(float x, Vector2 position) {
         position.x += x;
-        if (position.x > 20) {
-            position.x = 0;
-        } else if (position.x < 0) {
-            position.x = 20;
-        }
+//        if (position.x > 20) {
+//            position.x = 0;
+//        } else if (position.x < 0) {
+//            position.x = 20;
+//        }
     }
 
     private void addY(float y, Vector2 position) {
         position.y += y;
-        if (position.y > 20) {
-            position.y = 0;
-        } else if (position.y < 0) {
-            position.y = 20;
-        }
+    //        if (position.y > 20) {
+    //            position.y = 0;
+    //        } else if (position.y < 0) {
+    //            position.y = 20;
+    //        }
     }
 
     private void updateMove(Entity player) {
