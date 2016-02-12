@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.oni.donjon.component.DirectionComponent;
 import com.oni.donjon.component.PositionComponent;
+import com.oni.donjon.data.GameData;
 import com.oni.donjon.map.Map;
 import com.oni.donjon.map.Tile;
 import com.oni.donjon.screen.GameScreen;
@@ -23,8 +24,14 @@ import java.util.stream.IntStream;
  * @author Daniel Chesters (on 06/02/16).
  */
 public class MovementSystem extends IteratingSystem {
-    public Map map;
     boolean canMove;
+
+    private final RayCastCallback rayCastCallback = (fixture, point, normal, fraction) -> {
+        if (fixture.getFilterData().categoryBits == GameScreen.WALL_BIT) {
+            canMove = false;
+        }
+        return 0;
+    };
 
     private ComponentMapper<DirectionComponent> dm =
         ComponentMapper.getFor(DirectionComponent.class);
@@ -50,20 +57,10 @@ public class MovementSystem extends IteratingSystem {
 
     private void addX(float x, Vector2 position) {
         position.x += x;
-        //        if (position.x > 20) {
-        //            position.x = 0;
-        //        } else if (position.x < 0) {
-        //            position.x = 20;
-        //        }
     }
 
     private void addY(float y, Vector2 position) {
         position.y += y;
-        //        if (position.y > 20) {
-        //            position.y = 0;
-        //        } else if (position.y < 0) {
-        //            position.y = 20;
-        //        }
     }
 
     private void updateMove(Entity player) {
@@ -119,14 +116,14 @@ public class MovementSystem extends IteratingSystem {
         Vector2 position = positionComponent.position;
         IntStream.range(0, numberCase).forEach(i -> {
             Optional<Tile> tileRight =
-                map.getTile((int) (position.x + deltaX),
+                GameData.INSTANCE.getMap().getTile((int) (position.x + deltaX),
                     (int) (position.y + deltaY));
             if (tileRight.isPresent() && checkMovable(player, deltaX, deltaY)) {
                 move(player, deltaX, deltaY);
                 positionComponent.body.setTransform((position.x + 0.25f) * Tile.SIZE + deltaX,
                     (position.y + 0.25f) * Tile.SIZE + deltaY, (float) Math.toRadians(angle));
             }
-            map.updateVisibility();
+            GameData.INSTANCE.getMap().updateVisibility();
         });
     }
 
@@ -134,13 +131,6 @@ public class MovementSystem extends IteratingSystem {
         canMove = true;
         Body body = pm.get(player).body;
         World world = body.getWorld();
-
-        RayCastCallback rayCastCallback = (fixture, point, normal, fraction) -> {
-            if (fixture.getFilterData().categoryBits == GameScreen.WALL_BIT) {
-                canMove = false;
-            }
-            return 0;
-        };
 
         Vector2 endPosition = new Vector2(body.getPosition().x + deltaX * Tile.SIZE,
             body.getPosition().y + deltaY * Tile.SIZE);

@@ -10,25 +10,11 @@ import com.oni.donjon.map.Tile;
 /**
  * @author Daniel Chesters (on 01/06/14).
  */
-public class GameStage {
-    private Stage stage;
-    private MapActor mapActor;
+public class GameStage extends Stage {
     private Label playerLabel;
 
     public GameStage() {
-        stage = new Stage();
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public MapActor getMapActor() {
-        return mapActor;
-    }
-
-    public void setMapActor(MapActor mapActor) {
-        this.mapActor = mapActor;
+        super();
     }
 
     public void setPlayerLabel(Label playerLabel) {

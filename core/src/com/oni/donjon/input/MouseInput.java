@@ -37,7 +37,7 @@ public class MouseInput extends InputAdapter {
     private Vector2 getMouseLocation(int screenX, int screenY, int button) {
         Gdx.app.debug("Mouse", String.format("Down : %d,%d : %d%n", screenX, screenY, button));
         Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
-        gameStage.getStage().getCamera().unproject(worldCoordinates);
+        gameStage.getCamera().unproject(worldCoordinates);
         Vector2 mouseLocation = new Vector2(worldCoordinates.x, worldCoordinates.y);
         Gdx.app.debug("Mouse", String.format("%f,%f%n", mouseLocation.x, mouseLocation.y));
         Gdx.app.debug("Tile", String.format("%d,%d%n", (int) (mouseLocation.x / Tile.SIZE),

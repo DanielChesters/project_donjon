@@ -22,7 +22,7 @@ public class DebugStage {
     }
 
     public void drawDebug() {
-        debugRenderer.setProjectionMatrix(gameStage.getStage().getCamera().combined);
+        debugRenderer.setProjectionMatrix(gameStage.getCamera().combined);
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
         GameData.INSTANCE.getMap().getTiles().stream().forEach(t -> {
             Rectangle rectangle = t.getRectangle();

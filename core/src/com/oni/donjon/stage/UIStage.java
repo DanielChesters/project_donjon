@@ -9,19 +9,13 @@ import com.oni.donjon.actor.SaveWindow;
 /**
  * @author Daniel Chesters (on 01/06/14).
  */
-public class UIStage {
+public class UIStage extends Stage {
 
-    private Stage stage;
     private List<Actions> actionList;
     private Label messageLabel;
-    private SaveWindow saveWindow;
 
     public UIStage() {
-        stage = new Stage();
-    }
-
-    public Stage getStage() {
-        return stage;
+        super();
     }
 
     public List<Actions> getActionList() {
@@ -38,13 +32,5 @@ public class UIStage {
 
     public void setMessageLabel(Label messageLabel) {
         this.messageLabel = messageLabel;
-    }
-
-    public SaveWindow getSaveWindow() {
-        return saveWindow;
-    }
-
-    public void setSaveWindow(SaveWindow saveWindow) {
-        this.saveWindow = saveWindow;
     }
 }
