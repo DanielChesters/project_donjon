@@ -50,20 +50,20 @@ public class MovementSystem extends IteratingSystem {
 
     private void addX(float x, Vector2 position) {
         position.x += x;
-//        if (position.x > 20) {
-//            position.x = 0;
-//        } else if (position.x < 0) {
-//            position.x = 20;
-//        }
+        //        if (position.x > 20) {
+        //            position.x = 0;
+        //        } else if (position.x < 0) {
+        //            position.x = 20;
+        //        }
     }
 
     private void addY(float y, Vector2 position) {
         position.y += y;
-    //        if (position.y > 20) {
-    //            position.y = 0;
-    //        } else if (position.y < 0) {
-    //            position.y = 20;
-    //        }
+        //        if (position.y > 20) {
+        //            position.y = 0;
+        //        } else if (position.y < 0) {
+        //            position.y = 20;
+        //        }
     }
 
     private void updateMove(Entity player) {
@@ -99,22 +99,22 @@ public class MovementSystem extends IteratingSystem {
     }
 
     private void goDown(Entity player, int numberCase) {
-        movePlayer(player, numberCase, 0, -0.5f);
+        movePlayer(player, numberCase, 0, -0.5f, 270);
     }
 
     private void goUp(Entity player, int numberCase) {
-        movePlayer(player, numberCase, 0, 0.5f);
+        movePlayer(player, numberCase, 0, 0.5f, 90);
     }
 
     private void goLeft(Entity player, int numberCase) {
-        movePlayer(player, numberCase, -0.5f, 0);
+        movePlayer(player, numberCase, -0.5f, 0, 180);
     }
 
     private void goRight(Entity player, int numberCase) {
-        movePlayer(player, numberCase, 0.5f, 0);
+        movePlayer(player, numberCase, 0.5f, 0, 0);
     }
 
-    private void movePlayer(Entity player, int numberCase, float deltaX, float deltaY) {
+    private void movePlayer(Entity player, int numberCase, float deltaX, float deltaY, int angle) {
         PositionComponent positionComponent = pm.get(player);
         Vector2 position = positionComponent.position;
         IntStream.range(0, numberCase).forEach(i -> {
@@ -124,7 +124,7 @@ public class MovementSystem extends IteratingSystem {
             if (tileRight.isPresent() && checkMovable(player, deltaX, deltaY)) {
                 move(player, deltaX, deltaY);
                 positionComponent.body.setTransform((position.x + 0.25f) * Tile.SIZE + deltaX,
-                    (position.y + 0.25f) * Tile.SIZE + deltaY, 0);
+                    (position.y + 0.25f) * Tile.SIZE + deltaY, (float) Math.toRadians(angle));
             }
             map.updateVisibility();
         });
