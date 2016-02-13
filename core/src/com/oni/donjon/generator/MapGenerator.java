@@ -2,7 +2,6 @@ package com.oni.donjon.generator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.oni.donjon.map.TileType;
 
@@ -102,7 +101,7 @@ public class MapGenerator {
             int y = MathUtils.random(MAP_HEIGHT - h - 1) + 1;
 
             Rectangle newRoom = new Rectangle(x, y, w, h);
-            boolean failed = rooms.stream().anyMatch(newRoom::overlaps);
+            boolean failed = rooms.stream().anyMatch(newRoom::intersects);
 
             if (!failed) {
                 if (!rooms.isEmpty()) {
