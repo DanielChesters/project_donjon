@@ -35,8 +35,39 @@ public class MapGenerator {
         dig(rooms);
         dig(tunnels);
 
+        placeDoors();
+
         addSpecialTile(TileType.STAIR_UP);
         addSpecialTile(TileType.STAIR_DOWN);
+    }
+
+    private void placeDoors() {
+        for (Rectangle room : rooms) {
+            float xMin = room.x - 1;
+            float xMax = room.x + room.width + 1;
+            float yMin = room.y - 1;
+            float yMax = room.y + room.height + 1;
+
+            for (Rectangle tunnel : tunnels) {
+                if (tunnel.overlaps(room)) {
+                    if (tunnel.height == 1) {
+                        for (int x = (int) tunnel.x; x < (int) tunnel.x + (int)tunnel.width; x++) {
+                            if (x == (int) xMin || x == (int) xMax) {
+                                tileTypes[x][(int)tunnel.y] = TileType.DOOR_CLOSE;
+                                break;
+                            }
+                        }
+                    } else if (tunnel.width == 1) {
+                        for (int y = (int) tunnel.y; y < (int) tunnel.y + (int)tunnel.height; y++) {
+                            if (y == (int) yMin || y == (int) yMax) {
+                                tileTypes[(int) tunnel.x][y] = TileType.DOOR_CLOSE;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void dig(List<Rectangle> rectangles) {
