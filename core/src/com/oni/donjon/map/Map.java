@@ -2,10 +2,7 @@ package com.oni.donjon.map;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Json;
 import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.data.GameSave;
@@ -32,19 +29,6 @@ public class Map {
                 tiles.add(new Tile(x, y, generator.getTileTypes()[x][y], true,
                     GameData.INSTANCE.getWorld()));
             }
-        }
-    }
-
-    public Map(String mapFile) {
-        this.tiles = new HashSet<>();
-        Json json = new Json();
-        @SuppressWarnings("unchecked")
-        Array<Tile> tileArray =
-            json.fromJson(Array.class, Tile.class, Gdx.files.internal(mapFile));
-
-        for (Tile t : tileArray) {
-            tiles.add(new Tile(t.getRectangle().x, t.getRectangle().y, t.getType(), t.isVisible(),
-                GameData.INSTANCE.getWorld()));
         }
     }
 
