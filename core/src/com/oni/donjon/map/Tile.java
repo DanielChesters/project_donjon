@@ -5,6 +5,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.NumberUtils;
 import com.oni.donjon.screen.GameScreen;
 
+import java.util.Objects;
+
 /**
  * @author Daniel Chesters (on 22/05/14).
  */
@@ -75,36 +77,29 @@ public class Tile {
         return body;
     }
 
-    @Override
-    public boolean equals(Object o) {
-
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Tile tile = (Tile) o;
-
-        return this.rectangle.getX() == tile.rectangle.getX()
-            && this.rectangle.getY() == tile.rectangle.getY();
-    }
-
-    @Override
-    public int hashCode() {
-        int prime = 31;
-        int result = 1;
-        result = prime * result + NumberUtils.floatToIntBits(rectangle.getX());
-        result = prime * result + NumberUtils.floatToIntBits(rectangle.getY());
-        return result;
-    }
-
     public Body getBody() {
         return body;
     }
 
     public void setBody(Body body) {
         this.body = body;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Tile tile = (Tile) o;
+        return know == tile.know &&
+            type == tile.type &&
+            Objects.equals(rectangle, tile.rectangle) &&
+            Objects.equals(body, tile.body);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, rectangle, know, body);
     }
 }
