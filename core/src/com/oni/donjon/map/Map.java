@@ -11,7 +11,6 @@ import com.oni.donjon.generator.MapGenerator;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 /**
  * @author Daniel Chesters (on 22/05/14).
@@ -67,17 +66,11 @@ public class Map {
 
     public void updateVisibility() {
         Vector2 position = ComponentMapper.getFor(PositionComponent.class).get(player).position;
-        IntStream
-            .rangeClosed((int) position.x - 1, (int) position.x + 1)
-            .forEach(x ->
-                IntStream.rangeClosed((int) position.y - 1,
-                    (int) position.y + 1).forEach(y -> {
-                    Optional<Tile> tile = getTile(x, y);
-                    if (tile.isPresent()) {
-                        tile.get().setKnow(true);
-                    }
-                })
-            );
+        for (int x = (int) position.x - 2; x <= (int) position.x + 2; x++) {
+            for (int y = (int) position.y - 2; y <= (int) position.y + 2; y++) {
+                getTile(x, y).ifPresent(t -> t.setKnow(true));
+            }
+        }
     }
 
     public Tile getStartTile() {
