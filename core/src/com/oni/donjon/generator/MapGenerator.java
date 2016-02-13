@@ -47,7 +47,7 @@ public class MapGenerator {
             float yMin = room.y - 1;
             float yMax = room.y + room.height;
 
-            tunnels.stream().filter(t -> t.overlaps(room)).forEach(t -> {
+            tunnels.stream().filter(room::overlaps).forEach(t -> {
                 if (t.height == 1) {
                     for (int x = (int) t.x; x < (int) t.x + (int)t.width; x++) {
                         if (x == (int) xMin || x == (int) xMax) {
