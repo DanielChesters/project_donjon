@@ -45,14 +45,14 @@ public enum GameData {
     }
 
     public GameSave toGameSave() {
-        GameSave.SavedTile[][] savedTiles = new GameSave.SavedTile[21][21];
+        GameSave.SavedTile[][] savedTiles = new GameSave.SavedTile[map.getMapWidth()][map.getMapHeight()];
 
         for (Tile tile : map.getTiles()) {
-            GameSave.SavedTile savedTile = new GameSave.SavedTile(tile.getType(), tile.isVisible());
+            GameSave.SavedTile savedTile = new GameSave.SavedTile(tile.getType(), tile.isKnow());
             savedTiles[(int) tile.getRectangle().x][(int) tile.getRectangle().y] = savedTile;
         }
 
-        return new GameSave(savedTiles, getPlayerPosition());
+        return new GameSave(map.getMapHeight(), map.getMapWidth(), savedTiles, getPlayerPosition());
     }
 
     public World getWorld() {

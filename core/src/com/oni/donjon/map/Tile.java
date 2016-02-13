@@ -12,15 +12,15 @@ public class Tile {
     public static final float SIZE = 32f;
     private TileType type;
     private Rectangle rectangle;
-    private boolean visible;
+    private boolean know;
     private Body body;
 
-    public boolean isVisible() {
-        return visible;
+    public boolean isKnow() {
+        return know;
     }
 
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    public void setKnow(boolean know) {
+        this.know = know;
     }
 
     public TileType getType() {
@@ -39,7 +39,7 @@ public class Tile {
         return "Tile{" +
             "type=" + type +
             ", rectangle=" + rectangle +
-            ", visible=" + visible +
+            ", know=" + know +
             '}';
     }
 
@@ -47,10 +47,10 @@ public class Tile {
         this.rectangle = new Rectangle();
     }
 
-    public Tile(float x, float y, TileType type, boolean visible, World world) {
+    public Tile(float x, float y, TileType type, boolean know, World world) {
         this.rectangle = new Rectangle(x, y, SIZE, SIZE);
         this.type = type;
-        this.visible = visible;
+        this.know = know;
         if (type.getCategoryBits() != GameScreen.NOTHING_BIT) {
             this.body = createBody(world);
         }

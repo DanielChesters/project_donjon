@@ -17,6 +17,8 @@ import java.util.stream.IntStream;
  * @author Daniel Chesters (on 22/05/14).
  */
 public class Map {
+    private int mapHeight;
+    private int mapWidth;
     private Set<Tile> tiles;
     private transient Entity player;
 
@@ -26,24 +28,28 @@ public class Map {
         this.tiles = new HashSet<>();
         for (int x = 0; x < MapGenerator.MAP_WIDTH; x++) {
             for (int y = 0; y < MapGenerator.MAP_HEIGHT; y++) {
-                tiles.add(new Tile(x, y, generator.getTileTypes()[x][y], true,
+                tiles.add(new Tile(x, y, generator.getTileTypes()[x][y], false,
                     GameData.INSTANCE.getWorld()));
             }
         }
+        this.mapHeight = MapGenerator.MAP_HEIGHT;
+        this.mapWidth = MapGenerator.MAP_WIDTH;
     }
 
     public Map(GameSave gameSave) {
         this.tiles = new HashSet<>();
 
-        for (int x = 1; x <= 20; x++) {
-            for (int y = 1; y <= 20; y++) {
+        for (int x = 0; x < gameSave.getMapWidth(); x++) {
+            for (int y = 0; y < gameSave.getMapHeight(); y++) {
                 GameSave.SavedTile savedTile = gameSave.getMap()[x][y];
                 if (savedTile != null) {
-                    tiles.add(new Tile((float) x, (float) y, savedTile.type, savedTile.visible,
+                    tiles.add(new Tile((float) x, (float) y, savedTile.type, savedTile.know,
                         GameData.INSTANCE.getWorld()));
                 }
             }
         }
+        this.mapHeight = gameSave.getMapHeight();
+        this.mapWidth = gameSave.getMapWidth();
     }
 
     public void setPlayer(Entity player) {
@@ -68,7 +74,7 @@ public class Map {
                     (int) position.y + 1).forEach(y -> {
                     Optional<Tile> tile = getTile(x, y);
                     if (tile.isPresent()) {
-                        tile.get().setVisible(true);
+                        tile.get().setKnow(true);
                     }
                 })
             );
@@ -78,9 +84,28 @@ public class Map {
         return tiles.stream().filter(t -> t.getType().equals(TileType.STAIR_UP)).findFirst().get();
     }
 
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public void setMapWidth(int mapWidth) {
+        this.mapWidth = mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    public void setMapHeight(int mapHeight) {
+        this.mapHeight = mapHeight;
+    }
+
     @Override public String toString() {
         return "Map{" +
-            "tiles=" + tiles +
+            "mapHeight=" + mapHeight +
+            ", mapWidth=" + mapWidth +
+            ", tiles=" + tiles +
+            ", player=" + player +
             '}';
     }
 }

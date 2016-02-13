@@ -26,7 +26,7 @@ public class DebugStage {
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
         GameData.INSTANCE.getMap().getTiles().stream().forEach(t -> {
             Rectangle rectangle = t.getRectangle();
-            if (t.isVisible()) {
+            if (t.isKnow()) {
                 debugRenderer.setColor(Color.RED);
             } else {
                 debugRenderer.setColor(Color.BLUE);

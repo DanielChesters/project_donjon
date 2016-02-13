@@ -11,7 +11,7 @@ import com.oni.donjon.map.Tile;
 public class MapActor extends Actor {
     @Override
     public void draw(Batch batch, float alpha) {
-        GameData.INSTANCE.getMap().getTiles().stream().filter(Tile::isVisible).forEach(t -> batch
+        GameData.INSTANCE.getMap().getTiles().stream().filter(Tile::isKnow).forEach(t -> batch
             .draw(t.getType().getTexture(), t.getRectangle().getX() * Tile.SIZE,
                 t.getRectangle().getY() * Tile.SIZE));
     }

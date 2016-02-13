@@ -49,7 +49,7 @@ public class MouseInput extends InputAdapter {
         Optional<Tile> tile =
             GameData.INSTANCE.getMap().getTile((int) (mouseLocation.x / Tile.SIZE),
                 (int) (mouseLocation.y / Tile.SIZE));
-        if (tile.isPresent() && tile.get().isVisible()) {
+        if (tile.isPresent() && tile.get().isKnow()) {
             Tile realTile = tile.get();
             Actions action = uiStage.getActionList().getSelected();
             if (action != null) {
