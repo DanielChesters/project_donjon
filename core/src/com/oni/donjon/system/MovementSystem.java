@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.oni.donjon.component.DirectionComponent;
+import com.oni.donjon.component.LightComponent;
 import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.map.Map;
@@ -36,9 +37,10 @@ public class MovementSystem extends IteratingSystem {
     private ComponentMapper<DirectionComponent> dm =
         ComponentMapper.getFor(DirectionComponent.class);
     private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
+    private ComponentMapper<LightComponent> lm= ComponentMapper.getFor(LightComponent.class);
 
     public MovementSystem() {
-        super(Family.all(PositionComponent.class, DirectionComponent.class).get());
+        super(Family.all(PositionComponent.class, DirectionComponent.class, LightComponent.class).get());
     }
 
     @Override protected void processEntity(Entity player, float deltaTime) {
@@ -112,8 +114,10 @@ public class MovementSystem extends IteratingSystem {
     }
 
     private void movePlayer(Entity player, int numberCase, float deltaX, float deltaY, int angle) {
+        float radianAngle = (float) Math.toRadians(angle);
         PositionComponent positionComponent = pm.get(player);
         Vector2 position = positionComponent.position;
+        lm.get(player).coneLight.setDirection(radianAngle);
         IntStream.range(0, numberCase).forEach(i -> {
             Optional<Tile> tileRight =
                 GameData.INSTANCE.getMap().getTile((int) (position.x + deltaX),
@@ -121,7 +125,7 @@ public class MovementSystem extends IteratingSystem {
             if (tileRight.isPresent() && checkMovable(player, deltaX, deltaY)) {
                 move(player, deltaX, deltaY);
                 positionComponent.body.setTransform((position.x + 0.25f) * Tile.SIZE + deltaX,
-                    (position.y + 0.25f) * Tile.SIZE + deltaY, (float) Math.toRadians(angle));
+                    (position.y + 0.25f) * Tile.SIZE + deltaY, radianAngle);
             }
             GameData.INSTANCE.getMap().updateVisibility();
         });

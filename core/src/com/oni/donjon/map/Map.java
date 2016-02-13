@@ -20,7 +20,7 @@ public class Map {
     private int mapHeight;
     private int mapWidth;
     private Set<Tile> tiles;
-    private transient Entity player;
+    private Entity player;
 
     public Map() {
         MapGenerator generator = new MapGenerator();

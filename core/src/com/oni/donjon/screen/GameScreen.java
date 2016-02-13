@@ -1,6 +1,6 @@
 package com.oni.donjon.screen;
 
-import box2dLight.PointLight;
+import box2dLight.ConeLight;
 import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -25,6 +25,7 @@ import com.oni.donjon.actor.MapActor;
 import com.oni.donjon.actor.MenuGameWindow;
 import com.oni.donjon.actor.SaveWindow;
 import com.oni.donjon.component.DirectionComponent;
+import com.oni.donjon.component.LightComponent;
 import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.data.GameSave;
@@ -194,16 +195,11 @@ public class GameScreen extends ScreenAdapter {
         GameSave save = json.fromJson(GameSave.class, file);
 
         GameData.INSTANCE.setMap(new Map(save));
+        Entity playerEntity = createPlayerEntity(save.getPlayerPosition());
 
-        Entity player = new Entity();
-        player.add(new PositionComponent(save.getPlayerPosition(),
-            createPlayerBody(save.getPlayerPosition())));
-        player.add(new DirectionComponent());
-        GameData.INSTANCE.setPlayer(player);
-
-        engine.addEntity(player);
-
-        GameData.INSTANCE.getMap().setPlayer(GameData.INSTANCE.getPlayer());
+        engine.addEntity(playerEntity);
+        GameData.INSTANCE.getMap().setPlayer(playerEntity);
+        GameData.INSTANCE.setPlayer(playerEntity);
         gameStage.updatePlayer();
     }
 
@@ -212,10 +208,7 @@ public class GameScreen extends ScreenAdapter {
         Tile startTile = map.getStartTile();
         Vector2 startPosition =
             new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());
-        Entity player = new Entity();
-        player.add(new PositionComponent(startPosition, createPlayerBody(startPosition)));
-        player.add(new DirectionComponent());
-
+        Entity player = createPlayerEntity(startPosition);
         GameData.INSTANCE.setMap(map);
         GameData.INSTANCE.setPlayer(player);
 
@@ -231,8 +224,9 @@ public class GameScreen extends ScreenAdapter {
         uiStage.getViewport().update(width, height);
     }
 
-    private Body createPlayerBody(Vector2 playerPosition) {
-        Gdx.app.debug("createPlayerBody", playerPosition.toString());
+    private Entity createPlayerEntity(Vector2 playerPosition) {
+        Gdx.app.debug("createPlayerEntity", playerPosition.toString());
+        Entity player = new Entity();
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(playerPosition).add(0.25f, 0.25f).scl(Tile.SIZE);
@@ -249,15 +243,19 @@ public class GameScreen extends ScreenAdapter {
         body.createFixture(fixtureDef);
         circleShape.dispose();
 
-        PointLight pointLight =
-            new PointLight(rayHandler, 50, Color.FIREBRICK, 100, body.getPosition().x,
-                body.getPosition().y);
-        pointLight.setContactFilter(LIGHT_BIT, NOTHING_BIT, WALL_BIT);
-        pointLight.setSoft(true);
-        pointLight.setSoftnessLength(64);
-        pointLight.attachToBody(body);
+        ConeLight coneLight =
+            new ConeLight(rayHandler, 50, Color.FIREBRICK, 100, body.getPosition().x,
+                body.getPosition().y, body.getAngle(), 90);
+        coneLight.setContactFilter(LIGHT_BIT, NOTHING_BIT, WALL_BIT);
+        coneLight.setSoft(true);
+        coneLight.setSoftnessLength(64);
+        coneLight.attachToBody(body);
 
-        return body;
+        player.add(new DirectionComponent());
+        player.add(new PositionComponent(playerPosition, body));
+        player.add(new LightComponent(coneLight));
+
+        return player;
     }
 
     private void createInput() {
