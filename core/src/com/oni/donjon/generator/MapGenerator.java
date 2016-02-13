@@ -48,25 +48,23 @@ public class MapGenerator {
             float yMin = room.y - 1;
             float yMax = room.y + room.height;
 
-            for (Rectangle tunnel : tunnels) {
-                if (tunnel.overlaps(room)) {
-                    if (tunnel.height == 1) {
-                        for (int x = (int) tunnel.x; x < (int) tunnel.x + (int)tunnel.width; x++) {
-                            if (x == (int) xMin || x == (int) xMax) {
-                                tileTypes[x][(int)tunnel.y] = TileType.DOOR_CLOSE;
-                                break;
-                            }
+            tunnels.stream().filter(t -> t.overlaps(room)).forEach(t -> {
+                if (t.height == 1) {
+                    for (int x = (int) t.x; x < (int) t.x + (int)t.width; x++) {
+                        if (x == (int) xMin || x == (int) xMax) {
+                            tileTypes[x][(int)t.y] = TileType.DOOR_CLOSE;
+                            break;
                         }
-                    } else if (tunnel.width == 1) {
-                        for (int y = (int) tunnel.y; y < (int) tunnel.y + (int)tunnel.height; y++) {
-                            if (y == (int) yMin || y == (int) yMax) {
-                                tileTypes[(int) tunnel.x][y] = TileType.DOOR_CLOSE;
-                                break;
-                            }
+                    }
+                } else if (t.width == 1) {
+                    for (int y = (int) t.y; y < (int) t.y + (int)t.height; y++) {
+                        if (y == (int) yMin || y == (int) yMax) {
+                            tileTypes[(int) t.x][y] = TileType.DOOR_CLOSE;
+                            break;
                         }
                     }
                 }
-            }
+            });
         }
     }
 
@@ -104,14 +102,8 @@ public class MapGenerator {
             int y = MathUtils.random(MAP_HEIGHT - h - 1) + 1;
 
             Rectangle newRoom = new Rectangle(x, y, w, h);
-            boolean failed = false;
+            boolean failed = rooms.stream().anyMatch(newRoom::overlaps);
 
-            for (Rectangle otherRoom : rooms) {
-                if (newRoom.overlaps(otherRoom)) {
-                    failed = true;
-                    break;
-                }
-            }
             if (!failed) {
                 if (!rooms.isEmpty()) {
                     placeTunnels(newRoom);
