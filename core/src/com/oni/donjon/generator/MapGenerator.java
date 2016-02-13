@@ -44,9 +44,9 @@ public class MapGenerator {
     private void placeDoors() {
         for (Rectangle room : rooms) {
             float xMin = room.x - 1;
-            float xMax = room.x + room.width + 1;
+            float xMax = room.x + room.width;
             float yMin = room.y - 1;
-            float yMax = room.y + room.height + 1;
+            float yMax = room.y + room.height;
 
             for (Rectangle tunnel : tunnels) {
                 if (tunnel.overlaps(room)) {
