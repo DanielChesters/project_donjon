@@ -11,6 +11,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -253,7 +254,7 @@ public class GameScreen extends ScreenAdapter {
                 body.getPosition().y);
         pointLight.setContactFilter(LIGHT_BIT, NOTHING_BIT, WALL_BIT);
         pointLight.setSoft(true);
-        pointLight.setSoftnessLength(2);
+        pointLight.setSoftnessLength(64);
         pointLight.attachToBody(body);
 
         return body;
@@ -329,8 +330,8 @@ public class GameScreen extends ScreenAdapter {
                 GameData.INSTANCE.getPlayerPosition().y * Tile.SIZE, 0);
         gameStage.getCamera().update();
         gameStage.draw();
-        //        rayHandler.setCombinedMatrix((OrthographicCamera) gameStage.getStage().getCamera());
-        //        rayHandler.updateAndRender();
+        rayHandler.setCombinedMatrix((OrthographicCamera) gameStage.getCamera());
+        rayHandler.updateAndRender();
         world.step(1 / 60f, 6, 2);
         if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
             debugStage.drawDebug();
