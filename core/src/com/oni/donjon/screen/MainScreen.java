@@ -17,12 +17,10 @@ import com.oni.donjon.actor.LoadWindow;
  * @author Daniel Chesters (on 01/06/14).
  */
 public class MainScreen extends ScreenAdapter {
-    private DonjonGame game;
     private Stage stage;
 
 
     public MainScreen(DonjonGame game) {
-        this.game = game;
         this.stage = new Stage();
         Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 

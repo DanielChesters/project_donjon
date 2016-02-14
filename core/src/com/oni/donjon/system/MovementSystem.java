@@ -14,7 +14,6 @@ import com.oni.donjon.component.DirectionComponent;
 import com.oni.donjon.component.LightComponent;
 import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
-import com.oni.donjon.map.Map;
 import com.oni.donjon.map.Tile;
 import com.oni.donjon.screen.GameScreen;
 
@@ -37,10 +36,11 @@ public class MovementSystem extends IteratingSystem {
     private ComponentMapper<DirectionComponent> dm =
         ComponentMapper.getFor(DirectionComponent.class);
     private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
-    private ComponentMapper<LightComponent> lm= ComponentMapper.getFor(LightComponent.class);
+    private ComponentMapper<LightComponent> lm = ComponentMapper.getFor(LightComponent.class);
 
     public MovementSystem() {
-        super(Family.all(PositionComponent.class, DirectionComponent.class, LightComponent.class).get());
+        super(Family.all(PositionComponent.class, DirectionComponent.class, LightComponent.class)
+            .get());
     }
 
     @Override protected void processEntity(Entity player, float deltaTime) {

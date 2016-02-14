@@ -10,9 +10,10 @@ import com.oni.donjon.stage.UIStage;
  * @author Daniel Chesters (on 02/06/14).
  */
 public class LookAction extends AbstractAction {
-    @Override public void doAction(Tile tile, GameData data, UIStage stage) {
+    @Override
+    public void doAction(Tile tile, UIStage stage) {
         Label messageLabel = stage.getMessageLabel();
-        if (isPlayerSamePositionAsTile(tile, data)) {
+        if (isPlayerSamePositionAsTile(tile)) {
             messageLabel.setText(Resources.BUNDLE.get("look.me"));
         } else {
             switch (tile.getType()) {

@@ -2,7 +2,6 @@ package com.oni.donjon.map;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.NumberUtils;
 import com.oni.donjon.screen.GameScreen;
 
 import java.util.Objects;

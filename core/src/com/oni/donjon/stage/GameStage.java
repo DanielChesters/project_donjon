@@ -3,7 +3,6 @@ package com.oni.donjon.stage;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.oni.donjon.actor.MapActor;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.map.Tile;
 

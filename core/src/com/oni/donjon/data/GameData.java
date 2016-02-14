@@ -45,7 +45,8 @@ public enum GameData {
     }
 
     public GameSave toGameSave() {
-        GameSave.SavedTile[][] savedTiles = new GameSave.SavedTile[map.getMapWidth()][map.getMapHeight()];
+        GameSave.SavedTile[][] savedTiles =
+            new GameSave.SavedTile[map.getMapWidth()][map.getMapHeight()];
 
         for (Tile tile : map.getTiles()) {
             GameSave.SavedTile savedTile = new GameSave.SavedTile(tile.getType(), tile.isKnow());

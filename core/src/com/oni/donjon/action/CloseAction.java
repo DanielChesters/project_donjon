@@ -1,6 +1,5 @@
 package com.oni.donjon.action;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.oni.donjon.Resources;
 import com.oni.donjon.data.GameData;
@@ -13,9 +12,10 @@ import com.oni.donjon.stage.UIStage;
  * @author Daniel Chesters (on 02/06/14).
  */
 public class CloseAction extends AbstractAction {
-    @Override public void doAction(Tile tile, GameData data, UIStage stage) {
+    @Override
+    public void doAction(Tile tile, UIStage stage) {
         Label messageLabel = stage.getMessageLabel();
-        if (isPlayerSamePositionAsTile(tile, data)) {
+        if (isPlayerSamePositionAsTile(tile)) {
             messageLabel.setText(Resources.BUNDLE.get("close.me"));
         } else {
             switch (tile.getType()) {
@@ -23,7 +23,7 @@ public class CloseAction extends AbstractAction {
                     messageLabel.setText(Resources.BUNDLE.get("close.door.already.close"));
                     break;
                 case DOOR_OPEN:
-                    closeOpenedDoor(tile, stage, data);
+                    closeOpenedDoor(tile, stage);
                     break;
                 default:
                     messageLabel.setText(Resources.BUNDLE.get("close.nothing"));
@@ -32,9 +32,9 @@ public class CloseAction extends AbstractAction {
         }
     }
 
-    private void closeOpenedDoor(Tile tile, UIStage stage, GameData data) {
+    private void closeOpenedDoor(Tile tile, UIStage stage) {
         Label messageLabel = stage.getMessageLabel();
-        if (isNearPlayer(tile, data)) {
+        if (isNearPlayer(tile)) {
             tile.setType(TileType.DOOR_CLOSE);
             tile.setBody(tile.createBody(GameData.INSTANCE.getWorld()));
             messageLabel.setText(Resources.BUNDLE.get("close.door"));

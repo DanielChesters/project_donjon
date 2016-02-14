@@ -49,14 +49,14 @@ public class MapGenerator {
 
             tunnels.stream().filter(room::overlaps).forEach(t -> {
                 if (t.height == 1) {
-                    for (int x = (int) t.x; x < (int) t.x + (int)t.width; x++) {
+                    for (int x = (int) t.x; x < (int) t.x + (int) t.width; x++) {
                         if (x == (int) xMin || x == (int) xMax) {
-                            tileTypes[x][(int)t.y] = TileType.DOOR_CLOSE;
+                            tileTypes[x][(int) t.y] = TileType.DOOR_CLOSE;
                             break;
                         }
                     }
                 } else if (t.width == 1) {
-                    for (int y = (int) t.y; y < (int) t.y + (int)t.height; y++) {
+                    for (int y = (int) t.y; y < (int) t.y + (int) t.height; y++) {
                         if (y == (int) yMin || y == (int) yMax) {
                             tileTypes[(int) t.x][y] = TileType.DOOR_CLOSE;
                             break;

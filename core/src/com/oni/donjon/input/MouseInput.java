@@ -53,7 +53,7 @@ public class MouseInput extends InputAdapter {
             Tile realTile = tile.get();
             Actions action = uiStage.getActionList().getSelected();
             if (action != null) {
-                action.doAction(realTile, GameData.INSTANCE, uiStage);
+                action.doAction(realTile, uiStage);
             }
         }
     }

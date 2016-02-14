@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.oni.donjon.action.Actions;
-import com.oni.donjon.actor.SaveWindow;
 
 /**
  * @author Daniel Chesters (on 01/06/14).

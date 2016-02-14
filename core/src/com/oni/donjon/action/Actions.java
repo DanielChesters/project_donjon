@@ -26,7 +26,7 @@ public enum Actions {
         return label;
     }
 
-    public void doAction(Tile tile, GameData data, UIStage stage) {
-        action.doAction(tile, data, stage);
+    public void doAction(Tile tile, UIStage stage) {
+        action.doAction(tile, stage);
     }
 }

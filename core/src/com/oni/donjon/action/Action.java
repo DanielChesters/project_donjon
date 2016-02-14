@@ -8,5 +8,5 @@ import com.oni.donjon.stage.UIStage;
  * @author Daniel Chesters (on 02/06/14).
  */
 public interface Action {
-    void doAction(Tile tile, GameData data, UIStage stage);
+    void doAction(Tile tile, UIStage stage);
 }

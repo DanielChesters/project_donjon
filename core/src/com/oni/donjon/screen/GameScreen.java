@@ -51,7 +51,6 @@ public class GameScreen extends ScreenAdapter {
     private GameState state;
 
     private Engine engine;
-    private MovementSystem movementSystem;
     private World world;
     private Box2DDebugRenderer debugRenderer;
     private RayHandler rayHandler;
@@ -67,7 +66,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public GameScreen(DonjonGame game) {
-        createGame(game, () -> createData());
+        createGame(game, this::createData);
     }
 
     public GameScreen(DonjonGame game, String saveFile) {
@@ -89,7 +88,7 @@ public class GameScreen extends ScreenAdapter {
         world = new World(Vector2.Zero, true);
         debugRenderer = new Box2DDebugRenderer();
         engine = new Engine();
-        movementSystem = new MovementSystem();
+        MovementSystem movementSystem = new MovementSystem();
         engine.addSystem(movementSystem);
         rayHandler = new RayHandler(world);
         createUi(skin);
@@ -260,9 +259,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void createInput() {
         if (gameInput == null) {
-            final KeyboardInput keyboardInput = createKeyboardInput();
-            final MouseInput mouseInput = createMouseInput();
-            gameInput = createInputMultiplexer(keyboardInput, mouseInput);
+            gameInput = createInputMultiplexer(new KeyboardInput(), createMouseInput());
         }
 
         Gdx.input.setInputProcessor(gameInput);
@@ -282,11 +279,6 @@ public class GameScreen extends ScreenAdapter {
         mouseInput.setGameStage(gameStage);
         mouseInput.setUiStage(uiStage);
         return mouseInput;
-    }
-
-    private KeyboardInput createKeyboardInput() {
-        KeyboardInput keyboardInput = new KeyboardInput();
-        return keyboardInput;
     }
 
     private void createDebugStage() {
