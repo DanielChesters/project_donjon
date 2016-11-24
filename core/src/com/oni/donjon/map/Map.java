@@ -7,6 +7,7 @@ import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.data.GameSave;
 import com.oni.donjon.generator.DonjonGenerator;
+import com.oni.donjon.generator.DrunkardsWalkCaveGenerator;
 import com.oni.donjon.generator.MapGenerator;
 
 import java.util.HashSet;
@@ -23,7 +24,7 @@ public class Map {
     private Entity player;
 
     public Map() throws InstantiationException, IllegalAccessException {
-        this(DonjonGenerator.class);
+        this(DrunkardsWalkCaveGenerator.class);
     }
 
     public <G extends MapGenerator> Map(Class<G> generatorClass)

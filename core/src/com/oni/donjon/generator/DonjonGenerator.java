@@ -26,7 +26,6 @@ public class DonjonGenerator implements MapGenerator {
 
     public DonjonGenerator() {
         this(50, 50);
-
     }
 
     public DonjonGenerator(int mapHeight, int mapWidth) {
