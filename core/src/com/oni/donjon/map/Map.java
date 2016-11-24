@@ -22,8 +22,13 @@ public class Map {
     private Set<Tile> tiles;
     private Entity player;
 
-    public Map() {
-        MapGenerator generator = new DonjonGenerator();
+    public Map() throws InstantiationException, IllegalAccessException {
+        this(DonjonGenerator.class);
+    }
+
+    public <G extends MapGenerator> Map(Class<G> generatorClass)
+        throws IllegalAccessException, InstantiationException {
+        MapGenerator generator = generatorClass.newInstance();
         generator.generate();
         this.tiles = new HashSet<>();
         for (int x = 0; x < generator.getMapWidth(); x++) {

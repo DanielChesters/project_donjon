@@ -203,7 +203,12 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void createData() {
-        Map map = new Map();
+        Map map;
+        try {
+            map = new Map();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
         Tile startTile = map.getStartTile();
         Vector2 startPosition =
             new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Daniel Chesters (on 11/02/16).
  */
-public class DonjonGenerator implements MapGenerator{
+public class DonjonGenerator implements MapGenerator {
     private int nbRooms;
     private int roomMaxSize;
     private int roomMinSize;
