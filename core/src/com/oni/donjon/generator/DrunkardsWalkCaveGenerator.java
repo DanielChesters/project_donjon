@@ -51,20 +51,22 @@ public class DrunkardsWalkCaveGenerator implements MapGenerator {
         tileTypes[x][y] = TileType.GROUND;
 
         for (int i = 1; i < nbFloorTiles; i++) {
-            switch (Direction.randomDirection()) {
-                case NORTH:
-                    y = MathUtils.clamp(y + 1, 1, mapHeight - 2);
-                    break;
-                case SOUTH:
-                    y = MathUtils.clamp(y - 1, 1, mapHeight - 2);
-                    break;
-                case EAST:
-                    x = MathUtils.clamp(x + 1, 1, mapHeight - 2);
-                    break;
-                case WEST:
-                    x = MathUtils.clamp(x - 1, 1, mapHeight - 2);
-                    break;
-            }
+            do {
+                switch (Direction.randomDirection()) {
+                    case NORTH:
+                        y = MathUtils.clamp(y + 1, 1, mapHeight - 2);
+                        break;
+                    case SOUTH:
+                        y = MathUtils.clamp(y - 1, 1, mapHeight - 2);
+                        break;
+                    case EAST:
+                        x = MathUtils.clamp(x + 1, 1, mapHeight - 2);
+                        break;
+                    case WEST:
+                        x = MathUtils.clamp(x - 1, 1, mapHeight - 2);
+                        break;
+                }
+            } while (!TileType.WALL.equals(tileTypes[x][y]));
             tileTypes[x][y] = TileType.GROUND;
         }
     }
