@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.data.GameSave;
+import com.oni.donjon.generator.DonjonGenerator;
 import com.oni.donjon.generator.MapGenerator;
 
 import java.util.HashSet;
@@ -22,17 +23,17 @@ public class Map {
     private Entity player;
 
     public Map() {
-        MapGenerator generator = new MapGenerator();
+        MapGenerator generator = new DonjonGenerator();
         generator.generate();
         this.tiles = new HashSet<>();
-        for (int x = 0; x < MapGenerator.MAP_WIDTH; x++) {
-            for (int y = 0; y < MapGenerator.MAP_HEIGHT; y++) {
+        for (int x = 0; x < DonjonGenerator.MAP_WIDTH; x++) {
+            for (int y = 0; y < DonjonGenerator.MAP_HEIGHT; y++) {
                 tiles.add(new Tile(x, y, generator.getTileTypes()[x][y], false,
                     GameData.INSTANCE.getWorld()));
             }
         }
-        this.mapHeight = MapGenerator.MAP_HEIGHT;
-        this.mapWidth = MapGenerator.MAP_WIDTH;
+        this.mapHeight = DonjonGenerator.MAP_HEIGHT;
+        this.mapWidth = DonjonGenerator.MAP_WIDTH;
     }
 
     public Map(GameSave gameSave) {
