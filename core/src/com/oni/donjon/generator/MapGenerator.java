@@ -8,5 +8,10 @@ import com.oni.donjon.map.TileType;
 public interface MapGenerator {
 
     TileType[][] getTileTypes();
+
     void generate();
+
+    int getMapHeight();
+
+    int getMapWidth();
 }

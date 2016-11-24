@@ -12,15 +12,36 @@ import java.util.List;
  * @author Daniel Chesters (on 11/02/16).
  */
 public class DonjonGenerator implements MapGenerator{
-    public final static int MAX_ROOMS = 10;
-    public final static int ROOM_MAX_SIZE = 10;
-    public final static int ROOM_MIN_SIZE = 6;
-    public final static int MAP_HEIGHT = 50;
-    public final static int MAP_WIDTH = 50;
+    private int nbRooms;
+    private int roomMaxSize;
+    private int roomMinSize;
 
+    private int mapHeight;
+    private int mapWidth;
     private List<Rectangle> rooms = new ArrayList<>();
     private List<Rectangle> tunnels = new ArrayList<>();
-    private TileType[][] tileTypes = new TileType[MAP_WIDTH][MAP_HEIGHT];
+    private TileType[][] tileTypes;
+
+
+
+    public DonjonGenerator() {
+        this(50, 50);
+
+    }
+
+    public DonjonGenerator(int mapHeight, int mapWidth) {
+        this(10, 10, 6, mapHeight, mapWidth);
+    }
+
+    public DonjonGenerator(int nbRooms, int roomMaxSize, int roomMinSize, int mapHeight,
+        int mapWidth) {
+        this.nbRooms = nbRooms;
+        this.roomMaxSize = roomMaxSize;
+        this.roomMinSize = roomMinSize;
+        this.mapHeight = mapHeight;
+        this.mapWidth = mapWidth;
+        this.tileTypes = new TileType[mapWidth][mapHeight];
+    }
 
     @Override
     public TileType[][] getTileTypes() {
@@ -40,6 +61,16 @@ public class DonjonGenerator implements MapGenerator{
 
         addSpecialTile(TileType.STAIR_UP);
         addSpecialTile(TileType.STAIR_DOWN);
+    }
+
+    @Override
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    @Override
+    public int getMapWidth() {
+        return mapWidth;
     }
 
     private void placeDoors() {
@@ -88,19 +119,19 @@ public class DonjonGenerator implements MapGenerator{
     }
 
     private void createWalls() {
-        for (int x = 0; x < MAP_WIDTH; x++) {
-            for (int y = 0; y < MAP_HEIGHT; y++) {
+        for (int x = 0; x < mapWidth; x++) {
+            for (int y = 0; y < mapHeight; y++) {
                 tileTypes[x][y] = TileType.WALL;
             }
         }
     }
 
     private void placeRooms() {
-        for (int i = 0; i < MAX_ROOMS; i++) {
-            int w = MathUtils.random(ROOM_MIN_SIZE, ROOM_MAX_SIZE);
-            int h = MathUtils.random(ROOM_MIN_SIZE, ROOM_MAX_SIZE);
-            int x = MathUtils.random(MAP_WIDTH - w - 1) + 1;
-            int y = MathUtils.random(MAP_HEIGHT - h - 1) + 1;
+        for (int i = 0; i < nbRooms; i++) {
+            int w = MathUtils.random(roomMinSize, roomMaxSize);
+            int h = MathUtils.random(roomMinSize, roomMaxSize);
+            int x = MathUtils.random(mapWidth - w - 1) + 1;
+            int y = MathUtils.random(mapHeight - h - 1) + 1;
 
             Rectangle newRoom = new Rectangle(x, y, w, h);
             boolean failed = rooms.stream().anyMatch(newRoom::intersects);
@@ -141,4 +172,6 @@ public class DonjonGenerator implements MapGenerator{
         int height = Math.abs(y1 - y2) + 1;
         return new Rectangle(x, Math.min(y1, y2), 1, height);
     }
+
+
 }

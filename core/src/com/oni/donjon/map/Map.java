@@ -26,14 +26,14 @@ public class Map {
         MapGenerator generator = new DonjonGenerator();
         generator.generate();
         this.tiles = new HashSet<>();
-        for (int x = 0; x < DonjonGenerator.MAP_WIDTH; x++) {
-            for (int y = 0; y < DonjonGenerator.MAP_HEIGHT; y++) {
+        for (int x = 0; x < generator.getMapWidth(); x++) {
+            for (int y = 0; y < generator.getMapHeight(); y++) {
                 tiles.add(new Tile(x, y, generator.getTileTypes()[x][y], false,
                     GameData.INSTANCE.getWorld()));
             }
         }
-        this.mapHeight = DonjonGenerator.MAP_HEIGHT;
-        this.mapWidth = DonjonGenerator.MAP_WIDTH;
+        this.mapHeight = generator.getMapWidth();
+        this.mapWidth = generator.getMapHeight();
     }
 
     public Map(GameSave gameSave) {
