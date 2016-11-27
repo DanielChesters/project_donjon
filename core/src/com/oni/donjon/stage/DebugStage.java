@@ -24,7 +24,7 @@ public class DebugStage {
     public void drawDebug() {
         debugRenderer.setProjectionMatrix(gameStage.getCamera().combined);
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        GameData.INSTANCE.getMap().getTiles().stream().forEach(t -> {
+        GameData.INSTANCE.getMap().getTiles().forEach(t -> {
             Rectangle rectangle = t.getRectangle();
             if (t.isKnow()) {
                 debugRenderer.setColor(Color.RED);

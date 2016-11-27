@@ -43,27 +43,21 @@ import com.oni.donjon.system.MovementSystem;
  * @author Daniel Chesters (on 25/05/14).
  */
 public class GameScreen extends ScreenAdapter {
+    public static final short NOTHING_BIT = 0;
+    public static final short WALL_BIT = 1;
+    public static final short PLAYER_BIT = 1 << 1;
+    public static final short LIGHT_BIT = 1 << 5;
     private DonjonGame game;
     private UIStage uiStage;
     private GameStage gameStage;
     private DebugStage debugStage;
     private InputMultiplexer gameInput;
     private GameState state;
-
     private Engine engine;
     private World world;
     private Box2DDebugRenderer debugRenderer;
     private RayHandler rayHandler;
 
-    public static final short NOTHING_BIT = 0;
-    public static final short WALL_BIT = 1;
-    public static final short PLAYER_BIT = 1 << 1;
-    public static final short LIGHT_BIT = 1 << 5;
-
-
-    public enum GameState {
-        RUNNING, PAUSE
-    }
 
     public GameScreen(DonjonGame game) {
         createGame(game, this::createData);
@@ -203,12 +197,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void createData() {
-        Map map;
-        try {
-            map = new Map();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        Map map = new Map();
         Tile startTile = map.getStartTile();
         Vector2 startPosition =
             new Vector2(startTile.getRectangle().getX(), startTile.getRectangle().getY());
@@ -337,5 +326,9 @@ public class GameScreen extends ScreenAdapter {
 
     public void setState(GameState state) {
         this.state = state;
+    }
+
+    public enum GameState {
+        RUNNING, PAUSE
     }
 }

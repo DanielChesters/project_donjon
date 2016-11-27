@@ -2,13 +2,16 @@ package com.oni.donjon.map;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.StringBuilder;
 import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.data.GameSave;
-import com.oni.donjon.generator.DonjonGenerator;
 import com.oni.donjon.generator.DrunkardsWalkCaveGenerator;
 import com.oni.donjon.generator.MapGenerator;
+import com.oni.donjon.screen.GameScreen;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -23,13 +26,11 @@ public class Map {
     private Set<Tile> tiles;
     private Entity player;
 
-    public Map() throws InstantiationException, IllegalAccessException {
-        this(DrunkardsWalkCaveGenerator.class);
+    public Map() {
+        this(new DrunkardsWalkCaveGenerator());
     }
 
-    public <G extends MapGenerator> Map(Class<G> generatorClass)
-        throws IllegalAccessException, InstantiationException {
-        MapGenerator generator = generatorClass.newInstance();
+    public Map(MapGenerator generator) {
         generator.generate();
         this.tiles = new HashSet<>();
         for (int x = 0; x < generator.getMapWidth(); x++) {
@@ -38,8 +39,11 @@ public class Map {
                     GameData.INSTANCE.getWorld()));
             }
         }
-        this.mapHeight = generator.getMapWidth();
-        this.mapWidth = generator.getMapHeight();
+        this.mapHeight = generator.getMapHeight();
+        this.mapWidth = generator.getMapWidth();
+        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
+            logMap();
+        }
     }
 
     public Map(GameSave gameSave) {
@@ -56,6 +60,9 @@ public class Map {
         }
         this.mapHeight = gameSave.getMapHeight();
         this.mapWidth = gameSave.getMapWidth();
+        if (Gdx.app.getLogLevel() == Application.LOG_DEBUG) {
+            logMap();
+        }
     }
 
     public void setPlayer(Entity player) {
@@ -107,5 +114,26 @@ public class Map {
             ", tiles=" + tiles +
             ", player=" + player +
             '}';
+    }
+
+    private void logMap() {
+        StringBuilder builder = new StringBuilder("\n");
+
+        for (int y = mapHeight - 1; y >= 0; y--) {
+            builder.append('\n');
+            for (int x = 0; x < mapWidth; x++) {
+                getTile(x, y).ifPresent(t -> {
+                    switch (t.getType().getCategoryBits()) {
+                        case GameScreen.WALL_BIT:
+                            builder.append('X');
+                            break;
+                        case GameScreen.NOTHING_BIT:
+                            builder.append(' ');
+                            break;
+                    }
+                });
+            }
+        }
+        Gdx.app.debug("Map", builder.toString());
     }
 }

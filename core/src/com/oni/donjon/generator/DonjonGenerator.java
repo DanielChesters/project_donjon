@@ -22,8 +22,6 @@ public class DonjonGenerator implements MapGenerator {
     private List<Rectangle> tunnels = new ArrayList<>();
     private TileType[][] tileTypes;
 
-
-
     public DonjonGenerator() {
         this(50, 50);
     }
