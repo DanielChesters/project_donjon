@@ -117,10 +117,9 @@ public class Map {
     }
 
     private void logMap() {
-        StringBuilder builder = new StringBuilder("\n");
+        StringBuilder builder = new StringBuilder('\n');
 
         for (int y = mapHeight - 1; y >= 0; y--) {
-            builder.append('\n');
             for (int x = 0; x < mapWidth; x++) {
                 getTile(x, y).ifPresent(t -> {
                     switch (t.getType().getCategoryBits()) {
@@ -133,6 +132,7 @@ public class Map {
                     }
                 });
             }
+            builder.append('\n');
         }
         Gdx.app.debug("Map", builder.toString());
     }
