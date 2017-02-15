@@ -8,6 +8,14 @@ buildscript {
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.14.0'
     }
 }
+plugins {
+    id 'com.gradle.build-scan' version '1.6'
+}
+
+buildScan {
+    licenseAgreementUrl = 'https://gradle.com/terms-of-service'
+    licenseAgree = 'yes'
+}
 
 allprojects {
     apply plugin: 'eclipse'
