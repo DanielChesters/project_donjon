@@ -5,14 +5,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.14.0'
     }
 }
 
 allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'idea'
-    apply plugin: 'com.github.ben-manes.versions'
+//    apply plugin: 'com.github.ben-manes.versions'
 
     version = '1.0'
     ext {
