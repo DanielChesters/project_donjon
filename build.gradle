@@ -1,3 +1,4 @@
+//To use this project in java 9, add export JAVA_OPTS='-add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED'
 buildscript {
     repositories {
         mavenCentral()
@@ -20,12 +21,12 @@ buildScan {
 allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'idea'
-//    apply plugin: 'com.github.ben-manes.versions'
+    apply plugin: 'com.github.ben-manes.versions'
 
     version = '1.0'
     ext {
         appName = 'Projet-donjon'
-        gdxVersion = '1.9.4'
+        gdxVersion = '1.9.6'
         box2dlightsVersion = '1.4'
         ashleyVersion = '1.7.3'
     }
