@@ -1,6 +1,6 @@
 language: java
 before_install:
-  jdk_switcher use oraclejdk9
+  source /etc/profile.d/jdk.sh
 jdk:
   - oraclejdk8
 addons:
