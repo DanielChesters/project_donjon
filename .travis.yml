@@ -9,5 +9,4 @@ addons:
     packages:
       - oracle-java9-installer
 env:
-  - JDK=9
-  - JAVA_OPTS='--permit-illegal-access'
+  - JDK=9 JAVA_OPTS='--permit-illegal-access'
