@@ -3,4 +3,4 @@ sudo: required
 dist: trusty
 group: edge
 jdk: oraclejdk9
-env: JAVA_OPTS='--permit-illegal-access'
+env: JAVA_OPTS='--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED'
