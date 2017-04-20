@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.oni.donjon.map.TileType;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,9 +79,9 @@ public class DonjonGenerator implements MapGenerator {
             float yMax = room.y + room.height;
 
             tunnels.stream().filter(room::overlaps).forEach(t -> {
-                if (Math.abs(t.height - 1) < 0.01) {
+                if (BigDecimal.valueOf(t.height).equals(BigDecimal.ONE)) {
                     placeDoorHeight(t, (int) xMin, (int) xMax);
-                } else if (Math.abs(t.width - 1) < 0.01) {
+                } else if (BigDecimal.valueOf(t.width).equals(BigDecimal.ONE)) {
                     placeDoorWidth(t, (int) yMin, (int) yMax);
                 }
             });

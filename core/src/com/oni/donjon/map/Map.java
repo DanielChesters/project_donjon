@@ -13,6 +13,7 @@ import com.oni.donjon.generator.DrunkardsWalkCaveGenerator;
 import com.oni.donjon.generator.MapGenerator;
 import com.oni.donjon.screen.GameScreen;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -72,8 +73,9 @@ public class Map {
 
     public Optional<Tile> getTile(float x, float y) {
         return tiles.stream()
-            .filter(t -> Math.abs(t.getRectangle().getX() - x) < 0.001
-                && Math.abs(t.getRectangle().getY() - y) < 0.001).findFirst();
+            .filter(t -> BigDecimal.valueOf(t.getRectangle().getX()).equals(BigDecimal.valueOf(x))
+                && BigDecimal.valueOf(t.getRectangle().getY()).equals(BigDecimal.valueOf(y)))
+            .findFirst();
     }
 
     public Set<Tile> getTiles() {
