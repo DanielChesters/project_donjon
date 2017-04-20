@@ -17,6 +17,7 @@ import com.oni.donjon.data.GameData;
 import com.oni.donjon.map.Tile;
 import com.oni.donjon.screen.GameScreen;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -49,10 +50,10 @@ public class MovementSystem extends IteratingSystem {
 
     private void move(Entity player, float deltaX, float deltaY) {
         PositionComponent positionComponent = pm.get(player);
-        if (deltaX > 0.01) {
+        if (!BigDecimal.valueOf(deltaX).equals(BigDecimal.ZERO)) {
             addX(deltaX, positionComponent.getPosition());
         }
-        if (deltaY > 0.01) {
+        if (!BigDecimal.valueOf(deltaY).equals(BigDecimal.ZERO)) {
             addY(deltaY, positionComponent.getPosition());
         }
     }
