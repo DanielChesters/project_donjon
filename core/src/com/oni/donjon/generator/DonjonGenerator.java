@@ -18,8 +18,8 @@ public class DonjonGenerator implements MapGenerator {
 
     private int mapHeight;
     private int mapWidth;
-    private List<Rectangle> rooms = new ArrayList<>();
-    private List<Rectangle> tunnels = new ArrayList<>();
+    private List<ImproveRectangle> rooms = new ArrayList<>();
+    private List<ImproveRectangle> tunnels = new ArrayList<>();
     private TileType[][] tileTypes;
 
     public DonjonGenerator() {
@@ -71,7 +71,7 @@ public class DonjonGenerator implements MapGenerator {
     }
 
     private void placeDoors() {
-        for (Rectangle room : rooms) {
+        for (ImproveRectangle room : rooms) {
             float xMin = room.x - 1;
             float xMax = room.x + room.width;
             float yMin = room.y - 1;
@@ -81,13 +81,13 @@ public class DonjonGenerator implements MapGenerator {
                 if (Math.abs(t.height - 1) < 0.01) {
                     placeDoorHeight(t, (int) xMin, (int) xMax);
                 } else if (Math.abs(t.width - 1) < 0.01) {
-                    placeDoorWidth((int) yMin, (int) yMax, t);
+                    placeDoorWidth(t, (int) yMin, (int) yMax);
                 }
             });
         }
     }
 
-    private void placeDoorWidth(int yMin, int yMax, Rectangle t) {
+    private void placeDoorWidth(ImproveRectangle t, int yMin, int yMax) {
         for (int y = (int) t.y; y < (int) t.y + (int) t.height; y++) {
             if (y == yMin || y == yMax) {
                 tileTypes[(int) t.x][y] = TileType.DOOR_CLOSE;
@@ -96,7 +96,7 @@ public class DonjonGenerator implements MapGenerator {
         }
     }
 
-    private void placeDoorHeight(Rectangle t, int xMin, int xMax) {
+    private void placeDoorHeight(ImproveRectangle t, int xMin, int xMax) {
         for (int x = (int) t.x; x < (int) t.x + (int) t.width; x++) {
             if (x == xMin || x == xMax) {
                 tileTypes[x][(int) t.y] = TileType.DOOR_CLOSE;
@@ -105,8 +105,8 @@ public class DonjonGenerator implements MapGenerator {
         }
     }
 
-    private void dig(List<Rectangle> rectangles) {
-        for (Rectangle rectangle : rectangles) {
+    private void dig(List<ImproveRectangle> rectangles) {
+        for (ImproveRectangle rectangle : rectangles) {
             Gdx.app.debug("Dig rect", rectangle.toString());
             for (int x = (int) rectangle.x; x < rectangle.x + rectangle.width; x++) {
                 for (int y = (int) rectangle.y; y < rectangle.y + rectangle.height; y++) {
@@ -117,7 +117,7 @@ public class DonjonGenerator implements MapGenerator {
     }
 
     private void addSpecialTile(TileType tileType) {
-        Rectangle startRoom = rooms.get(MathUtils.random(rooms.size() - 1));
+        ImproveRectangle startRoom = rooms.get(MathUtils.random(rooms.size() - 1));
         int x = MathUtils.random((int) startRoom.x, (int) startRoom.x + (int) startRoom.width - 1);
         int y = MathUtils.random((int) startRoom.y, (int) startRoom.y + (int) startRoom.height - 1);
         tileTypes[x][y] = tileType;
@@ -138,7 +138,7 @@ public class DonjonGenerator implements MapGenerator {
             int x = MathUtils.random(mapWidth - w - 1) + 1;
             int y = MathUtils.random(mapHeight - h - 1) + 1;
 
-            Rectangle newRoom = new Rectangle(x, y, w, h);
+            ImproveRectangle newRoom = new ImproveRectangle(x, y, w, h);
             boolean failed = rooms.stream().anyMatch(newRoom::intersects);
 
             if (!failed) {
@@ -150,12 +150,12 @@ public class DonjonGenerator implements MapGenerator {
         }
     }
 
-    private void placeTunnels(Rectangle newRoom) {
+    private void placeTunnels(ImproveRectangle newRoom) {
         Vector2 newCenter = newRoom.getCenter(new Vector2());
         Vector2 prevCenter = rooms.get(rooms.size() - 1).getCenter(new Vector2());
 
-        Rectangle newHTunnel;
-        Rectangle newVTunnel;
+        ImproveRectangle newHTunnel;
+        ImproveRectangle newVTunnel;
         if (MathUtils.random(1) == 1) {
             newHTunnel = placeHTunnel((int) prevCenter.x, (int) newCenter.x, (int) prevCenter.y);
             newVTunnel = placeVTunnel((int) newCenter.x, (int) prevCenter.y, (int) newCenter.y);
@@ -168,14 +168,14 @@ public class DonjonGenerator implements MapGenerator {
         tunnels.add(newVTunnel);
     }
 
-    private Rectangle placeHTunnel(int x1, int x2, int y) {
+    private ImproveRectangle placeHTunnel(int x1, int x2, int y) {
         int wight = Math.abs(x1 - x2) + 1;
-        return new Rectangle(Math.min(x1, x2), y, wight, 1);
+        return new ImproveRectangle(Math.min(x1, x2), y, wight, 1);
     }
 
-    private Rectangle placeVTunnel(int x, int y1, int y2) {
+    private ImproveRectangle placeVTunnel(int x, int y1, int y2) {
         int height = Math.abs(y1 - y2) + 1;
-        return new Rectangle(x, Math.min(y1, y2), 1, height);
+        return new ImproveRectangle(x, Math.min(y1, y2), 1, height);
     }
 
 
