@@ -21,6 +21,7 @@ allprojects {
         box2dlightsVersion = '1.4'
         ashleyVersion = '1.7.3'
         lombokVersion = '1.16.16'
+        junitVersion = '4.12'
     }
 
     repositories {
@@ -58,6 +59,7 @@ project(':core') {
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
         compile "org.projectlombok:lombok:$lombokVersion"
+        testCompile "junit:junit:$junitVersion"
     }
 }
 
