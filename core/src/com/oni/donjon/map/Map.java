@@ -71,7 +71,8 @@ public class Map {
 
     public Optional<Tile> getTile(float x, float y) {
         return tiles.stream()
-            .filter(t -> t.getRectangle().getX() == x && t.getRectangle().getY() == y).findFirst();
+            .filter(t -> Math.abs(t.getRectangle().getX() - x) < 0.001
+                && Math.abs(t.getRectangle().getY() - y) < 0.001).findFirst();
     }
 
     public Set<Tile> getTiles() {
@@ -88,7 +89,8 @@ public class Map {
     }
 
     public Tile getStartTile() {
-        return tiles.stream().filter(t -> t.getType().equals(TileType.STAIR_UP)).findFirst().get();
+        return tiles.stream().filter(t -> t.getType().equals(TileType.STAIR_UP)).findFirst()
+            .orElse(null);
     }
 
     public int getMapWidth() {
@@ -117,18 +119,15 @@ public class Map {
     }
 
     private void logMap() {
-        StringBuilder builder = new StringBuilder('\n');
+        StringBuilder builder = new StringBuilder("\n");
 
         for (int y = mapHeight - 1; y >= 0; y--) {
             for (int x = 0; x < mapWidth; x++) {
                 getTile(x, y).ifPresent(t -> {
-                    switch (t.getType().getCategoryBits()) {
-                        case GameScreen.WALL_BIT:
-                            builder.append('X');
-                            break;
-                        case GameScreen.NOTHING_BIT:
-                            builder.append(' ');
-                            break;
+                    if (t.getType().getCategoryBits() == GameScreen.WALL_BIT) {
+                        builder.append('X');
+                    } else if (t.getType().getCategoryBits() == GameScreen.NOTHING_BIT) {
+                        builder.append(' ');
                     }
                 });
             }

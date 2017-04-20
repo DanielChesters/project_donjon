@@ -78,22 +78,30 @@ public class DonjonGenerator implements MapGenerator {
             float yMax = room.y + room.height;
 
             tunnels.stream().filter(room::overlaps).forEach(t -> {
-                if (t.height == 1) {
-                    for (int x = (int) t.x; x < (int) t.x + (int) t.width; x++) {
-                        if (x == (int) xMin || x == (int) xMax) {
-                            tileTypes[x][(int) t.y] = TileType.DOOR_CLOSE;
-                            break;
-                        }
-                    }
-                } else if (t.width == 1) {
-                    for (int y = (int) t.y; y < (int) t.y + (int) t.height; y++) {
-                        if (y == (int) yMin || y == (int) yMax) {
-                            tileTypes[(int) t.x][y] = TileType.DOOR_CLOSE;
-                            break;
-                        }
-                    }
+                if (Math.abs(t.height - 1) < 0.01) {
+                    placeDoorHeight(t, (int) xMin, (int) xMax);
+                } else if (Math.abs(t.width - 1) < 0.01) {
+                    placeDoorWidth((int) yMin, (int) yMax, t);
                 }
             });
+        }
+    }
+
+    private void placeDoorWidth(int yMin, int yMax, Rectangle t) {
+        for (int y = (int) t.y; y < (int) t.y + (int) t.height; y++) {
+            if (y == yMin || y == yMax) {
+                tileTypes[(int) t.x][y] = TileType.DOOR_CLOSE;
+                break;
+            }
+        }
+    }
+
+    private void placeDoorHeight(Rectangle t, int xMin, int xMax) {
+        for (int x = (int) t.x; x < (int) t.x + (int) t.width; x++) {
+            if (x == xMin || x == xMax) {
+                tileTypes[x][(int) t.y] = TileType.DOOR_CLOSE;
+                break;
+            }
         }
     }
 
