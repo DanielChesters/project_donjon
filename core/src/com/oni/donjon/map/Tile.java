@@ -62,7 +62,7 @@ public class Tile {
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(rectangle.x * SIZE + rectangle.getWidth() / 2,
             rectangle.y * SIZE + rectangle.getHeight() / 2);
-        Body body = world.createBody(bodyDef);
+        Body worldBody = world.createBody(bodyDef);
 
         PolygonShape polygonShape = new PolygonShape();
         polygonShape.setAsBox(rectangle.width / 2, rectangle.height / 2);
@@ -70,10 +70,10 @@ public class Tile {
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = type.getCategoryBits();
         fixtureDef.filter.maskBits = GameScreen.PLAYER_BIT | GameScreen.LIGHT_BIT;
-        body.createFixture(fixtureDef);
+        worldBody.createFixture(fixtureDef);
         polygonShape.dispose();
 
-        return body;
+        return worldBody;
     }
 
     public Body getBody() {

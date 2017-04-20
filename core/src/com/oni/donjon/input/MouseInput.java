@@ -24,13 +24,10 @@ public class MouseInput extends InputAdapter {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 mouseLocation = getMouseLocation(screenX, screenY, button);
 
-        switch (button) {
-            case Input.Buttons.LEFT:
-                mainAction(mouseLocation);
-                break;
-            default:
-                break;
+        if (button == Input.Buttons.LEFT) {
+            mainAction(mouseLocation);
         }
+
         return true;
     }
 

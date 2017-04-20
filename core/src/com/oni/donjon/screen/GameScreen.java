@@ -136,7 +136,7 @@ public class GameScreen extends ScreenAdapter {
 
     private Window createActionWindow(Skin skin, List<Actions> actionList) {
         final Window actionWindow = new Window(Resources.BUNDLE.get("window.action.title"), skin);
-        actionWindow.setPosition(20, Gdx.graphics.getHeight() / 2);
+        actionWindow.setPosition(20, Gdx.graphics.getHeight() / 2f);
         actionWindow.setHeight(50);
         actionWindow.setWidth(200);
         actionWindow.add(actionList);
@@ -156,7 +156,7 @@ public class GameScreen extends ScreenAdapter {
         final Label messageLabel = new Label("", skin, "default");
         messageLabel.setWidth(100);
         messageLabel.setHeight(20);
-        messageLabel.setPosition(10, Gdx.graphics.getHeight() - 50);
+        messageLabel.setPosition(10, Gdx.graphics.getHeight() - 50f);
         return messageLabel;
     }
 
@@ -169,7 +169,7 @@ public class GameScreen extends ScreenAdapter {
         gameStage.setPlayerLabel(playerLabel);
 
         gameStage.getCamera().position
-            .set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
+            .set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0);
         gameStage.addActor(mapActor);
         gameStage.addActor(playerLabel);
 

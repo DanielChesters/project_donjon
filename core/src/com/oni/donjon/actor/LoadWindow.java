@@ -81,8 +81,8 @@ public class LoadWindow extends Window {
         }
         saveList.setItems(saveArray);
         pack();
-        setPosition(Gdx.graphics.getWidth() / 2 - getWidth() / 2,
-            Gdx.graphics.getHeight() / 2 - getHeight() / 2);
+        setPosition(Gdx.graphics.getWidth() / 2f - getWidth() / 2f,
+            Gdx.graphics.getHeight() / 2f - getHeight() / 2f);
         setVisible(true);
     }
 }

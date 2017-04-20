@@ -49,10 +49,10 @@ public class MovementSystem extends IteratingSystem {
 
     private void move(Entity player, float deltaX, float deltaY) {
         PositionComponent positionComponent = pm.get(player);
-        if (deltaX != 0) {
+        if (deltaX > 0.01) {
             addX(deltaX, positionComponent.position);
         }
-        if (deltaY != 0) {
+        if (deltaY > 0.01) {
             addY(deltaY, positionComponent.position);
         }
     }

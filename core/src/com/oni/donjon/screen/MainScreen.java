@@ -43,8 +43,8 @@ public class MainScreen extends ScreenAdapter {
         mainTable.row();
         mainTable.add(exitGameButton).center();
         mainTable.pack();
-        mainTable.setPosition(Gdx.graphics.getWidth() / 2 - mainTable.getWidth() / 2,
-            Gdx.graphics.getHeight() / 2 - mainTable.getHeight() / 2);
+        mainTable.setPosition(Gdx.graphics.getWidth() / 2f - mainTable.getWidth() / 2f,
+            Gdx.graphics.getHeight() / 2f - mainTable.getHeight() / 2f);
 
         stage.addActor(mainTable);
         stage.addActor(loadWindow);
@@ -55,8 +55,8 @@ public class MainScreen extends ScreenAdapter {
         TextButton exitGameButton =
             new TextButton(Resources.BUNDLE.get("main.screen.exit.title"), skin);
         exitGameButton.pack();
-        exitGameButton.setPosition(Gdx.graphics.getWidth() / 2 - exitGameButton.getWidth() / 2,
-            Gdx.graphics.getHeight() / 2 - (exitGameButton.getHeight() + loadGameButton.getHeight()
+        exitGameButton.setPosition(Gdx.graphics.getWidth() / 2f - exitGameButton.getWidth() / 2f,
+            Gdx.graphics.getHeight() / 2f - (exitGameButton.getHeight() + loadGameButton.getHeight()
                 + 30));
         exitGameButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
@@ -72,8 +72,8 @@ public class MainScreen extends ScreenAdapter {
         TextButton loadGameButton =
             new TextButton(Resources.BUNDLE.get("main.screen.load_game.title"), skin);
         loadGameButton.pack();
-        loadGameButton.setPosition(Gdx.graphics.getWidth() / 2 - loadGameButton.getWidth() / 2,
-            Gdx.graphics.getHeight() / 2 - (loadGameButton.getHeight() + 20));
+        loadGameButton.setPosition(Gdx.graphics.getWidth() / 2f - loadGameButton.getWidth() / 2f,
+            Gdx.graphics.getHeight() / 2f - (loadGameButton.getHeight() + 20));
         loadGameButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -88,8 +88,8 @@ public class MainScreen extends ScreenAdapter {
         TextButton newGameButton =
             new TextButton(Resources.BUNDLE.get("main.screen.new_game.title"), skin);
         newGameButton.pack();
-        newGameButton.setPosition(Gdx.graphics.getWidth() / 2 - newGameButton.getWidth() / 2,
-            Gdx.graphics.getHeight() / 2 - newGameButton.getHeight() / 2);
+        newGameButton.setPosition(Gdx.graphics.getWidth() / 2f - newGameButton.getWidth() / 2f,
+            Gdx.graphics.getHeight() / 2f - newGameButton.getHeight() / 2f);
         newGameButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
