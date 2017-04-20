@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.14.0'
     }
 }
 
@@ -17,7 +17,7 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'Projet-donjon'
-        gdxVersion = '1.9.4'
+        gdxVersion = '1.9.6'
         box2dlightsVersion = '1.4'
         ashleyVersion = '1.7.3'
     }
