@@ -113,12 +113,12 @@ public class GameScreen extends ScreenAdapter {
 
         uiStage.addActor(messageLabel);
         uiStage.addActor(actionWindow);
-        uiStage.addActor(menuWindow);
+        uiStage.addActor(menuWindow.getWindow());
         uiStage.addActor(menuButton);
-        uiStage.addActor(saveWindow);
+        uiStage.addActor(saveWindow.getWindow());
     }
 
-    private TextButton createMenuButton(Skin skin, Window menuWindow) {
+    private TextButton createMenuButton(Skin skin, MenuGameWindow menuWindow) {
         TextButton menuButton = new TextButton(Resources.BUNDLE.get("game_menu.title"), skin);
         menuButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,

@@ -10,17 +10,20 @@ import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
 import com.oni.donjon.screen.GameScreen;
 import com.oni.donjon.screen.MainScreen;
+import lombok.Getter;
 
 /**
  * @author Daniel Chesters (on 08/06/14).
  */
-public class MenuGameWindow extends Window {
+public class MenuGameWindow {
+    @Getter
+    private Window window;
     private TextButton saveButton;
     private TextButton exitButton;
     private TextButton closeButton;
 
     public MenuGameWindow(Skin skin, SaveWindow saveWindow, DonjonGame game, GameScreen screen) {
-        super(Resources.BUNDLE.get("game_menu.title"), skin, "dialog");
+        window = new Window(Resources.BUNDLE.get("game_menu.title"), skin, "dialog");
         createSaveButton(skin, saveWindow);
         createExitButton(skin, game);
         createCloseButton(skin, screen);
@@ -28,18 +31,18 @@ public class MenuGameWindow extends Window {
     }
 
     private void createWindow() {
-        row();
-        add(saveButton).center();
-        row();
-        add(exitButton).center();
-        row();
-        add(closeButton).center();
-        pack();
-        setPosition(Gdx.graphics.getWidth() / 2f - getWidth() / 2f,
-            Gdx.graphics.getHeight() / 2f - getHeight() / 2f);
-        setModal(true);
-        setMovable(false);
-        setVisible(false);
+        window.row();
+        window.add(saveButton).center();
+        window.row();
+        window.add(exitButton).center();
+        window.row();
+        window.add(closeButton).center();
+        window.pack();
+        window.setPosition(Gdx.graphics.getWidth() / 2f - window.getWidth() / 2f,
+            Gdx.graphics.getHeight() / 2f - window.getHeight() / 2f);
+        window.setModal(true);
+        window.setMovable(false);
+        window.setVisible(false);
     }
 
     private void createCloseButton(Skin skin, GameScreen screen) {
@@ -48,7 +51,7 @@ public class MenuGameWindow extends Window {
         closeButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
-                setVisible(false);
+                window.setVisible(false);
                 screen.setState(GameScreen.GameState.RUNNING);
                 return true;
             }
@@ -74,10 +77,14 @@ public class MenuGameWindow extends Window {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
                 saveWindow.show();
-                setVisible(false);
+                window.setVisible(false);
                 return true;
             }
         });
         saveButton.pack();
+    }
+
+    public void setVisible(boolean visible) {
+        window.setVisible(visible);
     }
 }

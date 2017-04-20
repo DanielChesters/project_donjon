@@ -9,17 +9,20 @@ import com.badlogic.gdx.utils.Array;
 import com.oni.donjon.DonjonGame;
 import com.oni.donjon.Resources;
 import com.oni.donjon.screen.GameScreen;
+import lombok.Getter;
 
 /**
  * @author Daniel Chesters (on 06/06/14).
  */
-public class LoadWindow extends Window {
+public class LoadWindow {
+    @Getter
+    private Window window;
     private List<String> saveList;
     private TextButton loadButton;
     private TextButton cancelButton;
 
     public LoadWindow(String title, Skin skin, DonjonGame game) {
-        super(title, skin);
+        this.window = new Window(title, skin);
 
         createSaveList(skin);
         createLoadButton(game, skin, saveList);
@@ -30,14 +33,14 @@ public class LoadWindow extends Window {
     private void createWindow(Skin skin) {
         ScrollPane saveScrollPane = new ScrollPane(saveList, skin);
         saveScrollPane.setFlickScroll(false);
-        defaults().spaceBottom(10);
-        row();
-        add(saveScrollPane).fill().colspan(2).maxHeight(150);
-        row().fill().expandX();
-        add(loadButton).colspan(1);
-        add(cancelButton).colspan(1);
-        setModal(true);
-        setVisible(false);
+        window.defaults().spaceBottom(10);
+        window.row();
+        window.add(saveScrollPane).fill().colspan(2).maxHeight(150);
+        window.row().fill().expandX();
+        window.add(loadButton).colspan(1);
+        window.add(cancelButton).colspan(1);
+        window.setModal(true);
+        window.setVisible(false);
     }
 
     private void createCancelButton(Skin skin) {
@@ -47,7 +50,7 @@ public class LoadWindow extends Window {
         cancelButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
-                LoadWindow.this.setVisible(false);
+                LoadWindow.this.window.setVisible(false);
                 return true;
             }
         });
@@ -80,9 +83,9 @@ public class LoadWindow extends Window {
             saveArray.add(file.name());
         }
         saveList.setItems(saveArray);
-        pack();
-        setPosition(Gdx.graphics.getWidth() / 2f - getWidth() / 2f,
-            Gdx.graphics.getHeight() / 2f - getHeight() / 2f);
-        setVisible(true);
+        window.pack();
+        window.setPosition(Gdx.graphics.getWidth() / 2f - window.getWidth() / 2f,
+            Gdx.graphics.getHeight() / 2f - window.getHeight() / 2f);
+        window.setVisible(true);
     }
 }

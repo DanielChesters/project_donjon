@@ -47,7 +47,7 @@ public class MainScreen extends ScreenAdapter {
             Gdx.graphics.getHeight() / 2f - mainTable.getHeight() / 2f);
 
         stage.addActor(mainTable);
-        stage.addActor(loadWindow);
+        stage.addActor(loadWindow.getWindow());
         Gdx.input.setInputProcessor(stage);
     }
 

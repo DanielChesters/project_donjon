@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @author Daniel Chesters (on 4/21/17).
+ * @author Daniel Chesters (on 21/04/17).
  */
 public class ImproveRectangleTest {
 

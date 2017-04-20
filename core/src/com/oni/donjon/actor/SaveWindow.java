@@ -10,43 +10,20 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.oni.donjon.Resources;
 import com.oni.donjon.data.GameData;
+import lombok.Getter;
 
 /**
  * @author Daniel Chesters (on 06/06/14).
  */
-public class SaveWindow extends Window {
-
-    static class NewSaveInputLister implements Input.TextInputListener {
-        private SaveWindow saveWindow;
-
-        NewSaveInputLister(SaveWindow saveWindow) {
-            this.saveWindow = saveWindow;
-        }
-
-        @Override
-        public void input(String text) {
-            Json json = new Json();
-            FileHandle file =
-                Gdx.files.external(String.format(".config/donjon/save/%s.json", text));
-            String save = json.prettyPrint(GameData.INSTANCE);
-            file.writeString(save, false);
-            saveWindow.setVisible(false);
-        }
-
-        @Override
-        public void canceled() {
-            saveWindow.setVisible(false);
-        }
-    }
-
-
+public class SaveWindow {
+    @Getter
+    private Window window;
     private List<String> saveList;
     private TextButton saveButton;
     private TextButton cancelButton;
     private TextButton newSaveButton;
-
     public SaveWindow(String title, Skin skin) {
-        super(title, skin);
+        this.window = new Window(title, skin);
 
         createSaveList(skin);
         createSaveButton(skin);
@@ -58,15 +35,15 @@ public class SaveWindow extends Window {
     private void createWindow(Skin skin) {
         ScrollPane saveScrollPane = new ScrollPane(saveList, skin);
         saveScrollPane.setFlickScroll(false);
-        defaults().spaceBottom(10);
-        row();
-        add(saveScrollPane).fill().colspan(3).maxHeight(150);
-        row().fill().expandX();
-        add(saveButton).colspan(1);
-        add(newSaveButton).colspan(1);
-        add(cancelButton).colspan(1);
-        setModal(true);
-        setVisible(false);
+        window.defaults().spaceBottom(10);
+        window.row();
+        window.add(saveScrollPane).fill().colspan(3).maxHeight(150);
+        window.row().fill().expandX();
+        window.add(saveButton).colspan(1);
+        window.add(newSaveButton).colspan(1);
+        window.add(cancelButton).colspan(1);
+        window.setModal(true);
+        window.setVisible(false);
     }
 
     private void createSaveList(Skin skin) {
@@ -97,7 +74,7 @@ public class SaveWindow extends Window {
         cancelButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
-                SaveWindow.this.setVisible(false);
+                SaveWindow.this.window.setVisible(false);
                 return true;
             }
         });
@@ -115,7 +92,7 @@ public class SaveWindow extends Window {
                     Gdx.files.external(String.format(".config/donjon/save/%s", saveName));
                 String save = json.prettyPrint(GameData.INSTANCE.toGameSave());
                 file.writeString(save, false);
-                SaveWindow.this.setVisible(false);
+                SaveWindow.this.window.setVisible(false);
                 return true;
             }
         });
@@ -128,9 +105,33 @@ public class SaveWindow extends Window {
             saveArray.add(file.name());
         }
         saveList.setItems(saveArray);
-        pack();
-        setPosition(Gdx.graphics.getWidth() / 2f - getWidth() / 2f,
-            Gdx.graphics.getHeight() / 2f - getHeight() / 2f);
-        setVisible(true);
+        window.pack();
+        window.setPosition(Gdx.graphics.getWidth() / 2f - window.getWidth() / 2f,
+            Gdx.graphics.getHeight() / 2f - window.getHeight() / 2f);
+        window.setVisible(true);
+    }
+
+
+    static class NewSaveInputLister implements Input.TextInputListener {
+        private SaveWindow saveWindow;
+
+        NewSaveInputLister(SaveWindow saveWindow) {
+            this.saveWindow = saveWindow;
+        }
+
+        @Override
+        public void input(String text) {
+            Json json = new Json();
+            FileHandle file =
+                Gdx.files.external(String.format(".config/donjon/save/%s.json", text));
+            String save = json.prettyPrint(GameData.INSTANCE);
+            file.writeString(save, false);
+            saveWindow.getWindow().setVisible(false);
+        }
+
+        @Override
+        public void canceled() {
+            saveWindow.getWindow().setVisible(false);
+        }
     }
 }
