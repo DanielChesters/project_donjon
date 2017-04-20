@@ -37,11 +37,11 @@ public enum GameData {
     }
 
     public Vector2 getPlayerPosition() {
-        return ComponentMapper.getFor(PositionComponent.class).get(player).position;
+        return ComponentMapper.getFor(PositionComponent.class).get(player).getPosition();
     }
 
     public void setPlayerDirection(DirectionComponent.Direction direction) {
-        ComponentMapper.getFor(DirectionComponent.class).get(player).direction = direction;
+        ComponentMapper.getFor(DirectionComponent.class).get(player).setDirection(direction);
     }
 
     public GameSave toGameSave() {

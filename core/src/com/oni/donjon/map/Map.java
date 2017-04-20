@@ -53,8 +53,9 @@ public class Map {
             for (int y = 0; y < gameSave.getMapHeight(); y++) {
                 GameSave.SavedTile savedTile = gameSave.getMap()[x][y];
                 if (savedTile != null) {
-                    tiles.add(new Tile((float) x, (float) y, savedTile.type, savedTile.know,
-                        GameData.INSTANCE.getWorld()));
+                    tiles.add(
+                        new Tile((float) x, (float) y, savedTile.getType(), savedTile.isKnow(),
+                            GameData.INSTANCE.getWorld()));
                 }
             }
         }
@@ -80,7 +81,8 @@ public class Map {
     }
 
     public void updateVisibility() {
-        Vector2 position = ComponentMapper.getFor(PositionComponent.class).get(player).position;
+        Vector2 position =
+            ComponentMapper.getFor(PositionComponent.class).get(player).getPosition();
         for (int x = (int) position.x - 2; x <= (int) position.x + 2; x++) {
             for (int y = (int) position.y - 2; y <= (int) position.y + 2; y++) {
                 getTile(x, y).ifPresent(t -> t.setKnow(true));

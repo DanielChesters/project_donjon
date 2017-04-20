@@ -50,10 +50,10 @@ public class MovementSystem extends IteratingSystem {
     private void move(Entity player, float deltaX, float deltaY) {
         PositionComponent positionComponent = pm.get(player);
         if (deltaX > 0.01) {
-            addX(deltaX, positionComponent.position);
+            addX(deltaX, positionComponent.getPosition());
         }
         if (deltaY > 0.01) {
-            addY(deltaY, positionComponent.position);
+            addY(deltaY, positionComponent.getPosition());
         }
     }
 
@@ -68,7 +68,7 @@ public class MovementSystem extends IteratingSystem {
     private void updateMove(Entity player) {
         int numCase = getCaseToGo();
         DirectionComponent directionComponent = dm.get(player);
-        switch (directionComponent.direction) {
+        switch (directionComponent.getDirection()) {
             case UP:
                 goUp(player, numCase);
                 break;
@@ -116,15 +116,15 @@ public class MovementSystem extends IteratingSystem {
     private void movePlayer(Entity player, int numberCase, float deltaX, float deltaY, int angle) {
         float radianAngle = (float) Math.toRadians(angle);
         PositionComponent positionComponent = pm.get(player);
-        Vector2 position = positionComponent.position;
-        lm.get(player).coneLight.setDirection(radianAngle);
+        Vector2 position = positionComponent.getPosition();
+        lm.get(player).getConeLight().setDirection(radianAngle);
         IntStream.range(0, numberCase).forEach(i -> {
             Optional<Tile> tileRight =
                 GameData.INSTANCE.getMap().getTile((int) (position.x + deltaX),
                     (int) (position.y + deltaY));
             if (tileRight.isPresent() && checkMovable(player, deltaX, deltaY)) {
                 move(player, deltaX, deltaY);
-                positionComponent.body.setTransform((position.x + 0.25f) * Tile.SIZE + deltaX,
+                positionComponent.getBody().setTransform((position.x + 0.25f) * Tile.SIZE + deltaX,
                     (position.y + 0.25f) * Tile.SIZE + deltaY, radianAngle);
             }
             GameData.INSTANCE.getMap().updateVisibility();
@@ -133,7 +133,7 @@ public class MovementSystem extends IteratingSystem {
 
     private boolean checkMovable(Entity player, float deltaX, float deltaY) {
         canMove = true;
-        Body body = pm.get(player).body;
+        Body body = pm.get(player).getBody();
         World world = body.getWorld();
 
         Vector2 endPosition = new Vector2(body.getPosition().x + deltaX * Tile.SIZE,

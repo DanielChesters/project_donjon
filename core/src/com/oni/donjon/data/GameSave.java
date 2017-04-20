@@ -2,6 +2,7 @@ package com.oni.donjon.data;
 
 import com.badlogic.gdx.math.Vector2;
 import com.oni.donjon.map.TileType;
+import lombok.Data;
 
 /**
  * @author Daniel Chesters (on 07/02/16).
@@ -12,19 +13,6 @@ public class GameSave {
     private SavedTile[][] map;
     private Vector2 playerPosition;
 
-
-    public static class SavedTile {
-        public TileType type;
-        public boolean know;
-
-        public SavedTile(TileType type, boolean know) {
-            this.type = type;
-            this.know = know;
-        }
-
-        public SavedTile() {
-        }
-    }
 
     public GameSave() {
         this.playerPosition = Vector2.Zero;
@@ -68,5 +56,21 @@ public class GameSave {
 
     public void setMapWidth(int mapWidth) {
         this.mapWidth = mapWidth;
+    }
+
+
+    @Data
+    public static class SavedTile {
+        private TileType type;
+        private boolean know;
+
+        public SavedTile(TileType type, boolean know) {
+            this.type = type;
+            this.know = know;
+        }
+
+        public SavedTile() {
+            //Empty for JSON processor
+        }
     }
 }
