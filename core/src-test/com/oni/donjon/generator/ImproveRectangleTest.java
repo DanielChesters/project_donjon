@@ -1,6 +1,5 @@
-package com.oni.donjon.test;
+package com.oni.donjon.generator;
 
-import com.oni.donjon.generator.ImproveRectangle;
 import org.junit.Assert;
 import org.junit.Test;
 

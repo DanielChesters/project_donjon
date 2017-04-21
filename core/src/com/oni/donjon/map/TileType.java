@@ -14,16 +14,16 @@ public enum TileType {
     STAIR_UP("textures/stair_up.png", GameScreen.NOTHING_BIT),
     STAIR_DOWN("textures/stair_down.png", GameScreen.NOTHING_BIT);
 
-    private Texture texture;
+    private String texturePath;
     private short categoryBits;
 
-    TileType(String texture, short categoryBits) {
-        this.texture = new Texture(texture);
+    TileType(String texturePath, short categoryBits) {
+        this.texturePath = texturePath;
         this.categoryBits = categoryBits;
     }
 
     public Texture getTexture() {
-        return texture;
+        return new Texture(texturePath);
     }
 
     public short getCategoryBits() {
