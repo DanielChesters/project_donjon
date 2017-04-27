@@ -1,6 +1,5 @@
 package com.oni.donjon.generator;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.oni.donjon.map.TileType;
@@ -79,11 +78,12 @@ public class DonjonGenerator implements MapGenerator {
             float yMax = room.y + room.height;
 
             tunnels.stream().filter(room::overlaps).forEach(t -> {
-                if (BigDecimal.valueOf(t.height).equals(BigDecimal.ONE)) {
+                if (BigDecimal.valueOf(t.height).compareTo(BigDecimal.ONE) == 0) {
                     placeDoorHeight(t, (int) xMin, (int) xMax);
-                } else if (BigDecimal.valueOf(t.width).equals(BigDecimal.ONE)) {
+                } else if (BigDecimal.valueOf(t.width).compareTo(BigDecimal.ONE) == 0) {
                     placeDoorWidth(t, (int) yMin, (int) yMax);
                 }
+
             });
         }
     }
@@ -108,7 +108,6 @@ public class DonjonGenerator implements MapGenerator {
 
     private void dig(List<ImproveRectangle> rectangles) {
         for (ImproveRectangle rectangle : rectangles) {
-            Gdx.app.debug("Dig rect", rectangle.toString());
             for (int x = (int) rectangle.x; x < rectangle.x + rectangle.width; x++) {
                 for (int y = (int) rectangle.y; y < rectangle.y + rectangle.height; y++) {
                     tileTypes[x][y] = TileType.GROUND;

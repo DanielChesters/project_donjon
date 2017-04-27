@@ -50,10 +50,10 @@ public class MovementSystem extends IteratingSystem {
 
     private void move(Entity player, float deltaX, float deltaY) {
         PositionComponent positionComponent = pm.get(player);
-        if (!BigDecimal.valueOf(deltaX).equals(BigDecimal.ZERO)) {
+        if (BigDecimal.valueOf(deltaX).compareTo(BigDecimal.ZERO) != 0) {
             addX(deltaX, positionComponent.getPosition());
         }
-        if (!BigDecimal.valueOf(deltaY).equals(BigDecimal.ZERO)) {
+        if (BigDecimal.valueOf(deltaY).compareTo(BigDecimal.ZERO) != 0) {
             addY(deltaY, positionComponent.getPosition());
         }
     }

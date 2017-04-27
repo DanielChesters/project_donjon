@@ -73,8 +73,11 @@ public class Map {
 
     public Optional<Tile> getTile(float x, float y) {
         return tiles.stream()
-            .filter(t -> BigDecimal.valueOf(t.getRectangle().getX()).equals(BigDecimal.valueOf(x))
-                && BigDecimal.valueOf(t.getRectangle().getY()).equals(BigDecimal.valueOf(y)))
+            .filter(
+                t -> BigDecimal.valueOf(t.getRectangle().getX()).compareTo(BigDecimal.valueOf(x))
+                    == 0
+                    && BigDecimal.valueOf(t.getRectangle().getY()).compareTo(BigDecimal.valueOf(y))
+                    == 0)
             .findFirst();
     }
 
