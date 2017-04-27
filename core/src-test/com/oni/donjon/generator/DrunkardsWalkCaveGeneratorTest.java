@@ -34,18 +34,23 @@ public class DrunkardsWalkCaveGeneratorTest {
 
         Assert.assertEquals(mapHeight * mapWidth, tileCount);
 
-
-
         final long groundTileCount = tileTypeList.stream().filter(
             tileType -> Arrays.asList(GROUND, STAIR_DOWN, STAIR_UP)
                 .contains(tileType)).count();
 
         Assert.assertEquals(1000, groundTileCount);
+
+        Assert.assertEquals(mapHeight * mapWidth - 1000,
+            tileTypeList.stream().filter(tileType -> tileType.equals(WALL)).count());
+
+        Assert.assertEquals(1,
+            tileTypeList.stream().filter(tileType -> tileType.equals(STAIR_UP)).count());
+        Assert.assertEquals(1,
+            tileTypeList.stream().filter(tileType -> tileType.equals(STAIR_DOWN)).count());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGeneratorError() {
-        MapGenerator mapGenerator =
-            new DrunkardsWalkCaveGenerator(10, 10, 1000);
+        new DrunkardsWalkCaveGenerator(10, 10, 1000);
     }
 }
