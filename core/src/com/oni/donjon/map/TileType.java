@@ -3,6 +3,8 @@ package com.oni.donjon.map;
 import com.badlogic.gdx.graphics.Texture;
 import com.oni.donjon.screen.GameScreen;
 
+import java.util.HashMap;
+
 /**
  * @author Daniel Chesters (on 22/05/14).
  */
@@ -14,6 +16,8 @@ public enum TileType {
     STAIR_UP("textures/stair_up.png", GameScreen.NOTHING_BIT),
     STAIR_DOWN("textures/stair_down.png", GameScreen.NOTHING_BIT);
 
+    private static final java.util.Map<String, Texture> cacheTexture = new HashMap<>();
+
     private String texturePath;
     private short categoryBits;
 
@@ -23,7 +27,10 @@ public enum TileType {
     }
 
     public Texture getTexture() {
-        return new Texture(texturePath);
+        if (!cacheTexture.containsKey(texturePath)) {
+            cacheTexture.put(texturePath, new Texture(texturePath));
+        }
+        return cacheTexture.get(texturePath);
     }
 
     public short getCategoryBits() {
