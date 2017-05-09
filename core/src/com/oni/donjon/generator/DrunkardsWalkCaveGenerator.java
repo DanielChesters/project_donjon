@@ -10,11 +10,8 @@ import java.util.List;
 /**
  * @author Daniel Chesters (on 24/11/16).
  */
-public class DrunkardsWalkCaveGenerator implements MapGenerator {
-    private int mapHeight;
-    private int mapWidth;
+public class DrunkardsWalkCaveGenerator extends AbstractMapGenerator {
     private int nbFloorTiles;
-    private TileType[][] tileTypes;
 
     public DrunkardsWalkCaveGenerator() {
         this(50, 50, 1000);
@@ -30,10 +27,6 @@ public class DrunkardsWalkCaveGenerator implements MapGenerator {
         this.mapWidth = mapWidth;
         this.nbFloorTiles = nbFloorTiles;
         this.tileTypes = new TileType[mapWidth][mapHeight];
-    }
-
-    @Override public TileType[][] getTileTypes() {
-        return tileTypes;
     }
 
     @Override public void generate() {
@@ -77,24 +70,6 @@ public class DrunkardsWalkCaveGenerator implements MapGenerator {
                 tileTypes[x][y] = TileType.WALL;
             }
         }
-    }
-
-    private void placeSpecialTile(TileType tileType) {
-        int x;
-        int y;
-        do {
-            x = MathUtils.random(0, mapWidth - 1);
-            y = MathUtils.random(0, mapWidth - 1);
-        } while (!TileType.GROUND.equals(tileTypes[x][y]));
-        tileTypes[x][y] = tileType;
-    }
-
-    @Override public int getMapHeight() {
-        return mapHeight;
-    }
-
-    @Override public int getMapWidth() {
-        return mapWidth;
     }
 
     enum Direction {

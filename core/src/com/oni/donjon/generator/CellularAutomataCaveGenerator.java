@@ -6,11 +6,7 @@ import com.oni.donjon.map.TileType;
 /**
  * @author Daniel Chesters (on 09/05/2017).
  */
-public class CellularAutomataCaveGenerator implements MapGenerator {
-    private int mapHeight;
-    private int mapWidth;
-    private TileType[][] tileTypes;
-
+public class CellularAutomataCaveGenerator extends AbstractMapGenerator {
     public CellularAutomataCaveGenerator() {
         this(50, 50);
     }
@@ -19,10 +15,6 @@ public class CellularAutomataCaveGenerator implements MapGenerator {
         this.mapHeight = mapHeight;
         this.mapWidth = mapWidth;
         this.tileTypes = new TileType[mapWidth][mapHeight];
-    }
-
-    @Override public TileType[][] getTileTypes() {
-        return tileTypes;
     }
 
     @Override public void generate() {
@@ -79,23 +71,5 @@ public class CellularAutomataCaveGenerator implements MapGenerator {
                 }
             }
         }
-    }
-
-    private void placeSpecialTile(TileType tileType) {
-        int x;
-        int y;
-        do {
-            x = MathUtils.random(0, mapWidth - 1);
-            y = MathUtils.random(0, mapWidth - 1);
-        } while (!TileType.GROUND.equals(tileTypes[x][y]));
-        tileTypes[x][y] = tileType;
-    }
-
-    @Override public int getMapHeight() {
-        return mapHeight;
-    }
-
-    @Override public int getMapWidth() {
-        return mapWidth;
     }
 }

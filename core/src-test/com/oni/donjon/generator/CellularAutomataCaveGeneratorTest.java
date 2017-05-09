@@ -5,10 +5,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static com.oni.donjon.map.TileType.*;
+import static com.oni.donjon.map.TileType.STAIR_DOWN;
+import static com.oni.donjon.map.TileType.STAIR_UP;
 
 /**
  * @author Daniel Chesters (on 21/04/2017).

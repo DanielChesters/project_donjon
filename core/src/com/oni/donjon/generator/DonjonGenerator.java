@@ -11,16 +11,13 @@ import java.util.List;
 /**
  * @author Daniel Chesters (on 11/02/16).
  */
-public class DonjonGenerator implements MapGenerator {
+public class DonjonGenerator extends AbstractMapGenerator {
     private int nbRooms;
     private int roomMaxSize;
     private int roomMinSize;
 
-    private int mapHeight;
-    private int mapWidth;
     private List<ImproveRectangle> rooms = new ArrayList<>();
     private List<ImproveRectangle> tunnels = new ArrayList<>();
-    private TileType[][] tileTypes;
 
     public DonjonGenerator() {
         this(50, 50);
@@ -41,11 +38,6 @@ public class DonjonGenerator implements MapGenerator {
     }
 
     @Override
-    public TileType[][] getTileTypes() {
-        return tileTypes;
-    }
-
-    @Override
     public void generate() {
         placeRooms();
 
@@ -58,16 +50,6 @@ public class DonjonGenerator implements MapGenerator {
 
         addSpecialTile(TileType.STAIR_UP);
         addSpecialTile(TileType.STAIR_DOWN);
-    }
-
-    @Override
-    public int getMapHeight() {
-        return mapHeight;
-    }
-
-    @Override
-    public int getMapWidth() {
-        return mapWidth;
     }
 
     private void placeDoors() {
