@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.StringBuilder;
 import com.oni.donjon.component.PositionComponent;
 import com.oni.donjon.data.GameData;
 import com.oni.donjon.data.GameSave;
+import com.oni.donjon.generator.CellularAutomataCaveGenerator;
 import com.oni.donjon.generator.DrunkardsWalkCaveGenerator;
 import com.oni.donjon.generator.MapGenerator;
 import com.oni.donjon.screen.GameScreen;
@@ -28,7 +29,7 @@ public class Map {
     private Entity player;
 
     public Map() {
-        this(new DrunkardsWalkCaveGenerator());
+        this(new CellularAutomataCaveGenerator());
     }
 
     public Map(MapGenerator generator) {
@@ -131,10 +132,12 @@ public class Map {
         for (int y = mapHeight - 1; y >= 0; y--) {
             for (int x = 0; x < mapWidth; x++) {
                 getTile(x, y).ifPresent(t -> {
-                    if (t.getType().getCategoryBits() == GameScreen.WALL_BIT) {
+                    if (t.getType() == TileType.WALL) {
                         builder.append('X');
-                    } else if (t.getType().getCategoryBits() == GameScreen.NOTHING_BIT) {
-                        builder.append(' ');
+                    } else if (t.getType() == TileType.GROUND) {
+                        builder.append('.');
+                    } else {
+                        builder.append('*');
                     }
                 });
             }
