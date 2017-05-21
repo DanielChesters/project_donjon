@@ -14,6 +14,8 @@ allprojects {
     apply plugin: 'idea'
     apply plugin: 'com.github.ben-manes.versions'
 
+
+
     version = '1.0'
     ext {
         appName = 'Projet-donjon'
@@ -22,6 +24,7 @@ allprojects {
         ashleyVersion = '1.7.3'
         lombokVersion = '1.16.16'
         junitVersion = '4.12'
+        kotlinVersion = '1.1.2'
     }
 
     repositories {
@@ -34,7 +37,6 @@ allprojects {
 
 project(':desktop') {
     apply plugin: 'java'
-
 
     dependencies {
         compile project(":core")
@@ -59,6 +61,7 @@ project(':core') {
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
         compile "org.projectlombok:lombok:$lombokVersion"
+        compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
         testCompile "junit:junit:$junitVersion"
     }
 }
