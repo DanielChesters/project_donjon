@@ -22,6 +22,7 @@ allprojects {
         ashleyVersion = '1.7.3'
         lombokVersion = '1.16.16'
         junitVersion = '4.12'
+        gdxdialogsVersion = '1.2.0'
     }
 
     repositories {
@@ -44,6 +45,7 @@ project(':desktop') {
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-controllers-lwjgl3:$gdxVersion"
+        compile "de.tomgrill.gdxdialogs:gdx-dialogs-desktop:$gdxdialogsVersion"
     }
 }
 
@@ -59,6 +61,7 @@ project(':core') {
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
         compile "org.projectlombok:lombok:$lombokVersion"
+        compile "de.tomgrill.gdxdialogs:gdx-dialogs-core:$gdxdialogsVersion"
         testCompile "junit:junit:$junitVersion"
     }
 }
