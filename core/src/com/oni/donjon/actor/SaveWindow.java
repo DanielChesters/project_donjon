@@ -1,7 +1,6 @@
 package com.oni.donjon.actor;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -10,7 +9,12 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.oni.donjon.Resources;
 import com.oni.donjon.data.GameData;
+import de.tomgrill.gdxdialogs.core.GDXDialogs;
+import de.tomgrill.gdxdialogs.core.GDXDialogsSystem;
+import de.tomgrill.gdxdialogs.core.dialogs.GDXTextPrompt;
+import de.tomgrill.gdxdialogs.core.listener.TextPromptListener;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author Daniel Chesters (on 06/06/14).
@@ -18,6 +22,10 @@ import lombok.Getter;
 public class SaveWindow {
     @Getter
     private Window window;
+
+    @Setter
+    private MenuGameWindow menuGameWindow;
+
     private List<String> saveList;
     private TextButton saveButton;
     private TextButton cancelButton;
@@ -58,11 +66,37 @@ public class SaveWindow {
         newSaveButton.addListener(new InputListener() {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
-                NewSaveInputLister newSaveInputLister =
-                    new NewSaveInputLister(SaveWindow.this);
-                Gdx.input
-                    .getTextInput(newSaveInputLister, Resources.BUNDLE.get("window.save.new.input"),
-                        "save", "");
+                GDXDialogs dialogs = GDXDialogsSystem.install();
+
+                GDXTextPrompt textPrompt = dialogs.newDialog(GDXTextPrompt.class);
+
+                textPrompt.setTitle(Resources.BUNDLE.get("window.save.new.input"));
+                textPrompt.setMessage(Resources.BUNDLE.get("window.save.new.input"));
+
+                textPrompt.setCancelButtonLabel(Resources.BUNDLE.get("window.save.cancel"));
+                textPrompt.setConfirmButtonLabel(Resources.BUNDLE.get("window.save.ok"));
+
+                textPrompt.setTextPromptListener(new TextPromptListener() {
+
+                    @Override
+                    public void confirm(String text) {
+                        Json json = new Json();
+                        FileHandle file =
+                            Gdx.files.external(String.format(".config/donjon/save/%s.json", text));
+                        String save = json.prettyPrint(GameData.INSTANCE);
+                        file.writeString(save, false);
+                        SaveWindow.this.window.setVisible(false);
+                        menuGameWindow.setVisible(true);
+                    }
+
+                    @Override
+                    public void cancel() {
+                        SaveWindow.this.window.setVisible(false);
+                        menuGameWindow.setVisible(true);
+                    }
+                });
+
+                textPrompt.build().show();
                 return true;
             }
         });
@@ -75,6 +109,7 @@ public class SaveWindow {
             @Override public boolean touchDown(InputEvent event, float x, float y, int pointer,
                 int button) {
                 SaveWindow.this.window.setVisible(false);
+                menuGameWindow.setVisible(true);
                 return true;
             }
         });
@@ -93,6 +128,7 @@ public class SaveWindow {
                 String save = json.prettyPrint(GameData.INSTANCE.toGameSave());
                 file.writeString(save, false);
                 SaveWindow.this.window.setVisible(false);
+                menuGameWindow.setVisible(true);
                 return true;
             }
         });
@@ -109,29 +145,5 @@ public class SaveWindow {
         window.setPosition(Gdx.graphics.getWidth() / 2f - window.getWidth() / 2f,
             Gdx.graphics.getHeight() / 2f - window.getHeight() / 2f);
         window.setVisible(true);
-    }
-
-
-    static class NewSaveInputLister implements Input.TextInputListener {
-        private SaveWindow saveWindow;
-
-        NewSaveInputLister(SaveWindow saveWindow) {
-            this.saveWindow = saveWindow;
-        }
-
-        @Override
-        public void input(String text) {
-            Json json = new Json();
-            FileHandle file =
-                Gdx.files.external(String.format(".config/donjon/save/%s.json", text));
-            String save = json.prettyPrint(GameData.INSTANCE);
-            file.writeString(save, false);
-            saveWindow.getWindow().setVisible(false);
-        }
-
-        @Override
-        public void canceled() {
-            saveWindow.getWindow().setVisible(false);
-        }
     }
 }

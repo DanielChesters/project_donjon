@@ -82,6 +82,7 @@ public class MenuGameWindow {
             }
         });
         saveButton.pack();
+        saveWindow.setMenuGameWindow(this);
     }
 
     public void setVisible(boolean visible) {
