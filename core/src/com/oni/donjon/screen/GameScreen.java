@@ -73,7 +73,7 @@ public class GameScreen extends ScreenAdapter {
         world.dispose();
         rayHandler.dispose();
         debugRenderer.dispose();
-        Sounds.disposeAll();
+        Sounds.Companion.disposeAll();
     }
 
     private void createGame(DonjonGame game, Runnable runnable) {
