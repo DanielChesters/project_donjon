@@ -54,7 +54,7 @@ public class Map {
                 GameSave.SavedTile savedTile = gameSave.getMap()[x][y];
                 if (savedTile != null) {
                     tiles.add(
-                        new Tile((float) x, (float) y, savedTile.getType(), savedTile.isKnow(),
+                        new Tile((float) x, (float) y, savedTile.getType(), savedTile.getKnow(),
                             GameData.INSTANCE.getWorld()));
                 }
             }
