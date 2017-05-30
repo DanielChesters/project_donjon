@@ -63,6 +63,7 @@ project(':core') {
         compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-core:$gdxdialogsVersion"
         testCompile "junit:junit:$junitVersion"
+        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
     }
 }
 
