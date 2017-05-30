@@ -1,5 +1,6 @@
 package com.oni.donjon.generator;
 
+import com.badlogic.gdx.math.Rectangle;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,15 +12,16 @@ public class ImproveRectangleTest {
 
     @Test
     public void testIntersectsTrue() {
-        ImproveRectangle rectangle1 = new ImproveRectangle(1, 1, 3, 3);
-        ImproveRectangle rectangle2 = new ImproveRectangle(2, 2, 3, 3);
-        Assert.assertTrue(rectangle1.intersects(rectangle2));
+        Rectangle rectangle1 = new Rectangle(1, 1, 3, 3);
+        Rectangle rectangle2 = new Rectangle(2, 2, 3, 3);
+        Assert.assertTrue(
+            com.oni.donjon.generator.ImproveRectangleKt.intersects(rectangle1, rectangle2));
     }
 
     @Test
     public void testIntersectsFalse() {
-        ImproveRectangle rectangle1 = new ImproveRectangle(10, 10, 1, 1);
-        ImproveRectangle rectangle2 = new ImproveRectangle(5, 5, 3, 3);
-        Assert.assertFalse(rectangle1.intersects(rectangle2));
+        Rectangle rectangle1 = new Rectangle(10, 10, 1, 1);
+        Rectangle rectangle2 = new Rectangle(5, 5, 3, 3);
+        Assert.assertFalse(com.oni.donjon.generator.ImproveRectangleKt.intersects(rectangle1, rectangle2));
     }
 }
