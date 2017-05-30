@@ -14,8 +14,6 @@ allprojects {
     apply plugin: 'idea'
     apply plugin: 'com.github.ben-manes.versions'
 
-
-
     version = '1.0'
     ext {
         appName = 'Projet-donjon'
@@ -24,7 +22,7 @@ allprojects {
         ashleyVersion = '1.7.3'
         lombokVersion = '1.16.16'
         junitVersion = '4.12'
-        kotlinVersion = '1.1.2'
+        kotlinVersion = '1.1.2-4'
         gdxdialogsVersion = '1.2.0'
     }
 
@@ -53,7 +51,6 @@ project(':desktop') {
 
 project(':core') {
     apply plugin: 'java'
-
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
