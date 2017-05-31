@@ -16,13 +16,13 @@ class DrunkardsWalkCaveGeneratorTest {
     fun testGeneratorNominal() {
         val mapGenerator = DrunkardsWalkCaveGenerator()
         mapGenerator.generate()
-        val mapHeight = mapGenerator.getMapHeight()
-        val mapWidth = mapGenerator.getMapWidth()
+        val mapHeight = mapGenerator.mapHeight
+        val mapWidth = mapGenerator.mapWidth
         Assert.assertEquals(50, mapHeight.toLong())
         Assert.assertEquals(50, mapWidth.toLong())
         val tileTypeList = ArrayList<TileType>()
         for (x in 0..mapWidth - 1) {
-            (0..mapWidth - 1).mapTo(tileTypeList) { mapGenerator.getTileTypes()[x][it] }
+            (0..mapWidth - 1).mapTo(tileTypeList) { mapGenerator.tileTypes!![x][it]!! }
         }
 
         val tileCount = tileTypeList.count()
