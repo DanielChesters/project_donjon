@@ -29,7 +29,7 @@ class OpenAction : AbstractAction() {
         val messageLabel = stage.messageLabel
         if (isNearPlayer(tile)) {
             val bodyDoor = tile.body
-            bodyDoor.world.destroyBody(bodyDoor)
+            bodyDoor!!.world.destroyBody(bodyDoor)
             tile.type = TileType.DOOR_OPEN
             messageLabel!!.setText(Resources.BUNDLE.get("open.door"))
             Sounds.OPEN_DOOR.play()

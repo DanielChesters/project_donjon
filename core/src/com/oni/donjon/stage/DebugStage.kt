@@ -20,7 +20,7 @@ class DebugStage {
     fun drawDebug() {
         debugRenderer.projectionMatrix = gameStage!!.camera.combined
         debugRenderer.begin(ShapeRenderer.ShapeType.Line)
-        GameData.map.tiles.forEach { t ->
+        GameData.map.tiles!!.forEach { t ->
             val rectangle = t.rectangle
             if (t.isKnow) {
                 debugRenderer.color = Color.RED
@@ -28,7 +28,7 @@ class DebugStage {
                 debugRenderer.color = Color.BLUE
             }
             debugRenderer
-                    .rect(rectangle.getX() * Tile.SIZE, rectangle.getY() * Tile.SIZE, Tile.SIZE,
+                    .rect(rectangle!!.getX() * Tile.SIZE, rectangle.getY() * Tile.SIZE, Tile.SIZE,
                             Tile.SIZE)
         }
         debugRenderer.end()

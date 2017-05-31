@@ -28,7 +28,7 @@ public class MovementSystem extends IteratingSystem {
     boolean canMove;
 
     private final RayCastCallback rayCastCallback = (fixture, point, normal, fraction) -> {
-        if (fixture.getFilterData().categoryBits == GameScreen.WALL_BIT) {
+        if (fixture.getFilterData().categoryBits == GameScreen.Companion.getWALL_BIT()) {
             canMove = false;
         }
         return 0;
@@ -125,8 +125,9 @@ public class MovementSystem extends IteratingSystem {
                     (int) (position.y + deltaY));
             if (tileRight.isPresent() && checkMovable(player, deltaX, deltaY)) {
                 move(player, deltaX, deltaY);
-                positionComponent.getBody().setTransform((position.x + 0.25f) * Tile.SIZE + deltaX,
-                    (position.y + 0.25f) * Tile.SIZE + deltaY, radianAngle);
+                positionComponent.getBody().setTransform((position.x + 0.25f) * Tile.Companion
+                        .getSIZE() + deltaX,
+                    (position.y + 0.25f) * Tile.Companion.getSIZE() + deltaY, radianAngle);
             }
             GameData.INSTANCE.getMap().updateVisibility();
         });
@@ -137,8 +138,8 @@ public class MovementSystem extends IteratingSystem {
         Body body = pm.get(player).getBody();
         World world = body.getWorld();
 
-        Vector2 endPosition = new Vector2(body.getPosition().x + deltaX * Tile.SIZE,
-            body.getPosition().y + deltaY * Tile.SIZE);
+        Vector2 endPosition = new Vector2(body.getPosition().x + deltaX * Tile.Companion.getSIZE(),
+            body.getPosition().y + deltaY * Tile.Companion.getSIZE());
         world.rayCast(rayCastCallback, body.getPosition(), endPosition);
         return canMove;
     }

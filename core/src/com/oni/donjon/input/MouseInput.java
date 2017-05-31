@@ -37,15 +37,16 @@ public class MouseInput extends InputAdapter {
         gameStage.getCamera().unproject(worldCoordinates);
         Vector2 mouseLocation = new Vector2(worldCoordinates.x, worldCoordinates.y);
         Gdx.app.debug("Mouse", String.format("%f,%f%n", mouseLocation.x, mouseLocation.y));
-        Gdx.app.debug("Tile", String.format("%d,%d%n", (int) (mouseLocation.x / Tile.SIZE),
-            (int) (mouseLocation.y / Tile.SIZE)));
+        Gdx.app.debug("Tile", String.format("%d,%d%n", (int) (mouseLocation.x / Tile.Companion
+                .getSIZE()),
+            (int) (mouseLocation.y / Tile.Companion.getSIZE())));
         return mouseLocation;
     }
 
     private void mainAction(Vector2 mouseLocation) {
         Optional<Tile> tile =
-            GameData.INSTANCE.getMap().getTile((int) (mouseLocation.x / Tile.SIZE),
-                (int) (mouseLocation.y / Tile.SIZE));
+            GameData.INSTANCE.getMap().getTile((int) (mouseLocation.x / Tile.Companion.getSIZE()),
+                (int) (mouseLocation.y / Tile.Companion.getSIZE()));
         if (tile.isPresent() && tile.get().isKnow()) {
             Tile realTile = tile.get();
             Actions action = uiStage.getActionList().getSelected();
