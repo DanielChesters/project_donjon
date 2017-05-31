@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.StringBuilder
 import com.oni.donjon.component.PositionComponent
 import com.oni.donjon.data.GameData
 import com.oni.donjon.data.GameSave
+import com.oni.donjon.generator.AbstractMapGenerator
 import com.oni.donjon.generator.CellularAutomataCaveGenerator
 import com.oni.donjon.generator.MapGenerator
 
@@ -25,12 +26,12 @@ class Map {
     internal var tiles: MutableSet<Tile>? = null
     private var player: Entity? = null
 
-    @JvmOverloads constructor(generator: MapGenerator = CellularAutomataCaveGenerator()) {
+    @JvmOverloads constructor(generator: AbstractMapGenerator = CellularAutomataCaveGenerator()) {
         generator.generate()
         this.tiles = HashSet<Tile>()
         for (x in 0..generator.mapWidth - 1) {
             for (y in 0..generator.mapHeight - 1) {
-                tiles!!.add(Tile(x.toFloat(), y.toFloat(), generator.tileTypes[x][y], false,
+                tiles!!.add(Tile(x.toFloat(), y.toFloat(), generator.tileTypes!![x][y], false,
                         GameData.world))
             }
         }
