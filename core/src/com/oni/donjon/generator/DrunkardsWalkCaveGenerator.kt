@@ -2,14 +2,12 @@ package com.oni.donjon.generator
 
 import com.badlogic.gdx.math.MathUtils
 import com.oni.donjon.map.TileType
-
-import java.util.Arrays
-import java.util.Collections
+import java.util.*
 
 /**
  * @author Daniel Chesters (on 24/11/16).
  */
-class DrunkardsWalkCaveGenerator @JvmOverloads constructor(mapHeight: Int = 50, mapWidth: Int = 50, private val nbFloorTiles: Int = 1000) : AbstractMapGenerator() {
+class DrunkardsWalkCaveGenerator @JvmOverloads constructor(mapHeight: Int = 50, mapWidth: Int = 50, private val nbFloorTiles: Int = 1000) : MapGenerator() {
 
     init {
 

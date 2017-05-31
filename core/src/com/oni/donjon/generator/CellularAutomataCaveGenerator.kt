@@ -6,7 +6,7 @@ import com.oni.donjon.map.TileType
 /**
  * @author Daniel Chesters (on 09/05/2017).
  */
-class CellularAutomataCaveGenerator @JvmOverloads constructor(mapHeight: Int = 50, mapWidth: Int = 50) : AbstractMapGenerator() {
+class CellularAutomataCaveGenerator @JvmOverloads constructor(mapHeight: Int = 50, mapWidth: Int = 50) : MapGenerator() {
 
     init {
         this.mapHeight = mapHeight
