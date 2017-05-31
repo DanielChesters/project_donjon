@@ -260,8 +260,8 @@ class GameScreen : ScreenAdapter {
 
     private fun createMouseInput(): MouseInput {
         val mouseInput = MouseInput()
-        mouseInput.setGameStage(gameStage)
-        mouseInput.setUiStage(uiStage)
+        mouseInput.setGameStage(gameStage!!)
+        mouseInput.setUiStage(uiStage!!)
         return mouseInput
     }
 
