@@ -12,6 +12,7 @@ dependencies {
     compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
     compile "de.tomgrill.gdxdialogs:gdx-dialogs-core:$gdxdialogsVersion"
+    compile "io.github.libktx:ktx-app:$ktxAppVersion"
     testCompile "junit:junit:$junitVersion"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
 }

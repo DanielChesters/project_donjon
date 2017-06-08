@@ -59,7 +59,11 @@ class LoadWindow(title: String, skin: Skin, game: DonjonGame) {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
                                    button: Int): Boolean {
                 val save = saveList.selected
-                game.screen = GameScreen(game, String.format(".config/donjon/save/%s", save))
+                if (game.containsScreen<GameScreen>()) {
+                    game.removeScreen<GameScreen>()
+                }
+                game.addScreen(GameScreen(game, String.format(".config/donjon/save/%s", save)))
+                game.setScreen<GameScreen>()
                 return true
             }
         })

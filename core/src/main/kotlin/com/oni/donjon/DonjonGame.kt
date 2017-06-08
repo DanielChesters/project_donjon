@@ -1,13 +1,15 @@
 package com.oni.donjon
 
 import com.badlogic.gdx.Application
-import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Screen
 import com.oni.donjon.screen.MainScreen
+import ktx.app.KtxGame
 
-class DonjonGame : Game() {
+class DonjonGame : KtxGame<Screen>() {
     override fun create() {
         Gdx.app.logLevel = Application.LOG_DEBUG
-        setScreen(MainScreen(this))
+        addScreen(MainScreen(this))
+        setScreen<MainScreen>()
     }
 }

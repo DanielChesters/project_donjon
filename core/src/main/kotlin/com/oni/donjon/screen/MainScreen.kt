@@ -86,7 +86,11 @@ class MainScreen(game: DonjonGame) : ScreenAdapter() {
                 Gdx.graphics.height / 2f - newGameButton.height / 2f)
         newGameButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
-                game.screen = GameScreen(game)
+                if (game.containsScreen<GameScreen>()) {
+                    game.removeScreen<GameScreen>()
+                }
+                game.addScreen(GameScreen(game))
+                game.setScreen<GameScreen>()
                 return true
             }
         })

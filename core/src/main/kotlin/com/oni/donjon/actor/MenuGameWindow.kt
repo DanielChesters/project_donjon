@@ -60,7 +60,9 @@ class MenuGameWindow(skin: Skin, saveWindow: SaveWindow, game: DonjonGame, scree
         exitButton!!.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
                                    button: Int): Boolean {
-                game.screen = MainScreen(game)
+                game.removeScreen<MainScreen>()
+                game.addScreen(MainScreen(game))
+                game.setScreen<MainScreen>()
                 return true
             }
         })
