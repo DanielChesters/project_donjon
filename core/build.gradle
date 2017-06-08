@@ -10,7 +10,6 @@ dependencies {
     compile "com.badlogicgames.box2dlights:box2dlights:$box2dlightsVersion"
     compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
     compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
-    compile "org.projectlombok:lombok:$lombokVersion"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
     compile "de.tomgrill.gdxdialogs:gdx-dialogs-core:$gdxdialogsVersion"
     testCompile "junit:junit:$junitVersion"
