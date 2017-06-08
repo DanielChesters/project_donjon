@@ -1,6 +1,6 @@
 apply plugin: 'application'
 
-sourceSets.main.resources.srcDirs += [ rootProject.file('assets').absolutePath ]
+sourceSets.main.resources.srcDirs += [rootProject.file('assets').absolutePath]
 mainClassName = 'com.oni.donjon.desktop.DesktopLauncher'
 sourceCompatibility = 1.8
 
@@ -17,10 +17,7 @@ dependencies {
 
 jar {
     archiveName "${appName}-${version}.jar"
-    from files(sourceSets.main.output.classesDir)
-    from files(sourceSets.main.output.resourcesDir)
-    from {configurations.compile.collect {zipTree(it)}}
-
+    from { configurations.compile.collect { zipTree(it) } }
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
