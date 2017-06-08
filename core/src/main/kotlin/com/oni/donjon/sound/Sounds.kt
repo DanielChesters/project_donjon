@@ -10,7 +10,7 @@ enum class Sounds(filename: String) {
 
     OPEN_DOOR("doorOpen.ogg"), CLOSE_DOOR("doorClose.ogg");
 
-    private val sound: Sound = Gdx.audio.newSound(Gdx.files.internal(String.format("sound/%s", filename)))
+    private val sound: Sound = Gdx.audio.newSound(Gdx.files.internal("sound/$filename"))
 
     fun play() {
         sound.play()

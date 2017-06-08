@@ -33,15 +33,13 @@ class MouseInput : InputAdapter() {
     }
 
     private fun getMouseLocation(screenX: Int, screenY: Int, button: Int): Vector2 {
-        log.debug { String.format("Down : %d,%d : %d%n", screenX, screenY, button) }
+        log.debug { "Down : $screenX,$screenY : $button" }
         val worldCoordinates = Vector3(screenX.toFloat(), screenY.toFloat(), 0f)
         gameStage!!.camera.unproject(worldCoordinates)
         val mouseLocation = Vector2(worldCoordinates.x, worldCoordinates.y)
-        log.debug { String.format("%f,%f%n", mouseLocation.x, mouseLocation.y) }
+        log.debug { "${mouseLocation.x},${mouseLocation.y}" }
         log.debug {
-            String.format("%d,%d%n", (mouseLocation.x / Tile
-                    .SIZE).toInt(),
-                    (mouseLocation.y / Tile.SIZE).toInt())
+            "${(mouseLocation.x / Tile.SIZE).toInt()},${(mouseLocation.y / Tile.SIZE).toInt()}"
         }
         return mouseLocation
     }

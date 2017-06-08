@@ -62,7 +62,7 @@ class LoadWindow(title: String, skin: Skin, game: DonjonGame) {
                 if (game.containsScreen<GameScreen>()) {
                     game.removeScreen<GameScreen>()
                 }
-                game.addScreen(GameScreen(game, String.format(".config/donjon/save/%s", save)))
+                game.addScreen(GameScreen(game, ".config/donjon/save/$save"))
                 game.setScreen<GameScreen>()
                 return true
             }

@@ -74,7 +74,7 @@ class SaveWindow(title: String, skin: Skin) {
 
                     override fun confirm(text: String) {
                         val json = Json()
-                        val file = Gdx.files.external(String.format(".config/donjon/save/%s.json", text))
+                        val file = Gdx.files.external(".config/donjon/save/$text.json")
                         val save = json.prettyPrint(GameData)
                         file.writeString(save, false)
                         this@SaveWindow.window.isVisible = false
@@ -114,7 +114,7 @@ class SaveWindow(title: String, skin: Skin) {
                                    button: Int): Boolean {
                 val saveName = saveList!!.selected
                 val json = Json()
-                val file = Gdx.files.external(String.format(".config/donjon/save/%s", saveName))
+                val file = Gdx.files.external(".config/donjon/save/$saveName")
                 val save = json.prettyPrint(GameData.toGameSave())
                 file.writeString(save, false)
                 this@SaveWindow.window.isVisible = false
