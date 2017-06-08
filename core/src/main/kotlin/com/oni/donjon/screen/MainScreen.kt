@@ -30,7 +30,7 @@ class MainScreen(game: DonjonGame) : KtxScreen {
         row()
         add(loadGameButton).center()
         row()
-        add(createExitGameButton(skin, loadGameButton))g.center()
+        add(createExitGameButton(skin, loadGameButton)).center()
         pack()
         setPosition(Gdx.graphics.width / 2f - width / 2f,
                 Gdx.graphics.height / 2f - height / 2f)
