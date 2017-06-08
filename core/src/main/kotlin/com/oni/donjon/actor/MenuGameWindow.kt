@@ -61,7 +61,7 @@ class MenuGameWindow(skin: Skin, saveWindow: SaveWindow, game: DonjonGame, scree
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
                                    button: Int): Boolean {
                 game.removeScreen<MainScreen>()
-                game.addScreen(MainScreen(game))
+                game.addScreen(MainScreen(game.context.inject(), game, game.context.inject()))
                 game.setScreen<MainScreen>()
                 return true
             }

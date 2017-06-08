@@ -11,40 +11,35 @@ import com.oni.donjon.Resources
 import com.oni.donjon.actor.LoadWindow
 import ktx.app.KtxScreen
 import ktx.scene2d.KTextButton
-import ktx.scene2d.Scene2DSkin
 import ktx.scene2d.defaultStyle
 import ktx.scene2d.table
 
 /**
  * @author Daniel Chesters (on 01/06/14).
  */
-class MainScreen(game: DonjonGame) : KtxScreen {
-    val stage: Stage = Stage()
-    val skin = Skin(Gdx.files.internal("skin/uiskin.json"))
+class MainScreen(val stage: Stage, val game: DonjonGame, val skin: Skin) : KtxScreen {
     val loadWindow = LoadWindow(Resources.BUNDLE.get("main.screen.load.title"), skin, game)
-    val loadGameButton = createLoadGameButton(skin, loadWindow)
+    val loadGameButton = createLoadGameButton()
     val view = table {
         defaults().space(5f)
         row()
-        add(createNewGameButton(game, skin)).center()
+        add(createNewGameButton()).center()
         row()
         add(loadGameButton).center()
         row()
-        add(createExitGameButton(skin, loadGameButton)).center()
+        add(createExitGameButton()).center()
         pack()
         setPosition(Gdx.graphics.width / 2f - width / 2f,
                 Gdx.graphics.height / 2f - height / 2f)
     }
 
     override fun show() {
-        Scene2DSkin.defaultSkin = skin
         stage.addActor(view)
         stage.addActor(loadWindow.window)
         Gdx.input.inputProcessor = stage
     }
 
-    private fun createExitGameButton(skin: Skin, loadGameButton: KTextButton): KTextButton {
-        Scene2DSkin.defaultSkin = skin
+    private fun createExitGameButton(): KTextButton {
         val exitGameButton = KTextButton(Resources.BUNDLE.get("main.screen.exit.title"), skin, defaultStyle)
         exitGameButton.pack()
         exitGameButton.setPosition(Gdx.graphics.width / 2f - exitGameButton.width / 2f,
@@ -60,8 +55,7 @@ class MainScreen(game: DonjonGame) : KtxScreen {
         return exitGameButton
     }
 
-    private fun createLoadGameButton(skin: Skin, loadWindow: LoadWindow): KTextButton {
-        Scene2DSkin.defaultSkin = skin
+    private fun createLoadGameButton(): KTextButton {
         val loadGameButton = KTextButton(Resources.BUNDLE.get("main.screen.load_game.title"), skin, defaultStyle)
         loadGameButton.pack()
         loadGameButton.setPosition(Gdx.graphics.width / 2f - loadGameButton.width / 2f,
@@ -75,8 +69,7 @@ class MainScreen(game: DonjonGame) : KtxScreen {
         return loadGameButton
     }
 
-    private fun createNewGameButton(game: DonjonGame, skin: Skin): KTextButton {
-        Scene2DSkin.defaultSkin = skin
+    private fun createNewGameButton(): KTextButton {
         val newGameButton = KTextButton(Resources.BUNDLE.get("main.screen.new_game.title"), skin, defaultStyle)
         newGameButton.pack()
         newGameButton.setPosition(Gdx.graphics.width / 2f - newGameButton.width / 2f,
