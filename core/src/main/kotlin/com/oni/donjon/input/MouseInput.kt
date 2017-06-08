@@ -1,6 +1,5 @@
 package com.oni.donjon.input
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.math.Vector2
@@ -9,11 +8,17 @@ import com.oni.donjon.data.GameData
 import com.oni.donjon.map.Tile
 import com.oni.donjon.stage.GameStage
 import com.oni.donjon.stage.UIStage
+import ktx.log.logger
 
 /**
  * @author Daniel Chesters (on 24/05/14).
  */
 class MouseInput : InputAdapter() {
+    companion object {
+        val log = logger<MouseInput>()
+    }
+
+
     private var gameStage: GameStage? = null
     private var uiStage: UIStage? = null
 
@@ -28,14 +33,16 @@ class MouseInput : InputAdapter() {
     }
 
     private fun getMouseLocation(screenX: Int, screenY: Int, button: Int): Vector2 {
-        Gdx.app.debug("Mouse", String.format("Down : %d,%d : %d%n", screenX, screenY, button))
+        log.debug { String.format("Down : %d,%d : %d%n", screenX, screenY, button) }
         val worldCoordinates = Vector3(screenX.toFloat(), screenY.toFloat(), 0f)
         gameStage!!.camera.unproject(worldCoordinates)
         val mouseLocation = Vector2(worldCoordinates.x, worldCoordinates.y)
-        Gdx.app.debug("Mouse", String.format("%f,%f%n", mouseLocation.x, mouseLocation.y))
-        Gdx.app.debug("Tile", String.format("%d,%d%n", (mouseLocation.x / Tile
-                .SIZE).toInt(),
-                (mouseLocation.y / Tile.SIZE).toInt()))
+        log.debug { String.format("%f,%f%n", mouseLocation.x, mouseLocation.y) }
+        log.debug {
+            String.format("%d,%d%n", (mouseLocation.x / Tile
+                    .SIZE).toInt(),
+                    (mouseLocation.y / Tile.SIZE).toInt())
+        }
         return mouseLocation
     }
 

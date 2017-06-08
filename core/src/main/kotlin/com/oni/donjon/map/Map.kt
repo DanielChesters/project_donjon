@@ -2,14 +2,13 @@ package com.oni.donjon.map
 
 import com.badlogic.ashley.core.ComponentMapper
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.Application
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.StringBuilder
 import com.oni.donjon.component.PositionComponent
 import com.oni.donjon.data.GameData
 import com.oni.donjon.data.GameSave
 import com.oni.donjon.generator.CellularAutomataCaveGenerator
 import com.oni.donjon.generator.MapGenerator
+import ktx.log.logger
 import java.math.BigDecimal
 import java.util.*
 
@@ -17,6 +16,10 @@ import java.util.*
  * @author Daniel Chesters (on 22/05/14).
  */
 class Map {
+    companion object {
+        val log = logger<Map>()
+    }
+
     var mapHeight: Int = 0
     var mapWidth: Int = 0
     internal var tiles: MutableSet<Tile>? = null
@@ -33,9 +36,7 @@ class Map {
         }
         this.mapHeight = generator.mapHeight
         this.mapWidth = generator.mapWidth
-        if (Gdx.app.logLevel == Application.LOG_DEBUG) {
-            logMap()
-        }
+        logMap()
     }
 
     constructor(gameSave: GameSave) {
@@ -53,9 +54,7 @@ class Map {
         }
         this.mapHeight = gameSave.mapHeight!!
         this.mapWidth = gameSave.mapWidth!!
-        if (Gdx.app.logLevel == Application.LOG_DEBUG) {
-            logMap()
-        }
+        logMap()
     }
 
     fun setPlayer(player: Entity) {
@@ -111,6 +110,6 @@ class Map {
             }
             builder.append('\n')
         }
-        Gdx.app.debug("Map", builder.toString())
+        log.debug { builder.toString() }
     }
 }

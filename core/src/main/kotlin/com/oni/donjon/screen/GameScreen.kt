@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.*
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.*
+import com.badlogic.gdx.scenes.scene2d.ui.List
 import com.badlogic.gdx.utils.Json
 import com.oni.donjon.DonjonGame
 import com.oni.donjon.Resources
@@ -37,6 +38,7 @@ import com.oni.donjon.stage.DebugStage
 import com.oni.donjon.stage.GameStage
 import com.oni.donjon.stage.UIStage
 import com.oni.donjon.system.MovementSystem
+import ktx.log.logger
 
 /**
  * @author Daniel Chesters (on 25/05/14).
@@ -209,7 +211,7 @@ class GameScreen : ScreenAdapter {
     }
 
     private fun createPlayerEntity(playerPosition: Vector2): Entity {
-        Gdx.app.debug("createPlayerEntity", playerPosition.toString())
+        log.debug { playerPosition.toString() }
         val player = Entity()
         val bodyDef = BodyDef()
         bodyDef.type = BodyDef.BodyType.DynamicBody
@@ -319,6 +321,7 @@ class GameScreen : ScreenAdapter {
     }
 
     companion object {
+        val log = logger<GameScreen>()
         val NOTHING_BIT: Short = 0
         val WALL_BIT: Short = 1
         val PLAYER_BIT = (1 shl 1).toShort()
