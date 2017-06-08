@@ -1,56 +1,37 @@
-plugins {
-    id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.1.2-2'
-}
+apply plugin: 'application'
 
-sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ 'src/' ]
 sourceSets.main.kotlin.srcDirs = ['src/']
 
-project.ext.mainClassName = 'com.oni.donjon.desktop.DesktopLauncher'
-project.ext.assetsDir = new File('../core/assets');
+sourceSets.main.resources.srcDirs += [ rootProject.file('assets').absolutePath ]
+mainClassName = 'com.oni.donjon.desktop.DesktopLauncher'
+sourceCompatibility = 1.8
 
-task run(dependsOn: classes, type: JavaExec) {
-    main = project.mainClassName
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-    workingDir = project.assetsDir
-    ignoreExitValue = true
+dependencies {
+    compile project(":core")
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-controllers-lwjgl3:$gdxVersion"
+    compile "de.tomgrill.gdxdialogs:gdx-dialogs-desktop:$gdxdialogsVersion"
 }
 
-task dist(type: Jar) {
+jar {
+    archiveName "${appName}-${version}.jar"
     from files(sourceSets.main.output.classesDir)
     from files(sourceSets.main.output.resourcesDir)
     from {configurations.compile.collect {zipTree(it)}}
-    from files(project.assetsDir);
- 
+
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
 }
 
-dist.dependsOn classes
-
-eclipse {
-    project {
-        name = appName + '-desktop'
-        linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/core/assets'
-    }
+run {
+    ignoreExitValue = true
 }
 
-task afterEclipseImport(description: 'Post processing after project generation', group: 'IDE') {
-  doLast {
-    def classpath = new XmlParser().parse(file('.classpath'))
-    new Node(classpath, 'classpathentry', [ kind: 'src', path: 'assets' ]);
-    def writer = new FileWriter(file('.classpath'))
-    def printer = new XmlNodePrinter(new PrintWriter(writer))
-    printer.setPreserveWhitespace(true)
-    printer.print(classpath)
-  }
-}
 
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
+
