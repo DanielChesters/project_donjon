@@ -1,19 +1,19 @@
 package com.oni.donjon.input
 
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.oni.donjon.data.GameData
 import com.oni.donjon.map.Tile
 import com.oni.donjon.stage.GameStage
 import com.oni.donjon.stage.UIStage
+import ktx.app.KtxInputAdapter
 import ktx.log.logger
 
 /**
  * @author Daniel Chesters (on 24/05/14).
  */
-class MouseInput : InputAdapter() {
+class MouseInput : KtxInputAdapter {
     companion object {
         val log = logger<MouseInput>()
     }

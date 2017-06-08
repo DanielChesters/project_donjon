@@ -1,15 +1,15 @@
 package com.oni.donjon.input
 
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.InputAdapter
 import com.oni.donjon.component.DirectionComponent
 import com.oni.donjon.data.GameData
+import ktx.app.KtxInputAdapter
 import ktx.log.logger
 
 /**
  * @author Daniel Chesters (on 20/05/14).
  */
-class KeyboardInput : InputAdapter() {
+class KeyboardInput : KtxInputAdapter {
     companion object {
         val log = logger<KeyboardInput>()
     }
