@@ -1,8 +1,5 @@
 apply plugin: 'application'
 
-sourceSets.main.java.srcDirs = [ 'src/' ]
-sourceSets.main.kotlin.srcDirs = ['src/']
-
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').absolutePath ]
 mainClassName = 'com.oni.donjon.desktop.DesktopLauncher'
 sourceCompatibility = 1.8

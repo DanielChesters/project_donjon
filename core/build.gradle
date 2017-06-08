@@ -3,11 +3,6 @@ apply plugin: "jacoco"
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceSets.main.java.srcDirs = ['src/']
-sourceSets.main.kotlin.srcDirs = ['src/']
-sourceSets.test.java.srcDirs = ['src-test/']
-sourceSets.test.kotlin.srcDirs = ['src-test/']
-
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
