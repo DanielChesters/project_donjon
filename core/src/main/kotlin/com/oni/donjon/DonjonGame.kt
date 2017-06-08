@@ -25,4 +25,8 @@ class DonjonGame : KtxGame<Screen>() {
         addScreen(MainScreen(context.inject(), context.inject(), context.inject()))
         setScreen<MainScreen>()
     }
+
+    override fun dispose() {
+        context.dispose()
+    }
 }
