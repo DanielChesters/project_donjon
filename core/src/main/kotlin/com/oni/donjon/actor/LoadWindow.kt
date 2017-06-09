@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array
 import com.oni.donjon.DonjonGame
 import com.oni.donjon.Resources
 import com.oni.donjon.screen.GameScreen
+import ktx.collections.gdxArrayOf
 
 /**
  * @author Daniel Chesters (on 06/06/14).
@@ -77,7 +78,7 @@ class LoadWindow(title: String, skin: Skin, game: DonjonGame) {
 
     fun show() {
         val saveFolder = Gdx.files.external(".config/donjon/save")
-        val saveArray = Array<String>()
+        val saveArray = gdxArrayOf<String>()
         for (file in saveFolder.list { _, name -> name.endsWith(".json") }) {
             saveArray.add(file.name())
         }

@@ -2,11 +2,12 @@ package com.oni.donjon.map
 
 import com.badlogic.gdx.graphics.Texture
 import com.oni.donjon.screen.GameScreen
+import ktx.collections.gdxMapOf
 
 /**
  * @author Daniel Chesters (on 22/05/14).
  */
-enum class TileType private constructor(private val texturePath: String, val categoryBits: Short) {
+enum class TileType constructor(private val texturePath: String, val categoryBits: Short) {
     WALL("textures/wall.png", GameScreen.WALL_BIT),
     DOOR_CLOSE("textures/door_close.png", GameScreen.WALL_BIT),
     DOOR_OPEN("textures/door_open.png", GameScreen.NOTHING_BIT),
@@ -23,7 +24,6 @@ enum class TileType private constructor(private val texturePath: String, val cat
         }
 
     companion object {
-
-        private val cacheTexture = HashMap<String, Texture>()
+        private val cacheTexture = gdxMapOf<String, Texture>()
     }
 }

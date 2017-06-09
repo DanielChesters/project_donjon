@@ -193,7 +193,7 @@ class GameScreen : ScreenAdapter {
     private fun createData() {
         val map = Map()
         val startTile = map.startTile
-        val startPosition = Vector2(startTile.rectangle!!.getX(), startTile.rectangle!!.getY())
+        val startPosition = Vector2(startTile?.rectangle!!.getX(), startTile.rectangle!!.getY())
         val player = createPlayerEntity(startPosition)
         GameData.map = map
         GameData.player = player

@@ -16,6 +16,7 @@ dependencies {
     compile "io.github.libktx:ktx-scene2d:$ktxVersion"
     compile "io.github.libktx:ktx-inject:$ktxVersion"
     compile "io.github.libktx:ktx-log:$ktxVersion"
+    compile "io.github.libktx:ktx-collections:$ktxVersion"
     testCompile "junit:junit:$junitVersion"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
 }
