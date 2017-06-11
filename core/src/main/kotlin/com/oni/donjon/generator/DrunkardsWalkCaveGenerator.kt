@@ -7,7 +7,7 @@ import java.util.*
 /**
  * @author Daniel Chesters (on 24/11/16).
  */
-class DrunkardsWalkCaveGenerator @JvmOverloads constructor(mapHeight: Int = 50, mapWidth: Int = 50, private val nbFloorTiles: Int = 1000) : MapGenerator() {
+class DrunkardsWalkCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50, private val nbFloorTiles: Int = 1000) : MapGenerator(mapHeight, mapWidth) {
 
     init {
 
@@ -15,8 +15,6 @@ class DrunkardsWalkCaveGenerator @JvmOverloads constructor(mapHeight: Int = 50, 
             throw IllegalArgumentException("Too much floor tiles or map size too small")
         }
 
-        this.mapHeight = mapHeight
-        this.mapWidth = mapWidth
         this.tileTypes = Array(mapWidth) { arrayOfNulls<TileType>(mapHeight) }
     }
 

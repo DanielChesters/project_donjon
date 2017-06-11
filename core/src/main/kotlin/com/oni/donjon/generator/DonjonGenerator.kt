@@ -10,7 +10,7 @@ import java.math.BigDecimal
  * @author Daniel Chesters (on 11/02/16).
  */
 class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, private val roomMinSize: Int, mapHeight: Int,
-                      mapWidth: Int) : MapGenerator() {
+                      mapWidth: Int) : MapGenerator(mapHeight, mapWidth) {
 
     private val rooms = ArrayList<Rectangle>()
     private val tunnels = ArrayList<Rectangle>()
@@ -18,8 +18,6 @@ class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, pr
     @JvmOverloads constructor(mapHeight: Int = 50, mapWidth: Int = 50) : this(10, 10, 6, mapHeight, mapWidth)
 
     init {
-        this.mapHeight = mapHeight
-        this.mapWidth = mapWidth
         this.tileTypes = Array(mapWidth) { arrayOfNulls<TileType>(mapHeight) }
     }
 

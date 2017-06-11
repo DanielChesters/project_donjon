@@ -6,11 +6,9 @@ import com.oni.donjon.map.TileType
 /**
  * @author Daniel Chesters (on 09/05/2017).
  */
-class CellularAutomataCaveGenerator @JvmOverloads constructor(mapHeight: Int = 50, mapWidth: Int = 50) : MapGenerator() {
+class CellularAutomataCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50) : MapGenerator(mapHeight, mapWidth) {
 
     init {
-        this.mapHeight = mapHeight
-        this.mapWidth = mapWidth
         this.tileTypes = Array(mapWidth) { arrayOfNulls<TileType>(mapHeight) }
     }
 
