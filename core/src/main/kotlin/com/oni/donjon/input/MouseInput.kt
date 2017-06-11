@@ -14,14 +14,10 @@ import ktx.math.vec3
 /**
  * @author Daniel Chesters (on 24/05/14).
  */
-class MouseInput : KtxInputAdapter {
+class MouseInput(val gameStage: GameStage, val uiStage: UIStage) : KtxInputAdapter {
     companion object {
         val log = logger<MouseInput>()
     }
-
-
-    private var gameStage: GameStage? = null
-    private var uiStage: UIStage? = null
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val mouseLocation = getMouseLocation(screenX, screenY, button)
@@ -36,7 +32,7 @@ class MouseInput : KtxInputAdapter {
     private fun getMouseLocation(screenX: Int, screenY: Int, button: Int): Vector2 {
         log.debug { "Down : $screenX,$screenY : $button" }
         val worldCoordinates = vec3(screenX.toFloat(), screenY.toFloat(), 0f)
-        gameStage!!.camera.unproject(worldCoordinates)
+        gameStage.camera.unproject(worldCoordinates)
         val mouseLocation = vec2(worldCoordinates.x, worldCoordinates.y)
         log.debug { "${mouseLocation.x},${mouseLocation.y}" }
         log.debug {
@@ -53,13 +49,5 @@ class MouseInput : KtxInputAdapter {
             val action = uiStage!!.actionList!!.selected
             action?.doAction(realTile, uiStage!!)
         }
-    }
-
-    fun setGameStage(gameStage: GameStage) {
-        this.gameStage = gameStage
-    }
-
-    fun setUiStage(uiStage: UIStage) {
-        this.uiStage = uiStage
     }
 }

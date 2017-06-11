@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.World
 import com.oni.donjon.component.DirectionComponent
 import com.oni.donjon.component.PositionComponent
 import com.oni.donjon.map.Map
+import ktx.ashley.mapperFor
 
 /**
  * @author Daniel Chesters (on 30/05/2017).
@@ -16,10 +17,10 @@ object GameData {
     lateinit var player: Entity
     lateinit var world: World
 
-    fun getPlayerPosition(): Vector2 = ComponentMapper.getFor(PositionComponent::class.java).get(player).position
+    fun getPlayerPosition(): Vector2 = mapperFor<PositionComponent>()[player].position
 
     fun setPlayerDirection(direction: DirectionComponent.Direction) {
-        ComponentMapper.getFor(DirectionComponent::class.java).get(player).direction = direction
+        mapperFor<DirectionComponent>()[player].direction = direction
     }
 
     fun toGameSave(): GameSave {

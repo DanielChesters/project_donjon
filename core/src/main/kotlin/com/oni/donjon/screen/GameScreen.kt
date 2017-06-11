@@ -256,12 +256,7 @@ class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = ""
         return multiplexer
     }
 
-    private fun createMouseInput(): MouseInput {
-        val mouseInput = MouseInput()
-        mouseInput.setGameStage(gameStage)
-        mouseInput.setUiStage(uiStage)
-        return mouseInput
-    }
+    private fun createMouseInput() = MouseInput(gameStage, uiStage)
 
     private fun createDebugStage() {
         debugStage = DebugStage()
