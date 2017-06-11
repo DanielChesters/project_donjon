@@ -2,8 +2,8 @@ package com.oni.donjon.screen
 
 import box2dLight.ConeLight
 import box2dLight.RayHandler
-import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
@@ -40,6 +40,7 @@ import com.oni.donjon.stage.DebugStage
 import com.oni.donjon.stage.GameStage
 import com.oni.donjon.stage.UIStage
 import com.oni.donjon.system.MovementSystem
+import ktx.ashley.entity
 import ktx.box2d.body
 import ktx.log.logger
 import ktx.math.plus
@@ -56,7 +57,7 @@ class GameScreen : ScreenAdapter {
     private var debugStage: DebugStage? = null
     private var gameInput: InputMultiplexer? = null
     private var state: GameState? = null
-    private var engine: Engine? = null
+    private var engine: PooledEngine? = null
     private var world: World? = null
     private var debugRenderer: Box2DDebugRenderer? = null
     private var rayHandler: RayHandler? = null
@@ -83,8 +84,8 @@ class GameScreen : ScreenAdapter {
         val skin = Skin(Gdx.files.internal("skin/uiskin.json"))
         world = World(Vector2.Zero, true)
         debugRenderer = Box2DDebugRenderer()
-        engine = Engine()
         val movementSystem = MovementSystem()
+        engine = PooledEngine()
         engine!!.addSystem(movementSystem)
         rayHandler = RayHandler(world)
         createUi(skin)
@@ -190,7 +191,6 @@ class GameScreen : ScreenAdapter {
         GameData.map = Map(save)
         val playerEntity = createPlayerEntity(save.playerPosition)
 
-        engine!!.addEntity(playerEntity)
         GameData.map.setPlayer(playerEntity)
         GameData.player = playerEntity
         gameStage!!.updatePlayer()
@@ -205,7 +205,6 @@ class GameScreen : ScreenAdapter {
         GameData.player = player
 
         map.setPlayer(player)
-        engine!!.addEntity(player)
 
         gameStage!!.updatePlayer()
         map.updateVisibility()
@@ -218,7 +217,6 @@ class GameScreen : ScreenAdapter {
 
     private fun createPlayerEntity(playerPosition: Vector2): Entity {
         log.debug { playerPosition.toString() }
-        val player = Entity()
 
         val body = world!!.body {
             circle(10f) {
@@ -236,10 +234,11 @@ class GameScreen : ScreenAdapter {
         coneLight.setSoftnessLength(64f)
         coneLight.attachToBody(body)
 
-        player.add(DirectionComponent())
-        player.add(PositionComponent(playerPosition, body))
-        player.add(LightComponent(coneLight))
-
+        val player = engine!!.entity {
+            with<DirectionComponent>()
+            entity.add(PositionComponent(playerPosition, body))
+            entity.add(LightComponent(coneLight))
+        }
         return player
     }
 
