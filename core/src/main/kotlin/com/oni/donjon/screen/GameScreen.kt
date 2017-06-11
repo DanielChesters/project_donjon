@@ -159,12 +159,11 @@ class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = ""
     }
 
     private fun createGameStage(skin: Skin) {
-        gameStage = GameStage()
         val mapActor = MapActor()
 
         val playerLabel = createPlayerLabel(skin)
 
-        gameStage.setPlayerLabel(playerLabel)
+        gameStage = GameStage(playerLabel)
 
         gameStage.camera.position
                 .set(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f, 0f)
@@ -256,8 +255,7 @@ class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = ""
     private fun createMouseInput() = MouseInput(gameStage, uiStage)
 
     private fun createDebugStage() {
-        debugStage = DebugStage()
-        debugStage.setGameStage(gameStage)
+        debugStage = DebugStage(gameStage)
     }
 
     override fun render(delta: Float) {

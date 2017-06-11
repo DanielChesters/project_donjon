@@ -1,6 +1,5 @@
 package com.oni.donjon.action
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.oni.donjon.Resources
 import com.oni.donjon.map.Tile
 import com.oni.donjon.map.TileType
@@ -13,7 +12,7 @@ class LookAction : AbstractAction() {
     override fun doAction(tile: Tile, stage: UIStage) {
         val messageLabel = stage.messageLabel
         if (isPlayerSamePositionAsTile(tile)) {
-            messageLabel!!.setText(Resources.BUNDLE.get("look.me"))
+            messageLabel.setText(Resources.BUNDLE.get("look.me"))
         } else {
             when (tile.type) {
                 TileType.GROUND -> messageLabel.setText(Resources.BUNDLE.get("look.ground"))
@@ -22,7 +21,8 @@ class LookAction : AbstractAction() {
                 TileType.DOOR_CLOSE -> messageLabel.setText(Resources.BUNDLE.get("look.door.close"))
                 TileType.STAIR_UP -> messageLabel.setText(Resources.BUNDLE.get("look.stair.up"))
                 TileType.STAIR_DOWN -> messageLabel.setText(Resources.BUNDLE.get("look.stair.down"))
-                else -> {}
+                else -> {
+                }
             }
         }
     }

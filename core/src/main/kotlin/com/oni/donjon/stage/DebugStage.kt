@@ -2,27 +2,21 @@ package com.oni.donjon.stage
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.badlogic.gdx.math.Rectangle
 import com.oni.donjon.data.GameData
 import com.oni.donjon.map.Tile
 
 /**
  * @author Daniel Chesters (on 01/06/14).
  */
-class DebugStage {
+class DebugStage(val gameStage: GameStage) {
     private val debugRenderer: ShapeRenderer = ShapeRenderer()
-    private var gameStage: GameStage? = null
-
-    fun setGameStage(gameStage: GameStage) {
-        this.gameStage = gameStage
-    }
 
     fun drawDebug() {
-        debugRenderer.projectionMatrix = gameStage!!.camera.combined
+        debugRenderer.projectionMatrix = gameStage.camera.combined
         debugRenderer.begin(ShapeRenderer.ShapeType.Line)
-        GameData.map.tiles.forEach { t ->
-            val rectangle = t.rectangle
-            if (t.isKnow) {
+        GameData.map.tiles.forEach {
+            val rectangle = it.rectangle
+            if (it.isKnow) {
                 debugRenderer.color = Color.RED
             } else {
                 debugRenderer.color = Color.BLUE
