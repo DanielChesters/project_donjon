@@ -2,6 +2,7 @@ package com.oni.donjon.data
 
 import com.badlogic.gdx.math.Vector2
 import com.oni.donjon.map.TileType
+import java.util.*
 
 /**
  * @author Daniel Chesters (on 07/02/16).
@@ -35,11 +36,7 @@ data class GameSave(
     }
 
     override fun hashCode(): Int {
-        var hashcode = 0
-        hashcode += map!!.hashCode()
-        hashcode += mapHeight!!
-        hashcode += mapWidth!!
-        hashcode += playerPosition.hashCode()
-        return hashcode
+
+        return Objects.hash(mapHeight, mapWidth, map, playerPosition)
     }
 }

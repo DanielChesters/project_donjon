@@ -20,7 +20,7 @@ class DonjonGeneratorTest {
         val tileTypeList = ArrayList<TileType>()
         for (x in 0..mapWidth - 1) {
             (0..mapWidth - 1).mapTo(tileTypeList) {
-                mapGenerator.tileTypes!![x][it]!!
+                mapGenerator.tileTypes[x][it]!!
             }
         }
 

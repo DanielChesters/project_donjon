@@ -14,8 +14,8 @@ import com.oni.donjon.component.PositionComponent
 import com.oni.donjon.data.GameData
 import com.oni.donjon.map.Tile
 import com.oni.donjon.screen.GameScreen
+import ktx.math.vec2
 import java.math.BigDecimal
-import java.util.stream.IntStream
 
 /**
  * @author Daniel Chesters (on 06/02/16).
@@ -102,7 +102,8 @@ class MovementSystem : IteratingSystem(Family.all(PositionComponent::class.java,
         val radianAngle = Math.toRadians(angle.toDouble()).toFloat()
         val (position, body) = pm.get(player)
         lm.get(player).coneLight.setDirection(radianAngle)
-        IntStream.range(0, numberCase).forEach { _ ->
+
+        for (i in 0..numberCase) {
             val tileRight = GameData.map.getTile((position.x + deltaX).toInt().toFloat(),
                     (position.y + deltaY).toInt().toFloat())
             if (tileRight.isPresent && checkMovable(player, deltaX, deltaY)) {
@@ -120,7 +121,7 @@ class MovementSystem : IteratingSystem(Family.all(PositionComponent::class.java,
         val body = pm.get(player).body
         val world = body.world
 
-        val endPosition = Vector2(body.position.x + deltaX * Tile.SIZE,
+        val endPosition = vec2(body.position.x + deltaX * Tile.SIZE,
                 body.position.y + deltaY * Tile.SIZE)
         world.rayCast(rayCastCallback, body.position, endPosition)
         return canMove

@@ -32,7 +32,7 @@ class DrunkardsWalkCaveGenerator @JvmOverloads constructor(mapHeight: Int = 50, 
     private fun placeGrounds() {
         var x = MathUtils.random(1, mapWidth - 2)
         var y = MathUtils.random(1, mapHeight - 2)
-        tileTypes!![x][y] = TileType.GROUND
+        tileTypes[x][y] = TileType.GROUND
 
         for (i in 1..nbFloorTiles - 1) {
             do {
@@ -42,15 +42,15 @@ class DrunkardsWalkCaveGenerator @JvmOverloads constructor(mapHeight: Int = 50, 
                     DrunkardsWalkCaveGenerator.Direction.EAST -> x = MathUtils.clamp(x + 1, 1, mapHeight - 2)
                     DrunkardsWalkCaveGenerator.Direction.WEST -> x = MathUtils.clamp(x - 1, 1, mapHeight - 2)
                 }
-            } while (TileType.WALL != tileTypes!![x][y])
-            tileTypes!![x][y] = TileType.GROUND
+            } while (TileType.WALL != tileTypes[x][y])
+            tileTypes[x][y] = TileType.GROUND
         }
     }
 
     private fun placeWalls() {
         for (x in 0..mapWidth - 1) {
             for (y in 0..mapHeight - 1) {
-                tileTypes!![x][y] = TileType.WALL
+                tileTypes[x][y] = TileType.WALL
             }
         }
     }

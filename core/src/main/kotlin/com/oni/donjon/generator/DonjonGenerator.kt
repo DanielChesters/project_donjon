@@ -58,7 +58,7 @@ class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, pr
     private fun placeDoorWidth(t: Rectangle, yMin: Int, yMax: Int) {
         for (y in t.y.toInt()..t.y.toInt() + t.height.toInt() - 1) {
             if (y == yMin || y == yMax) {
-                tileTypes!![t.x.toInt()][y] = TileType.DOOR_CLOSE
+                tileTypes[t.x.toInt()][y] = TileType.DOOR_CLOSE
                 break
             }
         }
@@ -67,7 +67,7 @@ class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, pr
     private fun placeDoorHeight(t: Rectangle, xMin: Int, xMax: Int) {
         for (x in t.x.toInt()..t.x.toInt() + t.width.toInt() - 1) {
             if (x == xMin || x == xMax) {
-                tileTypes!![x][t.y.toInt()] = TileType.DOOR_CLOSE
+                tileTypes[x][t.y.toInt()] = TileType.DOOR_CLOSE
                 break
             }
         }
@@ -79,7 +79,7 @@ class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, pr
             while (x < rectangle.x + rectangle.width) {
                 var y = rectangle.y.toInt()
                 while (y < rectangle.y + rectangle.height) {
-                    tileTypes!![x][y] = TileType.GROUND
+                    tileTypes[x][y] = TileType.GROUND
                     y++
                 }
                 x++
@@ -91,13 +91,13 @@ class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, pr
         val startRoom = rooms[MathUtils.random(rooms.size - 1)]
         val x = MathUtils.random(startRoom.x.toInt(), startRoom.x.toInt() + startRoom.width.toInt() - 1)
         val y = MathUtils.random(startRoom.y.toInt(), startRoom.y.toInt() + startRoom.height.toInt() - 1)
-        tileTypes!![x][y] = tileType
+        tileTypes[x][y] = tileType
     }
 
     private fun createWalls() {
         for (x in 0..mapWidth - 1) {
             for (y in 0..mapHeight - 1) {
-                tileTypes!![x][y] = TileType.WALL
+                tileTypes[x][y] = TileType.WALL
             }
         }
     }

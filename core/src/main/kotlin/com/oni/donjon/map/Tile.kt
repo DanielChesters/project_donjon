@@ -1,11 +1,11 @@
 package com.oni.donjon.map
 
 import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.World
 import com.oni.donjon.screen.GameScreen
 import ktx.box2d.body
+import ktx.math.vec2
 import kotlin.experimental.or
 
 /**
@@ -14,6 +14,7 @@ import kotlin.experimental.or
 data class Tile(val x: Float = -1f, val y: Float = -1f, var type: TileType, var isKnow: Boolean = false, val world: World) {
     var rectangle: Rectangle
     lateinit var body: Body
+
     companion object {
         val SIZE = 32f
     }
@@ -33,7 +34,7 @@ data class Tile(val x: Float = -1f, val y: Float = -1f, var type: TileType, var 
         return world.body {
             val realX = rectangle.x * SIZE + rectangle.getWidth() / 2
             val realY = rectangle.y * SIZE + rectangle.getHeight() / 2
-            box(width = rectangle.width, height = rectangle.height, position = Vector2(realX,
+            box(width = rectangle.width, height = rectangle.height, position = vec2(realX,
                     realY)) {
                 filter.categoryBits = this@Tile.type.categoryBits
                 filter.maskBits = GameScreen.PLAYER_BIT or GameScreen.LIGHT_BIT

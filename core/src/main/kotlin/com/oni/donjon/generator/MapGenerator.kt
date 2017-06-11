@@ -9,7 +9,7 @@ import com.oni.donjon.map.TileType
 abstract class MapGenerator {
     var mapHeight: Int = 0
     var mapWidth: Int = 0
-    var tileTypes: Array<Array<TileType?>>? = null
+    lateinit var tileTypes: Array<Array<TileType?>>
 
     protected fun placeSpecialTile(tileType: TileType) {
         var x: Int
@@ -17,8 +17,8 @@ abstract class MapGenerator {
         do {
             x = MathUtils.random(0, mapWidth - 1)
             y = MathUtils.random(0, mapWidth - 1)
-        } while (TileType.GROUND != tileTypes!![x][y])
-        tileTypes!![x][y] = tileType
+        } while (TileType.GROUND != tileTypes[x][y])
+        tileTypes[x][y] = tileType
     }
 
     abstract fun generate()

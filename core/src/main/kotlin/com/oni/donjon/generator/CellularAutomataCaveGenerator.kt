@@ -32,9 +32,9 @@ class CellularAutomataCaveGenerator @JvmOverloads constructor(mapHeight: Int = 5
             for (y in 0..mapHeight - 1) {
                 val countWall = countWall(x, y)
                 if (countWall >= 5) {
-                    tileTypes!![x][y] = TileType.WALL
+                    tileTypes[x][y] = TileType.WALL
                 } else {
-                    tileTypes!![x][y] = TileType.GROUND
+                    tileTypes[x][y] = TileType.GROUND
                 }
             }
         }
@@ -47,7 +47,7 @@ class CellularAutomataCaveGenerator @JvmOverloads constructor(mapHeight: Int = 5
                 if (x + i < 0 || y + j < 0 || x + i > mapWidth - 1 || y + j > mapHeight - 1) {
                     countWall++
                 } else {
-                    countWall += if (tileTypes!![x + i][y + j] === TileType.WALL) 1 else 0
+                    countWall += if (tileTypes[x + i][y + j] === TileType.WALL) 1 else 0
                 }
             }
         }
@@ -58,12 +58,12 @@ class CellularAutomataCaveGenerator @JvmOverloads constructor(mapHeight: Int = 5
         for (x in 0..mapWidth - 1) {
             for (y in 0..mapHeight - 1) {
                 if (x == 0 || y == 0 || x == mapWidth - 1 || y == mapHeight - 1) {
-                    tileTypes!![x][y] = TileType.WALL
+                    tileTypes[x][y] = TileType.WALL
                 } else {
                     if (MathUtils.randomBoolean(0.4f)) {
-                        tileTypes!![x][y] = TileType.WALL
+                        tileTypes[x][y] = TileType.WALL
                     } else {
-                        tileTypes!![x][y] = TileType.GROUND
+                        tileTypes[x][y] = TileType.GROUND
                     }
                 }
             }

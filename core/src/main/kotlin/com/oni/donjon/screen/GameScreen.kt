@@ -42,6 +42,9 @@ import com.oni.donjon.stage.UIStage
 import com.oni.donjon.system.MovementSystem
 import ktx.box2d.body
 import ktx.log.logger
+import ktx.math.plus
+import ktx.math.times
+import ktx.math.vec2
 
 /**
  * @author Daniel Chesters (on 25/05/14).
@@ -219,7 +222,7 @@ class GameScreen : ScreenAdapter {
 
         val body = world!!.body {
             circle(10f) {
-                this@body.position.set(playerPosition).add(0.25f, 0.25f).scl(Tile.SIZE)
+                (this@body.position.set(playerPosition) + vec2(0.25f, 0.25f)) * (Tile.SIZE)
                 this@body.type = BodyDef.BodyType.DynamicBody
                 filter.categoryBits = PLAYER_BIT
                 filter.maskBits = WALL_BIT

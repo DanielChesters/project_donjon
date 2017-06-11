@@ -19,6 +19,7 @@ dependencies {
     compile "io.github.libktx:ktx-log:$ktxLogVersion"
     compile "io.github.libktx:ktx-collections:$ktxCollectionsVersion"
     compile "io.github.libktx:ktx-box2d:$ktxBox2dVersion"
+    compile "io.github.libktx:ktx-math:$ktxMathVersion"
     testCompile "junit:junit:$junitVersion"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
 }

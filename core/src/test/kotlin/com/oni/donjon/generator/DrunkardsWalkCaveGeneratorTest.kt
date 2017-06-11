@@ -22,7 +22,7 @@ class DrunkardsWalkCaveGeneratorTest {
         Assert.assertEquals(50, mapWidth.toLong())
         val tileTypeList = ArrayList<TileType>()
         for (x in 0..mapWidth - 1) {
-            (0..mapWidth - 1).mapTo(tileTypeList) { mapGenerator.tileTypes!![x][it]!! }
+            (0..mapWidth - 1).mapTo(tileTypeList) { mapGenerator.tileTypes[x][it]!! }
         }
 
         val tileCount = tileTypeList.count()

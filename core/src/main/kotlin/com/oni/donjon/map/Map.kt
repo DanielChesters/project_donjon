@@ -30,7 +30,7 @@ class Map {
         generator.generate()
         for (x in 0..generator.mapWidth - 1) {
             for (y in 0..generator.mapHeight - 1) {
-                tiles.add(Tile(x.toFloat(), y.toFloat(), generator.tileTypes!![x][y]!!, false,
+                tiles.add(Tile(x.toFloat(), y.toFloat(), generator.tileTypes[x][y]!!, false,
                         GameData.world))
             }
         }
