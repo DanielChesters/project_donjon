@@ -100,8 +100,6 @@ class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = ""
     }
 
     private fun createUi(skin: Skin) {
-        uiStage = UIStage()
-
         val messageLabel = createMessageLabel(skin)
         val actionList = createActionList(skin)
         val actionWindow = createActionWindow(skin, actionList)
@@ -109,8 +107,7 @@ class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = ""
         val menuWindow = MenuGameWindow(skin, saveWindow, game, this)
         val menuButton = createMenuButton(skin, menuWindow)
 
-        uiStage.messageLabel = messageLabel
-        uiStage.actionList = actionList
+        uiStage = UIStage(actionList, messageLabel)
 
         uiStage.addActor(messageLabel)
         uiStage.addActor(actionWindow)

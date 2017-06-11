@@ -15,13 +15,13 @@ import ktx.collections.gdxArrayOf
  */
 class LoadWindow(title: String, skin: Skin, game: DonjonGame) {
     val window: Window = Window(title, skin)
-    private var saveList: List<String>? = null
-    private var loadButton: TextButton? = null
-    private var cancelButton: TextButton? = null
+    lateinit var saveList: List<String>
+    lateinit var loadButton: TextButton
+    lateinit var cancelButton: TextButton
 
     init {
         createSaveList(skin)
-        createLoadButton(game, skin, saveList!!)
+        createLoadButton(game, skin, saveList)
         createCancelButton(skin)
         createWindow(skin)
     }
@@ -41,8 +41,8 @@ class LoadWindow(title: String, skin: Skin, game: DonjonGame) {
 
     private fun createCancelButton(skin: Skin) {
         cancelButton = TextButton(Resources.BUNDLE.get("main.screen.load.cancel"), skin)
-        cancelButton!!.pack()
-        cancelButton!!.addListener(object : InputListener() {
+        cancelButton.pack()
+        cancelButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
                                    button: Int): Boolean {
                 this@LoadWindow.window.isVisible = false
@@ -54,8 +54,8 @@ class LoadWindow(title: String, skin: Skin, game: DonjonGame) {
     private fun createLoadButton(game: DonjonGame, skin: Skin,
                                  saveList: List<String>) {
         loadButton = TextButton(Resources.BUNDLE.get("main.screen.load.ok"), skin)
-        loadButton!!.pack()
-        loadButton!!.addListener(object : InputListener() {
+        loadButton.pack()
+        loadButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
                                    button: Int): Boolean {
                 val save = saveList.selected
@@ -71,8 +71,8 @@ class LoadWindow(title: String, skin: Skin, game: DonjonGame) {
 
     private fun createSaveList(skin: Skin) {
         saveList = List<String>(skin)
-        saveList!!.selection.required = true
-        saveList!!.selection.multiple = false
+        saveList.selection.required = true
+        saveList.selection.multiple = false
     }
 
     fun show() {
@@ -81,7 +81,7 @@ class LoadWindow(title: String, skin: Skin, game: DonjonGame) {
         for (file in saveFolder.list { _, name -> name.endsWith(".json") }) {
             saveArray.add(file.name())
         }
-        saveList!!.setItems(saveArray)
+        saveList.setItems(saveArray)
         window.pack()
         window.setPosition(Gdx.graphics.width / 2f - window.width / 2f,
                 Gdx.graphics.height / 2f - window.height / 2f)

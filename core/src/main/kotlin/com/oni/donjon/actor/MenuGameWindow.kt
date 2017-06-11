@@ -16,9 +16,9 @@ import com.oni.donjon.screen.MainScreen
  */
 class MenuGameWindow(skin: Skin, saveWindow: SaveWindow, game: DonjonGame, screen: GameScreen) {
     val window: Window = Window(Resources.BUNDLE.get("game_menu.title"), skin, "dialog")
-    private var saveButton: TextButton? = null
-    private var exitButton: TextButton? = null
-    private var closeButton: TextButton? = null
+    lateinit var saveButton: TextButton
+    lateinit var exitButton: TextButton
+    lateinit var closeButton: TextButton
 
     init {
         createSaveButton(skin, saveWindow)
@@ -44,7 +44,7 @@ class MenuGameWindow(skin: Skin, saveWindow: SaveWindow, game: DonjonGame, scree
 
     private fun createCloseButton(skin: Skin, screen: GameScreen) {
         closeButton = TextButton(Resources.BUNDLE.get("game_menu.action.close"), skin)
-        closeButton!!.addListener(object : InputListener() {
+        closeButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
                                    button: Int): Boolean {
                 window.isVisible = false
@@ -52,12 +52,12 @@ class MenuGameWindow(skin: Skin, saveWindow: SaveWindow, game: DonjonGame, scree
                 return true
             }
         })
-        closeButton!!.pack()
+        closeButton.pack()
     }
 
     private fun createExitButton(skin: Skin, game: DonjonGame) {
         exitButton = TextButton(Resources.BUNDLE.get("game_menu.action.exit"), skin)
-        exitButton!!.addListener(object : InputListener() {
+        exitButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
                                    button: Int): Boolean {
                 game.removeScreen<MainScreen>()
@@ -66,12 +66,12 @@ class MenuGameWindow(skin: Skin, saveWindow: SaveWindow, game: DonjonGame, scree
                 return true
             }
         })
-        exitButton!!.pack()
+        exitButton.pack()
     }
 
     private fun createSaveButton(skin: Skin, saveWindow: SaveWindow) {
         saveButton = TextButton(Resources.BUNDLE.get("game_menu.action.save"), skin)
-        saveButton!!.addListener(object : InputListener() {
+        saveButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
                                    button: Int): Boolean {
                 saveWindow.show()
@@ -79,7 +79,7 @@ class MenuGameWindow(skin: Skin, saveWindow: SaveWindow, game: DonjonGame, scree
                 return true
             }
         })
-        saveButton!!.pack()
+        saveButton.pack()
         saveWindow.menuGameWindow = this
     }
 

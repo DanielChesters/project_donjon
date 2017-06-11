@@ -14,12 +14,12 @@ class CloseAction : AbstractAction() {
     override fun doAction(tile: Tile, stage: UIStage) {
         val messageLabel = stage.messageLabel
         if (isPlayerSamePositionAsTile(tile)) {
-            messageLabel!!.setText(Resources.BUNDLE.get("close.me"))
+            messageLabel.setText(Resources.BUNDLE.get("close.me"))
         } else {
             when (tile.type) {
-                TileType.DOOR_CLOSE -> messageLabel!!.setText(Resources.BUNDLE.get("close.door.already.close"))
+                TileType.DOOR_CLOSE -> messageLabel.setText(Resources.BUNDLE.get("close.door.already.close"))
                 TileType.DOOR_OPEN -> closeOpenedDoor(tile, stage)
-                else -> messageLabel!!.setText(Resources.BUNDLE.get("close.nothing"))
+                else -> messageLabel.setText(Resources.BUNDLE.get("close.nothing"))
             }
         }
     }
@@ -29,10 +29,10 @@ class CloseAction : AbstractAction() {
         if (isNearPlayer(tile)) {
             tile.type = TileType.DOOR_CLOSE
             tile.body = tile.createBody(GameData.world)
-            messageLabel!!.setText(Resources.BUNDLE.get("close.door"))
+            messageLabel.setText(Resources.BUNDLE.get("close.door"))
             Sounds.CLOSE_DOOR.play()
         } else {
-            messageLabel!!.setText(Resources.BUNDLE.get("close.door.too.far"))
+            messageLabel.setText(Resources.BUNDLE.get("close.door.too.far"))
         }
     }
 }

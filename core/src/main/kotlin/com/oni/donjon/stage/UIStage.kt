@@ -8,8 +8,4 @@ import com.oni.donjon.action.Actions
 /**
  * @author Daniel Chesters (on 01/06/14).
  */
-class UIStage : Stage() {
-
-    var actionList: List<Actions>? = null
-    var messageLabel: Label? = null
-}
+class UIStage(val actionList: List<Actions>, val messageLabel: Label) : Stage()

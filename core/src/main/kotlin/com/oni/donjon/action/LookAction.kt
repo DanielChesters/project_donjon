@@ -16,12 +16,12 @@ class LookAction : AbstractAction() {
             messageLabel!!.setText(Resources.BUNDLE.get("look.me"))
         } else {
             when (tile.type) {
-                TileType.GROUND -> messageLabel!!.setText(Resources.BUNDLE.get("look.ground"))
-                TileType.WALL -> messageLabel!!.setText(Resources.BUNDLE.get("look.wall"))
-                TileType.DOOR_OPEN -> messageLabel!!.setText(Resources.BUNDLE.get("look.door.open"))
-                TileType.DOOR_CLOSE -> messageLabel!!.setText(Resources.BUNDLE.get("look.door.close"))
-                TileType.STAIR_UP -> messageLabel!!.setText(Resources.BUNDLE.get("look.stair.up"))
-                TileType.STAIR_DOWN -> messageLabel!!.setText(Resources.BUNDLE.get("look.stair.down"))
+                TileType.GROUND -> messageLabel.setText(Resources.BUNDLE.get("look.ground"))
+                TileType.WALL -> messageLabel.setText(Resources.BUNDLE.get("look.wall"))
+                TileType.DOOR_OPEN -> messageLabel.setText(Resources.BUNDLE.get("look.door.open"))
+                TileType.DOOR_CLOSE -> messageLabel.setText(Resources.BUNDLE.get("look.door.close"))
+                TileType.STAIR_UP -> messageLabel.setText(Resources.BUNDLE.get("look.stair.up"))
+                TileType.STAIR_DOWN -> messageLabel.setText(Resources.BUNDLE.get("look.stair.down"))
                 else -> {}
             }
         }

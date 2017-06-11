@@ -46,8 +46,8 @@ class MouseInput(val gameStage: GameStage, val uiStage: UIStage) : KtxInputAdapt
                 (mouseLocation.y / Tile.SIZE).toInt().toFloat())
         if (tile.isPresent && tile.get().isKnow) {
             val realTile = tile.get()
-            val action = uiStage!!.actionList!!.selected
-            action?.doAction(realTile, uiStage!!)
+            val action = uiStage.actionList.selected
+            action?.doAction(realTile, uiStage)
         }
     }
 }
