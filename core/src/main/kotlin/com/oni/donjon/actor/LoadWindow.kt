@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.ui.List
-import com.badlogic.gdx.utils.Array
 import com.oni.donjon.DonjonGame
 import com.oni.donjon.Resources
 import com.oni.donjon.screen.GameScreen
@@ -63,7 +62,7 @@ class LoadWindow(title: String, skin: Skin, game: DonjonGame) {
                 if (game.containsScreen<GameScreen>()) {
                     game.removeScreen<GameScreen>()
                 }
-                game.addScreen(GameScreen(game, ".config/donjon/save/$save"))
+                game.addScreen(GameScreen(game, game.context.inject(), ".config/donjon/save/$save"))
                 game.setScreen<GameScreen>()
                 return true
             }

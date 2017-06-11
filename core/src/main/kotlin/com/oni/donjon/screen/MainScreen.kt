@@ -79,7 +79,7 @@ class MainScreen(val stage: Stage, val game: DonjonGame, val skin: Skin) : KtxSc
                 if (game.containsScreen<GameScreen>()) {
                     game.removeScreen<GameScreen>()
                 }
-                game.addScreen(GameScreen(game))
+                game.addScreen(GameScreen(game, game.context.inject()))
                 game.setScreen<GameScreen>()
                 return true
             }

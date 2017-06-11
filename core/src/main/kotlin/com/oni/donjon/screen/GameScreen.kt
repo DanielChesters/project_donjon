@@ -7,7 +7,6 @@ import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
-import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -40,6 +39,7 @@ import com.oni.donjon.stage.DebugStage
 import com.oni.donjon.stage.GameStage
 import com.oni.donjon.stage.UIStage
 import com.oni.donjon.system.MovementSystem
+import ktx.app.KtxScreen
 import ktx.ashley.entity
 import ktx.box2d.body
 import ktx.log.logger
@@ -50,47 +50,47 @@ import ktx.math.vec2
 /**
  * @author Daniel Chesters (on 25/05/14).
  */
-class GameScreen : ScreenAdapter {
-    private var game: DonjonGame? = null
-    private var uiStage: UIStage? = null
-    private var gameStage: GameStage? = null
-    private var debugStage: DebugStage? = null
-    private var gameInput: InputMultiplexer? = null
-    private var state: GameState? = null
-    private var engine: PooledEngine? = null
-    private var world: World? = null
-    private var debugRenderer: Box2DDebugRenderer? = null
-    private var rayHandler: RayHandler? = null
+class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = "") : KtxScreen {
+    lateinit var uiStage: UIStage
+    lateinit var gameStage: GameStage
+    lateinit var debugStage: DebugStage
+    lateinit var gameInput: InputMultiplexer
+    lateinit var state: GameState
+    lateinit var engine: PooledEngine
+    lateinit var world: World
+    lateinit var debugRenderer: Box2DDebugRenderer
+    lateinit var rayHandler: RayHandler
 
-
-    constructor(game: DonjonGame) {
-        createGame(game, { this.createData() })
-    }
-
-    constructor(game: DonjonGame, saveFile: String) {
-        createGame(game, { loadData(saveFile) })
+    init {
+        if (saveFile.isEmpty()) {
+            createGame {
+                createData()
+            }
+        } else {
+            createGame {
+                loadData(saveFile)
+            }
+        }
     }
 
     override fun dispose() {
         super.dispose()
-        world!!.dispose()
-        rayHandler!!.dispose()
-        debugRenderer!!.dispose()
+        world.dispose()
+        rayHandler.dispose()
+        debugRenderer.dispose()
         Sounds.disposeAll()
     }
 
-    private fun createGame(game: DonjonGame, runnable: () -> Unit) {
-        this.game = game
-        val skin = Skin(Gdx.files.internal("skin/uiskin.json"))
+    private fun createGame(runnable: () -> Unit) {
         world = World(Vector2.Zero, true)
         debugRenderer = Box2DDebugRenderer()
         val movementSystem = MovementSystem()
         engine = PooledEngine()
-        engine!!.addSystem(movementSystem)
+        engine.addSystem(movementSystem)
         rayHandler = RayHandler(world)
         createUi(skin)
         createGameStage(skin)
-        GameData.world = world!!
+        GameData.world = world
         runnable.invoke()
         createInput()
         state = GameState.RUNNING
@@ -106,17 +106,17 @@ class GameScreen : ScreenAdapter {
         val actionList = createActionList(skin)
         val actionWindow = createActionWindow(skin, actionList)
         val saveWindow = SaveWindow(Resources.BUNDLE.get("window.save.title"), skin)
-        val menuWindow = MenuGameWindow(skin, saveWindow, game!!, this)
+        val menuWindow = MenuGameWindow(skin, saveWindow, game, this)
         val menuButton = createMenuButton(skin, menuWindow)
 
-        uiStage!!.messageLabel = messageLabel
-        uiStage!!.actionList = actionList
+        uiStage.messageLabel = messageLabel
+        uiStage.actionList = actionList
 
-        uiStage!!.addActor(messageLabel)
-        uiStage!!.addActor(actionWindow)
-        uiStage!!.addActor(menuWindow.window)
-        uiStage!!.addActor(menuButton)
-        uiStage!!.addActor(saveWindow.window)
+        uiStage.addActor(messageLabel)
+        uiStage.addActor(actionWindow)
+        uiStage.addActor(menuWindow.window)
+        uiStage.addActor(menuButton)
+        uiStage.addActor(saveWindow.window)
     }
 
     private fun createMenuButton(skin: Skin, menuWindow: MenuGameWindow): TextButton {
@@ -167,12 +167,12 @@ class GameScreen : ScreenAdapter {
 
         val playerLabel = createPlayerLabel(skin)
 
-        gameStage!!.setPlayerLabel(playerLabel)
+        gameStage.setPlayerLabel(playerLabel)
 
-        gameStage!!.camera.position
+        gameStage.camera.position
                 .set(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f, 0f)
-        gameStage!!.addActor(mapActor)
-        gameStage!!.addActor(playerLabel)
+        gameStage.addActor(mapActor)
+        gameStage.addActor(playerLabel)
 
     }
 
@@ -193,7 +193,7 @@ class GameScreen : ScreenAdapter {
 
         GameData.map.setPlayer(playerEntity)
         GameData.player = playerEntity
-        gameStage!!.updatePlayer()
+        gameStage.updatePlayer()
     }
 
     private fun createData() {
@@ -206,19 +206,19 @@ class GameScreen : ScreenAdapter {
 
         map.setPlayer(player)
 
-        gameStage!!.updatePlayer()
+        gameStage.updatePlayer()
         map.updateVisibility()
     }
 
     override fun resize(width: Int, height: Int) {
-        gameStage!!.viewport.update(width, height)
-        uiStage!!.viewport.update(width, height)
+        gameStage.viewport.update(width, height)
+        uiStage.viewport.update(width, height)
     }
 
     private fun createPlayerEntity(playerPosition: Vector2): Entity {
         log.debug { playerPosition.toString() }
 
-        val body = world!!.body {
+        val body = world.body {
             circle(10f) {
                 (this@body.position.set(playerPosition) + vec2(0.25f, 0.25f)) * (Tile.SIZE)
                 this@body.type = BodyDef.BodyType.DynamicBody
@@ -227,14 +227,14 @@ class GameScreen : ScreenAdapter {
             }
         }
 
-        val coneLight = ConeLight(rayHandler!!, 50, Color.FIREBRICK, 100f, body.position.x,
+        val coneLight = ConeLight(rayHandler, 50, Color.FIREBRICK, 100f, body.position.x,
                 body.position.y, body.angle, 90f)
         coneLight.setContactFilter(LIGHT_BIT, NOTHING_BIT, WALL_BIT)
         coneLight.isSoft = true
         coneLight.setSoftnessLength(64f)
         coneLight.attachToBody(body)
 
-        val player = engine!!.entity {
+        val player = engine.entity {
             with<DirectionComponent>()
             entity.add(PositionComponent(playerPosition, body))
             entity.add(LightComponent(coneLight))
@@ -243,17 +243,14 @@ class GameScreen : ScreenAdapter {
     }
 
     private fun createInput() {
-        if (gameInput == null) {
-            gameInput = createInputMultiplexer(KeyboardInput(), createMouseInput())
-        }
-
+        gameInput = createInputMultiplexer(KeyboardInput(), createMouseInput())
         Gdx.input.inputProcessor = gameInput
     }
 
     private fun createInputMultiplexer(keyboardInput: KeyboardInput,
                                        mouseInput: MouseInput): InputMultiplexer {
         val multiplexer = InputMultiplexer()
-        multiplexer.addProcessor(uiStage!!)
+        multiplexer.addProcessor(uiStage)
         multiplexer.addProcessor(keyboardInput)
         multiplexer.addProcessor(mouseInput)
         return multiplexer
@@ -261,14 +258,14 @@ class GameScreen : ScreenAdapter {
 
     private fun createMouseInput(): MouseInput {
         val mouseInput = MouseInput()
-        mouseInput.setGameStage(gameStage!!)
-        mouseInput.setUiStage(uiStage!!)
+        mouseInput.setGameStage(gameStage)
+        mouseInput.setUiStage(uiStage)
         return mouseInput
     }
 
     private fun createDebugStage() {
         debugStage = DebugStage()
-        debugStage!!.setGameStage(gameStage!!)
+        debugStage.setGameStage(gameStage)
     }
 
     override fun render(delta: Float) {
@@ -283,36 +280,32 @@ class GameScreen : ScreenAdapter {
     private fun updatePause() {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        gameStage!!.draw()
+        gameStage.draw()
         if (Gdx.app.logLevel == Application.LOG_DEBUG) {
-            debugStage!!.drawDebug()
-            debugRenderer!!.render(world, gameStage!!.camera.combined)
+            debugStage.drawDebug()
+            debugRenderer.render(world, gameStage.camera.combined)
         }
-        uiStage!!.draw()
+        uiStage.draw()
     }
 
     private fun update(delta: Float) {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        engine!!.update(delta)
-        gameStage!!.updatePlayer()
-        gameStage!!.camera.position
+        engine.update(delta)
+        gameStage.updatePlayer()
+        gameStage.camera.position
                 .set(GameData.getPlayerPosition().x * Tile.SIZE,
                         GameData.getPlayerPosition().y * Tile.SIZE, 0f)
-        gameStage!!.camera.update()
-        gameStage!!.draw()
-        rayHandler!!.setCombinedMatrix(gameStage!!.camera as OrthographicCamera)
-        rayHandler!!.updateAndRender()
-        world!!.step(1 / 60f, 6, 2)
+        gameStage.camera.update()
+        gameStage.draw()
+        rayHandler.setCombinedMatrix(gameStage.camera as OrthographicCamera)
+        rayHandler.updateAndRender()
+        world.step(1 / 60f, 6, 2)
         if (Gdx.app.logLevel == Application.LOG_DEBUG) {
-            debugStage!!.drawDebug()
-            debugRenderer!!.render(world, gameStage!!.camera.combined)
+            debugStage.drawDebug()
+            debugRenderer.render(world, gameStage.camera.combined)
         }
-        uiStage!!.draw()
-    }
-
-    fun setState(state: GameState) {
-        this.state = state
+        uiStage.draw()
     }
 
     enum class GameState {

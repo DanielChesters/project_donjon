@@ -48,7 +48,7 @@ class MenuGameWindow(skin: Skin, saveWindow: SaveWindow, game: DonjonGame, scree
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
                                    button: Int): Boolean {
                 window.isVisible = false
-                screen.setState(GameScreen.GameState.RUNNING)
+                screen.state = GameScreen.GameState.RUNNING
                 return true
             }
         })
