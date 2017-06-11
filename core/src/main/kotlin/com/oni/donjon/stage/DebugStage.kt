@@ -28,7 +28,7 @@ class DebugStage {
                 debugRenderer.color = Color.BLUE
             }
             debugRenderer
-                    .rect(rectangle!!.getX() * Tile.SIZE, rectangle.getY() * Tile.SIZE, Tile.SIZE,
+                    .rect(rectangle.getX() * Tile.SIZE, rectangle.getY() * Tile.SIZE, Tile.SIZE,
                             Tile.SIZE)
         }
         debugRenderer.end()

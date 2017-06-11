@@ -27,7 +27,7 @@ object GameData {
 
         for (tile in map.tiles) {
             val savedTile = GameSave.SavedTile(tile.type, tile.isKnow)
-            savedTiles[tile.rectangle!!.x.toInt()][tile.rectangle!!.y.toInt()] = savedTile
+            savedTiles[tile.rectangle.x.toInt()][tile.rectangle.y.toInt()] = savedTile
         }
 
         return GameSave(map.mapHeight, map.mapWidth, savedTiles, getPlayerPosition())

@@ -18,6 +18,6 @@ abstract class AbstractAction : Action {
     private fun testPositionBetweenTileAndPlayer(tile: Tile, distance: Float): Boolean {
         val tileRectangle = tile.rectangle
         val playerPosition = GameData.getPlayerPosition()
-        return Math.abs(tileRectangle!!.getX() - playerPosition.x.toInt()) < distance && Math.abs(tileRectangle.getY() - playerPosition.y.toInt()) < distance
+        return Math.abs(tileRectangle.getX() - playerPosition.x.toInt()) < distance && Math.abs(tileRectangle.getY() - playerPosition.y.toInt()) < distance
     }
 }

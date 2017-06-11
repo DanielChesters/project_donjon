@@ -61,8 +61,8 @@ class Map {
 
     fun getTile(x: Float, y: Float): Optional<Tile> {
         val tile = tiles
-                .find { BigDecimal.valueOf(it.rectangle!!.getX().toDouble()).compareTo(BigDecimal.valueOf(x.toDouble())) == 0
-                        && BigDecimal.valueOf(it.rectangle!!.getY().toDouble()).compareTo(BigDecimal.valueOf(y.toDouble())) == 0 }
+                .find { BigDecimal.valueOf(it.rectangle.getX().toDouble()).compareTo(BigDecimal.valueOf(x.toDouble())) == 0
+                        && BigDecimal.valueOf(it.rectangle.getY().toDouble()).compareTo(BigDecimal.valueOf(y.toDouble())) == 0 }
         return Optional.ofNullable(tile)
 
     }

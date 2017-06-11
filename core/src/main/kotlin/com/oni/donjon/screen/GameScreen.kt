@@ -12,7 +12,9 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.physics.box2d.BodyDef
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
+import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.*
@@ -38,6 +40,7 @@ import com.oni.donjon.stage.DebugStage
 import com.oni.donjon.stage.GameStage
 import com.oni.donjon.stage.UIStage
 import com.oni.donjon.system.MovementSystem
+import ktx.box2d.body
 import ktx.log.logger
 
 /**
@@ -193,7 +196,7 @@ class GameScreen : ScreenAdapter {
     private fun createData() {
         val map = Map()
         val startTile = map.startTile
-        val startPosition = Vector2(startTile?.rectangle!!.getX(), startTile.rectangle!!.getY())
+        val startPosition = Vector2(startTile?.rectangle!!.getX(), startTile.rectangle.getY())
         val player = createPlayerEntity(startPosition)
         GameData.map = map
         GameData.player = player
@@ -213,21 +216,15 @@ class GameScreen : ScreenAdapter {
     private fun createPlayerEntity(playerPosition: Vector2): Entity {
         log.debug { playerPosition.toString() }
         val player = Entity()
-        val bodyDef = BodyDef()
-        bodyDef.type = BodyDef.BodyType.DynamicBody
-        bodyDef.position.set(playerPosition).add(0.25f, 0.25f).scl(Tile.SIZE)
 
-        val body = world!!.createBody(bodyDef)
-
-        val circleShape = CircleShape()
-        circleShape.radius = 10f
-
-        val fixtureDef = FixtureDef()
-        fixtureDef.shape = circleShape
-        fixtureDef.filter.categoryBits = PLAYER_BIT
-        fixtureDef.filter.maskBits = WALL_BIT
-        body.createFixture(fixtureDef)
-        circleShape.dispose()
+        val body = world!!.body {
+            circle(10f) {
+                this@body.position.set(playerPosition).add(0.25f, 0.25f).scl(Tile.SIZE)
+                this@body.type = BodyDef.BodyType.DynamicBody
+                filter.categoryBits = PLAYER_BIT
+                filter.maskBits = WALL_BIT
+            }
+        }
 
         val coneLight = ConeLight(rayHandler!!, 50, Color.FIREBRICK, 100f, body.position.x,
                 body.position.y, body.angle, 90f)
