@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.badlogic.gdx.utils.I18NBundle
 import com.oni.donjon.DonjonGame
 import com.oni.donjon.Resources
 import com.oni.donjon.actor.LoadWindow
@@ -17,8 +18,12 @@ import ktx.scene2d.table
 /**
  * @author Daniel Chesters (on 01/06/14).
  */
-class MainScreen(val stage: Stage, val game: DonjonGame, val skin: Skin) : KtxScreen {
-    val loadWindow = LoadWindow(Resources.BUNDLE.get("main.screen.load.title"), skin, game)
+class MainScreen(val game: DonjonGame) : KtxScreen {
+    val stage: Stage = game.context.inject()
+    val skin: Skin = game.context.inject()
+    val bundle: I18NBundle = game.context.inject()
+
+    val loadWindow = LoadWindow(bundle["main.screen.load.title"], game)
     val loadGameButton = createLoadGameButton()
     val view = table {
         defaults().space(5f)
@@ -40,7 +45,7 @@ class MainScreen(val stage: Stage, val game: DonjonGame, val skin: Skin) : KtxSc
     }
 
     private fun createExitGameButton(): KTextButton {
-        val exitGameButton = KTextButton(Resources.BUNDLE.get("main.screen.exit.title"), skin, defaultStyle)
+        val exitGameButton = KTextButton(bundle["main.screen.exit.title"], skin, defaultStyle)
         exitGameButton.pack()
         exitGameButton.setPosition(Gdx.graphics.width / 2f - exitGameButton.width / 2f,
                 Gdx.graphics.height / 2f - (exitGameButton.height + loadGameButton.height
@@ -56,7 +61,7 @@ class MainScreen(val stage: Stage, val game: DonjonGame, val skin: Skin) : KtxSc
     }
 
     private fun createLoadGameButton(): KTextButton {
-        val loadGameButton = KTextButton(Resources.BUNDLE.get("main.screen.load_game.title"), skin, defaultStyle)
+        val loadGameButton = KTextButton(bundle["main.screen.load_game.title"], skin, defaultStyle)
         loadGameButton.pack()
         loadGameButton.setPosition(Gdx.graphics.width / 2f - loadGameButton.width / 2f,
                 Gdx.graphics.height / 2f - (loadGameButton.height + 20))
@@ -70,7 +75,7 @@ class MainScreen(val stage: Stage, val game: DonjonGame, val skin: Skin) : KtxSc
     }
 
     private fun createNewGameButton(): KTextButton {
-        val newGameButton = KTextButton(Resources.BUNDLE.get("main.screen.new_game.title"), skin, defaultStyle)
+        val newGameButton = KTextButton(bundle["main.screen.new_game.title"], skin, defaultStyle)
         newGameButton.pack()
         newGameButton.setPosition(Gdx.graphics.width / 2f - newGameButton.width / 2f,
                 Gdx.graphics.height / 2f - newGameButton.height / 2f)
@@ -79,7 +84,7 @@ class MainScreen(val stage: Stage, val game: DonjonGame, val skin: Skin) : KtxSc
                 if (game.containsScreen<GameScreen>()) {
                     game.removeScreen<GameScreen>()
                 }
-                game.addScreen(GameScreen(game, game.context.inject()))
+                game.addScreen(GameScreen(game))
                 game.setScreen<GameScreen>()
                 return true
             }

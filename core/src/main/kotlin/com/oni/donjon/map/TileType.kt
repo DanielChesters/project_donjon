@@ -3,6 +3,7 @@ package com.oni.donjon.map
 import com.badlogic.gdx.graphics.Texture
 import com.oni.donjon.screen.GameScreen
 import ktx.collections.gdxMapOf
+import ktx.collections.set
 
 /**
  * @author Daniel Chesters (on 22/05/14).
@@ -18,7 +19,7 @@ enum class TileType constructor(private val texturePath: String, val categoryBit
     val texture: Texture?
         get() {
             if (!cacheTexture.containsKey(texturePath)) {
-                cacheTexture.put(texturePath, Texture(texturePath))
+                cacheTexture[texturePath] = Texture(texturePath)
             }
             return cacheTexture[texturePath]
         }

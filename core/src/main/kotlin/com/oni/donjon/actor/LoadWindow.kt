@@ -3,44 +3,42 @@ package com.oni.donjon.actor
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.ui.List
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.utils.I18NBundle
 import com.oni.donjon.DonjonGame
-import com.oni.donjon.Resources
 import com.oni.donjon.screen.GameScreen
 import ktx.collections.gdxArrayOf
+import ktx.scene2d.window
 
 /**
  * @author Daniel Chesters (on 06/06/14).
  */
-class LoadWindow(title: String, skin: Skin, game: DonjonGame) {
-    val window: Window = Window(title, skin)
-    lateinit var saveList: List<String>
-    lateinit var loadButton: TextButton
-    lateinit var cancelButton: TextButton
+class LoadWindow(title: String, val game: DonjonGame) {
+    val skin: Skin = game.context.inject()
+    val bundle: I18NBundle = game.context.inject()
 
-    init {
-        createSaveList(skin)
-        createLoadButton(game, skin, saveList)
-        createCancelButton(skin)
-        createWindow(skin)
-    }
+    val saveList = createSaveList()
+    val loadButton = createLoadButton()
+    val cancelButton = createCancelButton()
 
-    private fun createWindow(skin: Skin) {
+    val window = window(title = title, skin = skin) {
         val saveScrollPane = ScrollPane(saveList, skin)
         saveScrollPane.setFlickScroll(false)
-        window.defaults().spaceBottom(10f)
-        window.row()
-        window.add<ScrollPane>(saveScrollPane).fill().colspan(2).maxHeight(150f)
-        window.row().fill().expandX()
-        window.add<TextButton>(loadButton).colspan(1)
-        window.add<TextButton>(cancelButton).colspan(1)
-        window.isModal = true
-        window.isVisible = false
+        defaults().spaceBottom(10f)
+        row()
+        add(saveScrollPane).fill().colspan(2).maxHeight(150f)
+        row().fill().expandX()
+        add(loadButton).colspan(1)
+        add(cancelButton).colspan(1)
+        isModal = true
+        isVisible = false
     }
 
-    private fun createCancelButton(skin: Skin) {
-        cancelButton = TextButton(Resources.BUNDLE.get("main.screen.load.cancel"), skin)
+    private fun createCancelButton(): TextButton {
+        val cancelButton = TextButton(bundle["main.screen.load.cancel"], skin)
         cancelButton.pack()
         cancelButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
@@ -49,11 +47,11 @@ class LoadWindow(title: String, skin: Skin, game: DonjonGame) {
                 return true
             }
         })
+        return cancelButton
     }
 
-    private fun createLoadButton(game: DonjonGame, skin: Skin,
-                                 saveList: List<String>) {
-        loadButton = TextButton(Resources.BUNDLE.get("main.screen.load.ok"), skin)
+    private fun createLoadButton(): TextButton {
+        val loadButton = TextButton(bundle["main.screen.load.ok"], skin)
         loadButton.pack()
         loadButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
@@ -62,17 +60,20 @@ class LoadWindow(title: String, skin: Skin, game: DonjonGame) {
                 if (game.containsScreen<GameScreen>()) {
                     game.removeScreen<GameScreen>()
                 }
-                game.addScreen(GameScreen(game, game.context.inject(), ".config/donjon/save/$save"))
+                game.addScreen(GameScreen(game, ".config/donjon/save/$save"))
                 game.setScreen<GameScreen>()
                 return true
             }
         })
+
+        return loadButton
     }
 
-    private fun createSaveList(skin: Skin) {
-        saveList = List<String>(skin)
+    private fun createSaveList(): List<String> {
+        val saveList = List<String>(skin)
         saveList.selection.required = true
         saveList.selection.multiple = false
+        return saveList
     }
 
     fun show() {

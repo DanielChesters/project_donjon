@@ -12,50 +12,42 @@ import com.oni.donjon.data.GameData
 import de.tomgrill.gdxdialogs.core.GDXDialogsSystem
 import de.tomgrill.gdxdialogs.core.dialogs.GDXTextPrompt
 import de.tomgrill.gdxdialogs.core.listener.TextPromptListener
+import ktx.scene2d.window
 
 /**
  * @author Daniel Chesters (on 06/06/14).
  */
-class SaveWindow(title: String, skin: Skin) {
-    val window: Window = Window(title, skin)
-
+class SaveWindow(title: String, val skin: Skin) {
     lateinit var menuGameWindow: MenuGameWindow
 
-    lateinit var saveList: List<String>
-    lateinit var saveButton: TextButton
-    lateinit var cancelButton: TextButton
-    lateinit var newSaveButton: TextButton
+    val saveList = createSaveList()
+    val saveButton = createNewSaveButton()
+    val cancelButton = createCancelButton()
+    val newSaveButton = createNewSaveButton()
 
-    init {
-        createSaveList(skin)
-        createSaveButton(skin)
-        createCancelButton(skin)
-        createNewSaveButton(skin)
-        createWindow(skin)
-    }
-
-    private fun createWindow(skin: Skin) {
+    val window: Window = window(title = title, skin = skin) {
         val saveScrollPane = ScrollPane(saveList, skin)
         saveScrollPane.setFlickScroll(false)
-        window.defaults().spaceBottom(10f)
-        window.row()
-        window.add<ScrollPane>(saveScrollPane).fill().colspan(3).maxHeight(150f)
-        window.row().fill().expandX()
-        window.add<TextButton>(saveButton).colspan(1)
-        window.add<TextButton>(newSaveButton).colspan(1)
-        window.add<TextButton>(cancelButton).colspan(1)
-        window.isModal = true
-        window.isVisible = false
+        defaults().spaceBottom(10f)
+        row()
+        add(saveScrollPane).fill().colspan(3).maxHeight(150f)
+        row().fill().expandX()
+        add(saveButton).colspan(1)
+        add(newSaveButton).colspan(1)
+        add(cancelButton).colspan(1)
+        isModal = true
+        isVisible = false
     }
 
-    private fun createSaveList(skin: Skin) {
-        saveList = List<String>(skin)
+    private fun createSaveList(): List<String> {
+        val saveList = List<String>(skin)
         saveList.selection.required = false
         saveList.selection.multiple = false
+        return saveList
     }
 
-    private fun createNewSaveButton(skin: Skin) {
-        newSaveButton = TextButton(Resources.BUNDLE.get("window.save.new"), skin)
+    private fun createNewSaveButton(): TextButton {
+        val newSaveButton = TextButton(Resources.BUNDLE["window.save.new"], skin)
         newSaveButton.pack()
         newSaveButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
@@ -64,11 +56,11 @@ class SaveWindow(title: String, skin: Skin) {
 
                 val textPrompt = dialogs.newDialog(GDXTextPrompt::class.java)
 
-                textPrompt.setTitle(Resources.BUNDLE.get("window.save.new.input"))
-                textPrompt.setMessage(Resources.BUNDLE.get("window.save.new.input"))
+                textPrompt.setTitle(Resources.BUNDLE["window.save.new.input"])
+                textPrompt.setMessage(Resources.BUNDLE["window.save.new.input"])
 
-                textPrompt.setCancelButtonLabel(Resources.BUNDLE.get("window.save.cancel"))
-                textPrompt.setConfirmButtonLabel(Resources.BUNDLE.get("window.save.ok"))
+                textPrompt.setCancelButtonLabel(Resources.BUNDLE["window.save.cancel"])
+                textPrompt.setConfirmButtonLabel(Resources.BUNDLE["window.save.ok"])
 
                 textPrompt.setTextPromptListener(object : TextPromptListener {
 
@@ -91,10 +83,11 @@ class SaveWindow(title: String, skin: Skin) {
                 return true
             }
         })
+        return newSaveButton
     }
 
-    private fun createCancelButton(skin: Skin) {
-        cancelButton = TextButton(Resources.BUNDLE.get("window.save.cancel"), skin)
+    private fun createCancelButton(): TextButton {
+        val cancelButton = TextButton(Resources.BUNDLE["window.save.cancel"], skin)
         cancelButton.pack()
         cancelButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
@@ -104,10 +97,12 @@ class SaveWindow(title: String, skin: Skin) {
                 return true
             }
         })
+
+        return cancelButton
     }
 
-    private fun createSaveButton(skin: Skin) {
-        saveButton = TextButton(Resources.BUNDLE.get("window.save.ok"), skin)
+    private fun createSaveButton(): TextButton {
+    val        saveButton = TextButton(Resources.BUNDLE["window.save.ok"], skin)
         saveButton.pack()
         saveButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
@@ -122,6 +117,7 @@ class SaveWindow(title: String, skin: Skin) {
                 return true
             }
         })
+        return saveButton
     }
 
     fun show() {

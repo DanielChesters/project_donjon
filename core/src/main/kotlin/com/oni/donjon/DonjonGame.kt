@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.badlogic.gdx.utils.I18NBundle
 import com.oni.donjon.screen.MainScreen
 import ktx.app.KtxGame
 import ktx.inject.Context
@@ -20,9 +21,10 @@ class DonjonGame : KtxGame<Screen>() {
             bindSingleton(Skin(Gdx.files.internal("skin/uiskin.json")))
             Scene2DSkin.defaultSkin = inject()
             bindSingleton(this@DonjonGame)
+            bindSingleton(I18NBundle.createBundle(Gdx.files.internal("i18n/messages")))
         }
 
-        addScreen(MainScreen(context.inject(), context.inject(), context.inject()))
+        addScreen(MainScreen(context.inject()))
         setScreen<MainScreen>()
     }
 

@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.ui.List
+import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.Json
 import com.oni.donjon.DonjonGame
 import com.oni.donjon.Resources
@@ -42,6 +43,7 @@ import com.oni.donjon.system.MovementSystem
 import ktx.app.KtxScreen
 import ktx.ashley.entity
 import ktx.box2d.body
+import ktx.box2d.createWorld
 import ktx.log.logger
 import ktx.math.plus
 import ktx.math.times
@@ -50,27 +52,31 @@ import ktx.math.vec2
 /**
  * @author Daniel Chesters (on 25/05/14).
  */
-class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = "") : KtxScreen {
-    lateinit var uiStage: UIStage
-    lateinit var gameStage: GameStage
-    lateinit var debugStage: DebugStage
-    lateinit var gameInput: InputMultiplexer
-    lateinit var state: GameState
-    lateinit var engine: PooledEngine
-    lateinit var world: World
-    lateinit var debugRenderer: Box2DDebugRenderer
-    lateinit var rayHandler: RayHandler
+class GameScreen(val game: DonjonGame, val saveFile: String = "") : KtxScreen {
+    val skin: Skin = game.context.inject()
+    val bundle: I18NBundle = game.context.inject()
+
+    val engine: PooledEngine = PooledEngine()
+    val world: World = createWorld()
+    val debugRenderer: Box2DDebugRenderer by lazy { Box2DDebugRenderer() }
+    val rayHandler: RayHandler = RayHandler(world)
+    val uiStage: UIStage = createUi()
+    val gameStage: GameStage = createGameStage()
+    val debugStage: DebugStage by lazy { createDebugStage() }
+    var state: GameState = GameState.RUNNING
+
 
     init {
+        val movementSystem = MovementSystem()
+        engine.addSystem(movementSystem)
+        GameData.world = world
+
         if (saveFile.isEmpty()) {
-            createGame {
-                createData()
-            }
+            createData()
         } else {
-            createGame {
-                loadData(saveFile)
-            }
+            loadData()
         }
+        createInput()
     }
 
     override fun dispose() {
@@ -81,43 +87,28 @@ class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = ""
         Sounds.disposeAll()
     }
 
-    private fun createGame(runnable: () -> Unit) {
-        world = World(Vector2.Zero, true)
-        debugRenderer = Box2DDebugRenderer()
-        val movementSystem = MovementSystem()
-        engine = PooledEngine()
-        engine.addSystem(movementSystem)
-        rayHandler = RayHandler(world)
-        createUi(skin)
-        createGameStage(skin)
-        GameData.world = world
-        runnable.invoke()
-        createInput()
-        state = GameState.RUNNING
-        if (Gdx.app.logLevel == Application.LOG_DEBUG) {
-            createDebugStage()
-        }
-    }
+    private fun createUi(): UIStage {
+        val messageLabel = createMessageLabel()
+        val actionList = createActionList()
+        val actionWindow = createActionWindow(actionList)
+        val saveWindow = SaveWindow(bundle["window.save.title"], skin)
+        val menuWindow = MenuGameWindow(saveWindow, game, this)
+        val menuButton = createMenuButton(menuWindow)
 
-    private fun createUi(skin: Skin) {
-        val messageLabel = createMessageLabel(skin)
-        val actionList = createActionList(skin)
-        val actionWindow = createActionWindow(skin, actionList)
-        val saveWindow = SaveWindow(Resources.BUNDLE.get("window.save.title"), skin)
-        val menuWindow = MenuGameWindow(skin, saveWindow, game, this)
-        val menuButton = createMenuButton(skin, menuWindow)
 
-        uiStage = UIStage(actionList, messageLabel)
+        val uiStage = UIStage(actionList, messageLabel)
 
         uiStage.addActor(messageLabel)
         uiStage.addActor(actionWindow)
         uiStage.addActor(menuWindow.window)
         uiStage.addActor(menuButton)
         uiStage.addActor(saveWindow.window)
+
+        return uiStage
     }
 
-    private fun createMenuButton(skin: Skin, menuWindow: MenuGameWindow): TextButton {
-        val menuButton = TextButton(Resources.BUNDLE.get("game_menu.title"), skin)
+    private fun createMenuButton(menuWindow: MenuGameWindow): TextButton {
+        val menuButton = TextButton(bundle["game_menu.title"], skin)
         menuButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
                                    button: Int): Boolean {
@@ -132,8 +123,8 @@ class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = ""
         return menuButton
     }
 
-    private fun createActionWindow(skin: Skin, actionList: com.badlogic.gdx.scenes.scene2d.ui.List<Actions>): Window {
-        val actionWindow = Window(Resources.BUNDLE.get("window.action.title"), skin)
+    private fun createActionWindow(actionList: List<Actions>): Window {
+        val actionWindow = Window(bundle["window.action.title"], skin)
         actionWindow.setPosition(20f, Gdx.graphics.height / 2f)
         actionWindow.height = 50f
         actionWindow.width = 200f
@@ -142,7 +133,7 @@ class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = ""
         return actionWindow
     }
 
-    private fun createActionList(skin: Skin): com.badlogic.gdx.scenes.scene2d.ui.List<Actions> {
+    private fun createActionList(): List<Actions> {
         val actionList = List<Actions>(skin)
         actionList.setItems(*Actions.values())
         actionList.selection.required = false
@@ -150,7 +141,7 @@ class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = ""
         return actionList
     }
 
-    private fun createMessageLabel(skin: Skin): Label {
+    private fun createMessageLabel(): Label {
         val messageLabel = Label("", skin, "default")
         messageLabel.width = 100f
         messageLabel.height = 20f
@@ -158,28 +149,30 @@ class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = ""
         return messageLabel
     }
 
-    private fun createGameStage(skin: Skin) {
+    private fun createGameStage(): GameStage {
         val mapActor = MapActor()
 
-        val playerLabel = createPlayerLabel(skin)
+        val playerLabel = createPlayerLabel()
 
-        gameStage = GameStage(playerLabel)
+        val gameStage = GameStage(playerLabel)
 
         gameStage.camera.position
                 .set(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f, 0f)
         gameStage.addActor(mapActor)
         gameStage.addActor(playerLabel)
 
+        return gameStage
+
     }
 
-    private fun createPlayerLabel(skin: Skin): Label {
+    private fun createPlayerLabel(): Label {
         val playerLabel = Label("@", skin, "default")
         playerLabel.width = 16f
         playerLabel.height = 16f
         return playerLabel
     }
 
-    private fun loadData(saveFile: String) {
+    private fun loadData() {
         val json = Json()
         val file = Gdx.files.external(saveFile)
         val save = json.fromJson(GameSave::class.java, file)
@@ -239,7 +232,7 @@ class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = ""
     }
 
     private fun createInput() {
-        gameInput = createInputMultiplexer(KeyboardInput(), createMouseInput())
+        val gameInput = createInputMultiplexer(KeyboardInput(), createMouseInput())
         Gdx.input.inputProcessor = gameInput
     }
 
@@ -254,9 +247,7 @@ class GameScreen(val game: DonjonGame, val skin: Skin, val saveFile: String = ""
 
     private fun createMouseInput() = MouseInput(gameStage, uiStage)
 
-    private fun createDebugStage() {
-        debugStage = DebugStage(gameStage)
-    }
+    private fun createDebugStage() = DebugStage(gameStage)
 
     override fun render(delta: Float) {
         when (state) {
