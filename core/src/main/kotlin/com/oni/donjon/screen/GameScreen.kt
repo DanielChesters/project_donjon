@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
-import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.badlogic.gdx.scenes.scene2d.ui.*
@@ -21,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.List
 import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.Json
 import com.oni.donjon.DonjonGame
-import com.oni.donjon.Resources
 import com.oni.donjon.action.Actions
 import com.oni.donjon.actor.MapActor
 import com.oni.donjon.actor.MenuGameWindow
@@ -56,14 +54,14 @@ class GameScreen(val game: DonjonGame, val saveFile: String = "") : KtxScreen {
     val skin: Skin = game.context.inject()
     val bundle: I18NBundle = game.context.inject()
 
-    val engine: PooledEngine = PooledEngine()
-    val world: World = createWorld()
-    val debugRenderer: Box2DDebugRenderer by lazy { Box2DDebugRenderer() }
-    val rayHandler: RayHandler = RayHandler(world)
-    val uiStage: UIStage = createUi()
-    val gameStage: GameStage = createGameStage()
-    val debugStage: DebugStage by lazy { createDebugStage() }
-    var state: GameState = GameState.RUNNING
+    val engine = PooledEngine()
+    val world = createWorld()
+    val debugRenderer by lazy { Box2DDebugRenderer() }
+    val rayHandler = RayHandler(world)
+    val uiStage = createUi()
+    val gameStage = createGameStage()
+    val debugStage by lazy { createDebugStage() }
+    var state = GameState.RUNNING
 
 
     init {
@@ -83,7 +81,9 @@ class GameScreen(val game: DonjonGame, val saveFile: String = "") : KtxScreen {
         super.dispose()
         world.dispose()
         rayHandler.dispose()
-        debugRenderer.dispose()
+        if (Gdx.app.logLevel == Application.LOG_DEBUG) {
+            debugRenderer.dispose()
+        }
         Sounds.disposeAll()
     }
 
@@ -232,8 +232,7 @@ class GameScreen(val game: DonjonGame, val saveFile: String = "") : KtxScreen {
     }
 
     private fun createInput() {
-        val gameInput = createInputMultiplexer(KeyboardInput(), createMouseInput())
-        Gdx.input.inputProcessor = gameInput
+        Gdx.input.inputProcessor = createInputMultiplexer(KeyboardInput(), createMouseInput())
     }
 
     private fun createInputMultiplexer(keyboardInput: KeyboardInput,
@@ -253,8 +252,6 @@ class GameScreen(val game: DonjonGame, val saveFile: String = "") : KtxScreen {
         when (state) {
             GameScreen.GameState.RUNNING -> update(delta)
             GameScreen.GameState.PAUSE -> updatePause()
-            else -> {
-            }
         }
     }
 

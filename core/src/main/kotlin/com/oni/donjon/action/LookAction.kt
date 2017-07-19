@@ -21,8 +21,6 @@ class LookAction : AbstractAction() {
                 TileType.DOOR_CLOSE -> messageLabel.setText(Resources.BUNDLE["look.door.close"])
                 TileType.STAIR_UP -> messageLabel.setText(Resources.BUNDLE["look.stair.up"])
                 TileType.STAIR_DOWN -> messageLabel.setText(Resources.BUNDLE["look.stair.down"])
-                else -> {
-                }
             }
         }
     }
