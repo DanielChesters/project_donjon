@@ -11,14 +11,14 @@ import org.junit.jupiter.api.Test
 class ImproveRectangleTest {
 
     @Test
-    fun testIntersectsTrue() {
+    fun `should return true when two rectangles intersect`() {
         val rectangle1 = Rectangle(1f, 1f, 3f, 3f)
         val rectangle2 = Rectangle(2f, 2f, 3f, 3f)
         assertTrue(rectangle1.intersects(rectangle2))
     }
 
     @Test
-    fun testIntersectsFalse() {
+    fun `should return false when two rectangles do not intersect`() {
         val rectangle1 = Rectangle(10f, 10f, 1f, 1f)
         val rectangle2 = Rectangle(5f, 5f, 3f, 3f)
         assertFalse(rectangle1.intersects(rectangle2))

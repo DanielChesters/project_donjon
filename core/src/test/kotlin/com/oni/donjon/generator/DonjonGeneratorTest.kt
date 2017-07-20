@@ -2,39 +2,45 @@ package com.oni.donjon.generator
 
 import com.oni.donjon.map.TileType
 import com.oni.donjon.map.TileType.*
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.function.Executable
 
 /**
  * @author Daniel Chesters (on 27/04/2017).
  */
 class DonjonGeneratorTest {
     @Test
-    fun testGeneratorNominal() {
+    fun `generate a map with default parameters`() {
         val mapGenerator = DonjonGenerator()
         mapGenerator.generate()
         val mapHeight = mapGenerator.mapHeight
         val mapWidth = mapGenerator.mapWidth
-        assertEquals(50, mapHeight.toLong())
-        assertEquals(50, mapWidth.toLong())
+
         val tileTypeList = ArrayList<TileType>()
         for (x in 0..mapWidth - 1) {
-            (0..mapWidth - 1).mapTo(tileTypeList) {
+            (0..mapHeight - 1).mapTo(tileTypeList) {
                 mapGenerator.tileTypes[x][it]!!
             }
         }
 
         val tileCount = tileTypeList.count()
 
-        assertEquals((mapHeight * mapWidth), tileCount)
-
         val countDoor = tileTypeList.filter { tileType -> tileType == DOOR_CLOSE }.count()
 
-        assertTrue(countDoor <= 20)
-        assertEquals(1,
-                tileTypeList.filter { tileType -> tileType == STAIR_UP }.count())
-        assertEquals(1,
-                tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count())
+        assertAll(
+                Executable { assertEquals(50, mapHeight.toLong()) },
+                Executable { assertEquals(50, mapWidth.toLong()) },
+                Executable { assertEquals((mapHeight * mapWidth), tileCount) },
+                Executable { assertTrue(countDoor <= 20) },
+                Executable {
+                    assertEquals(1,
+                            tileTypeList.filter { tileType -> tileType == STAIR_UP }.count())
+                },
+                Executable {
+                    assertEquals(1,
+                            tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count())
+                }
+        )
     }
 }
