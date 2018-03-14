@@ -22,7 +22,7 @@ import java.math.BigDecimal
  */
 class MovementSystem : IteratingSystem(allOf(PositionComponent::class, DirectionComponent::class, LightComponent::class)
         .get()) {
-    internal var canMove: Boolean = false
+    private var canMove: Boolean = false
 
     private val rayCastCallback: RayCastCallback = RayCastCallback { fixture, _, _, _ ->
         if (fixture.filterData.categoryBits == GameScreen.WALL_BIT) {
@@ -31,9 +31,9 @@ class MovementSystem : IteratingSystem(allOf(PositionComponent::class, Direction
         0F
     }
 
-    val dm = mapperFor<DirectionComponent>()
-    val pm = mapperFor<PositionComponent>()
-    val lm = mapperFor<LightComponent>()
+    private val dm = mapperFor<DirectionComponent>()
+    private val pm = mapperFor<PositionComponent>()
+    private val lm = mapperFor<LightComponent>()
 
     override fun processEntity(player: Entity, deltaTime: Float) {
         updateMove(player)
@@ -72,14 +72,12 @@ class MovementSystem : IteratingSystem(allOf(PositionComponent::class, Direction
 
     private val caseToGo: Int
         get() {
-            val numberCase: Int
-            if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || Gdx.input
+            return if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || Gdx.input
                     .isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-                numberCase = 10
+                10
             } else {
-                numberCase = 1
+                1
             }
-            return numberCase
         }
 
     private fun goDown(player: Entity, numberCase: Int) {

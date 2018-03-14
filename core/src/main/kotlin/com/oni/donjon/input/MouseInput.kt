@@ -14,7 +14,7 @@ import ktx.math.vec3
 /**
  * @author Daniel Chesters (on 24/05/14).
  */
-class MouseInput(val gameStage: GameStage, val uiStage: UIStage) : KtxInputAdapter {
+class MouseInput(private val gameStage: GameStage, private val uiStage: UIStage) : KtxInputAdapter {
     companion object {
         val log = logger<MouseInput>()
     }

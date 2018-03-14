@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.I18NBundle
 import com.oni.donjon.DonjonGame
-import com.oni.donjon.Resources
 import com.oni.donjon.actor.LoadWindow
 import ktx.app.KtxScreen
 import ktx.scene2d.KTextButton
@@ -20,12 +19,12 @@ import ktx.scene2d.table
  */
 class MainScreen(val game: DonjonGame) : KtxScreen {
     val stage: Stage = game.context.inject()
-    val skin: Skin = game.context.inject()
+    private val skin: Skin = game.context.inject()
     val bundle: I18NBundle = game.context.inject()
 
     val loadWindow = LoadWindow(bundle["main.screen.load.title"], game)
-    val loadGameButton = createLoadGameButton()
-    val view = table {
+    private val loadGameButton = createLoadGameButton()
+    private val view = table {
         defaults().space(5f)
         row()
         add(createNewGameButton()).center()

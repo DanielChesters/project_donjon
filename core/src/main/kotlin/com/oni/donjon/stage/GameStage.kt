@@ -8,7 +8,7 @@ import com.oni.donjon.map.Tile
 /**
  * @author Daniel Chesters (on 01/06/14).
  */
-class GameStage(val playerLabel: Label) : Stage() {
+class GameStage(private val playerLabel: Label) : Stage() {
     fun updatePlayer() {
         val position = GameData.getPlayerPosition()
         playerLabel.setPosition(position.x * Tile.SIZE, position.y * Tile.SIZE)

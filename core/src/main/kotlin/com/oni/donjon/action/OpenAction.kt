@@ -1,7 +1,5 @@
 package com.oni.donjon.action
 
-import com.badlogic.gdx.physics.box2d.Body
-import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.oni.donjon.Resources
 import com.oni.donjon.map.Tile
 import com.oni.donjon.map.TileType

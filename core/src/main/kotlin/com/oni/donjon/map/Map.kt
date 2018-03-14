@@ -28,8 +28,8 @@ class Map {
 
     @JvmOverloads constructor(generator: MapGenerator = CellularAutomataCaveGenerator()) {
         generator.generate()
-        for (x in 0..generator.mapWidth - 1) {
-            for (y in 0..generator.mapHeight - 1) {
+        for (x in 0 until generator.mapWidth) {
+            for (y in 0 until generator.mapHeight) {
                 tiles.add(Tile(x.toFloat(), y.toFloat(), generator.tileTypes[x][y]!!, false,
                         GameData.world))
             }
@@ -40,8 +40,8 @@ class Map {
     }
 
     constructor(gameSave: GameSave) {
-        for (x in 0..gameSave.mapWidth!! - 1) {
-            for (y in 0..gameSave.mapHeight!! - 1) {
+        for (x in 0 until gameSave.mapWidth!!) {
+            for (y in 0 until gameSave.mapHeight!!) {
                 val savedTile = gameSave.map!![x][y]
                 if (savedTile != null) {
                     tiles.add(
@@ -92,14 +92,12 @@ class Map {
         val builder = StringBuilder("\n")
 
         for (y in mapHeight - 1 downTo 0) {
-            for (x in 0..mapWidth - 1) {
+            for (x in 0 until mapWidth) {
                 getTile(x.toFloat(), y.toFloat()).ifPresent {
-                    if (it.type === TileType.WALL) {
-                        builder.append('X')
-                    } else if (it.type === TileType.GROUND) {
-                        builder.append('.')
-                    } else {
-                        builder.append('*')
+                    when {
+                        it.type === TileType.WALL -> builder.append('X')
+                        it.type === TileType.GROUND -> builder.append('.')
+                        else -> builder.append('*')
                     }
                 }
             }

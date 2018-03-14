@@ -23,8 +23,8 @@ class CellularAutomataCaveGeneratorTest {
         val mapWidth = mapGenerator.mapWidth
 
         val tileTypeList = ArrayList<TileType>()
-        for (x in 0..mapWidth - 1) {
-            (0..mapHeight - 1).mapTo(tileTypeList) { mapGenerator.tileTypes[x][it]!! }
+        for (x in 0 until mapWidth) {
+            (0 until mapHeight).mapTo(tileTypeList) { mapGenerator.tileTypes[x][it]!! }
         }
 
         val tileCount = tileTypeList.count()
@@ -47,8 +47,8 @@ class CellularAutomataCaveGeneratorTest {
         mapGenerator.generate()
 
         val tileTypeList = ArrayList<TileType>()
-        for (x in 0..mapGenerator.mapWidth - 1) {
-            (0..mapGenerator.mapHeight - 1).mapTo(tileTypeList) { mapGenerator.tileTypes[x][it]!! }
+        for (x in 0 until mapGenerator.mapWidth) {
+            (0 until mapGenerator.mapHeight).mapTo(tileTypeList) { mapGenerator.tileTypes[x][it]!! }
         }
 
         val tileCount = tileTypeList.count()

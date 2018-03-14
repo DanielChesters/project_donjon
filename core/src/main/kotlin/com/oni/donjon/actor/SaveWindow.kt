@@ -17,13 +17,13 @@ import ktx.scene2d.window
 /**
  * @author Daniel Chesters (on 06/06/14).
  */
-class SaveWindow(title: String, val skin: Skin) {
+class SaveWindow(title: String, private val skin: Skin) {
     lateinit var menuGameWindow: MenuGameWindow
 
     val saveList = createSaveList()
-    val saveButton = createNewSaveButton()
-    val cancelButton = createCancelButton()
-    val newSaveButton = createNewSaveButton()
+    private val saveButton = createNewSaveButton()
+    private val cancelButton = createCancelButton()
+    private val newSaveButton = createNewSaveButton()
 
     val window: Window = window(title = title, skin = skin) {
         val saveScrollPane = ScrollPane(saveList, skin)
@@ -102,7 +102,7 @@ class SaveWindow(title: String, val skin: Skin) {
     }
 
     private fun createSaveButton(): TextButton {
-    val        saveButton = TextButton(Resources.BUNDLE["window.save.ok"], skin)
+        val saveButton = TextButton(Resources.BUNDLE["window.save.ok"], skin)
         saveButton.pack()
         saveButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,

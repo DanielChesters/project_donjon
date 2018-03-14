@@ -20,14 +20,14 @@ class CellularAutomataCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50) : M
     }
 
     private fun iteration(count: Int) {
-        for (i in 0..count - 1) {
+        for (i in 0 until count) {
             iteration()
         }
     }
 
     private fun iteration() {
-        for (x in 0..mapWidth - 1) {
-            for (y in 0..mapHeight - 1) {
+        for (x in 0 until mapWidth) {
+            for (y in 0 until mapHeight) {
                 val countWall = countWall(x, y)
                 if (countWall >= 5) {
                     tileTypes[x][y] = TileType.WALL
@@ -53,8 +53,8 @@ class CellularAutomataCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50) : M
     }
 
     private fun initiateMap() {
-        for (x in 0..mapWidth - 1) {
-            for (y in 0..mapHeight - 1) {
+        for (x in 0 until mapWidth) {
+            for (y in 0 until mapHeight) {
                 if (x == 0 || y == 0 || x == mapWidth - 1 || y == mapHeight - 1) {
                     tileTypes[x][y] = TileType.WALL
                 } else {

@@ -17,12 +17,12 @@ import ktx.scene2d.window
  * @author Daniel Chesters (on 06/06/14).
  */
 class LoadWindow(title: String, val game: DonjonGame) {
-    val skin: Skin = game.context.inject()
+    private val skin: Skin = game.context.inject()
     val bundle: I18NBundle = game.context.inject()
 
     val saveList = createSaveList()
-    val loadButton = createLoadButton()
-    val cancelButton = createCancelButton()
+    private val loadButton = createLoadButton()
+    private val cancelButton = createCancelButton()
 
     val window = window(title = title, skin = skin) {
         val saveScrollPane = ScrollPane(saveList, skin)

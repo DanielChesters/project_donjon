@@ -32,7 +32,7 @@ class DrunkardsWalkCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50, privat
         var y = MathUtils.random(1, mapHeight - 2)
         tileTypes[x][y] = TileType.GROUND
 
-        for (i in 1..nbFloorTiles - 1) {
+        for (i in 1 until nbFloorTiles) {
             do {
                 when (Direction.randomDirection()) {
                     DrunkardsWalkCaveGenerator.Direction.NORTH -> y = MathUtils.clamp(y + 1, 1, mapHeight - 2)
@@ -46,8 +46,8 @@ class DrunkardsWalkCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50, privat
     }
 
     private fun placeWalls() {
-        for (x in 0..mapWidth - 1) {
-            for (y in 0..mapHeight - 1) {
+        for (x in 0 until mapWidth) {
+            for (y in 0 until mapHeight) {
                 tileTypes[x][y] = TileType.WALL
             }
         }

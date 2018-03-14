@@ -50,17 +50,17 @@ import ktx.math.vec2
 /**
  * @author Daniel Chesters (on 25/05/14).
  */
-class GameScreen(val game: DonjonGame, val saveFile: String = "") : KtxScreen {
-    val skin: Skin = game.context.inject()
+class GameScreen(private val game: DonjonGame, private val saveFile: String = "") : KtxScreen {
+    private val skin: Skin = game.context.inject()
     val bundle: I18NBundle = game.context.inject()
 
-    val engine = PooledEngine()
-    val world = createWorld()
-    val debugRenderer by lazy { Box2DDebugRenderer() }
-    val rayHandler = RayHandler(world)
-    val uiStage = createUi()
-    val gameStage = createGameStage()
-    val debugStage by lazy { createDebugStage() }
+    private val engine = PooledEngine()
+    private val world = createWorld()
+    private val debugRenderer by lazy { Box2DDebugRenderer() }
+    private val rayHandler = RayHandler(world)
+    private val uiStage = createUi()
+    private val gameStage = createGameStage()
+    private val debugStage by lazy { createDebugStage() }
     var state = GameState.RUNNING
 
 
@@ -223,12 +223,11 @@ class GameScreen(val game: DonjonGame, val saveFile: String = "") : KtxScreen {
         coneLight.setSoftnessLength(64f)
         coneLight.attachToBody(body)
 
-        val player = engine.entity {
+        return engine.entity {
             with<DirectionComponent>()
             entity.add(PositionComponent(playerPosition, body))
             entity.add(LightComponent(coneLight))
         }
-        return player
     }
 
     private fun createInput() {

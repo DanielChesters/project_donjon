@@ -54,7 +54,7 @@ class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, pr
     }
 
     private fun placeDoorWidth(t: Rectangle, yMin: Int, yMax: Int) {
-        for (y in t.y.toInt()..t.y.toInt() + t.height.toInt() - 1) {
+        for (y in t.y.toInt() until t.y.toInt() + t.height.toInt()) {
             if (y == yMin || y == yMax) {
                 tileTypes[t.x.toInt()][y] = TileType.DOOR_CLOSE
                 break
@@ -63,7 +63,7 @@ class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, pr
     }
 
     private fun placeDoorHeight(t: Rectangle, xMin: Int, xMax: Int) {
-        for (x in t.x.toInt()..t.x.toInt() + t.width.toInt() - 1) {
+        for (x in t.x.toInt() until t.x.toInt() + t.width.toInt()) {
             if (x == xMin || x == xMax) {
                 tileTypes[x][t.y.toInt()] = TileType.DOOR_CLOSE
                 break
@@ -93,15 +93,15 @@ class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, pr
     }
 
     private fun createWalls() {
-        for (x in 0..mapWidth - 1) {
-            for (y in 0..mapHeight - 1) {
+        for (x in 0 until mapWidth) {
+            for (y in 0 until mapHeight) {
                 tileTypes[x][y] = TileType.WALL
             }
         }
     }
 
     private fun placeRooms() {
-        for (i in 0..nbRooms - 1) {
+        for (i in 0 until nbRooms) {
             val w = MathUtils.random(roomMinSize, roomMaxSize)
             val h = MathUtils.random(roomMinSize, roomMaxSize)
             val x = MathUtils.random(mapWidth - w - 1) + 1

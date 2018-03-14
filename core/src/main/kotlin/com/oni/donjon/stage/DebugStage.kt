@@ -8,7 +8,7 @@ import com.oni.donjon.map.Tile
 /**
  * @author Daniel Chesters (on 01/06/14).
  */
-class DebugStage(val gameStage: GameStage) {
+class DebugStage(private val gameStage: GameStage) {
     private val debugRenderer: ShapeRenderer = ShapeRenderer()
 
     fun drawDebug() {
