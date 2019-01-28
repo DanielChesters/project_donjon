@@ -8,7 +8,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import com.oni.donjon.DonjonGame
 
-fun main(arg: Array<String>) {
+fun main() {
     Lwjgl3Application(DonjonGame(), Lwjgl3ApplicationConfiguration().apply {
         setTitle("Project donjon")
         setWindowedMode(800, 600)

@@ -291,9 +291,9 @@ class GameScreen(private val game: DonjonGame, private val saveFile: String = ""
 
     companion object {
         val log = logger<GameScreen>()
-        val NOTHING_BIT: Short = 0
-        val WALL_BIT: Short = 1
-        val PLAYER_BIT = (1 shl 1).toShort()
-        val LIGHT_BIT = (1 shl 5).toShort()
+        const val NOTHING_BIT: Short = 0
+        const val WALL_BIT: Short = 1
+        const val PLAYER_BIT = (1 shl 1).toShort()
+        const val LIGHT_BIT = (1 shl 5).toShort()
     }
 }

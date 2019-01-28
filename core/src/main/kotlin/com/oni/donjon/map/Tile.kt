@@ -16,7 +16,7 @@ data class Tile(val x: Float = -1f, val y: Float = -1f, var type: TileType, var 
     lateinit var body: Body
 
     companion object {
-        val SIZE = 32f
+        const val SIZE = 32f
     }
 
     init {

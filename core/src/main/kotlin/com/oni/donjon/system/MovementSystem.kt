@@ -65,8 +65,7 @@ class MovementSystem : IteratingSystem(allOf(PositionComponent::class, Direction
             DirectionComponent.Direction.DOWN -> goDown(player, numCase)
             DirectionComponent.Direction.RIGHT -> goRight(player, numCase)
             DirectionComponent.Direction.LEFT -> goLeft(player, numCase)
-            else -> {
-            }
+            DirectionComponent.Direction.NONE -> TODO()
         }
     }
 

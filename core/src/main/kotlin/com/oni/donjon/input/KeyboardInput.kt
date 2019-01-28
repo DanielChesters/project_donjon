@@ -20,8 +20,6 @@ class KeyboardInput : KtxInputAdapter {
             Input.Keys.Q, Input.Keys.LEFT -> GameData.setPlayerDirection(DirectionComponent.Direction.LEFT)
             Input.Keys.Z, Input.Keys.UP -> GameData.setPlayerDirection(DirectionComponent.Direction.UP)
             Input.Keys.S, Input.Keys.DOWN -> GameData.setPlayerDirection(DirectionComponent.Direction.DOWN)
-            else -> {
-            }
         }
         debugMessage(keycode)
         return true
@@ -30,8 +28,6 @@ class KeyboardInput : KtxInputAdapter {
     override fun keyUp(keycode: Int): Boolean {
         when (keycode) {
             Input.Keys.D, Input.Keys.RIGHT, Input.Keys.Q, Input.Keys.LEFT, Input.Keys.Z, Input.Keys.UP, Input.Keys.S, Input.Keys.DOWN -> GameData.setPlayerDirection(DirectionComponent.Direction.NONE)
-            else -> {
-            }
         }
 
         return true

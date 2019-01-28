@@ -21,7 +21,7 @@ class SaveWindow(title: String, private val skin: Skin) {
     lateinit var menuGameWindow: MenuGameWindow
 
     val saveList = createSaveList()
-    private val saveButton = createNewSaveButton()
+    private val saveButton = createSaveButton()
     private val cancelButton = createCancelButton()
     private val newSaveButton = createNewSaveButton()
 
