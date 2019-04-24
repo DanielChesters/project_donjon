@@ -14,7 +14,7 @@ class CellularAutomataCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50) : M
 
     override fun generate() {
         initiateMap()
-        iteration(5)
+        iteration(DEFAULT_ITERATION)
         placeSpecialTile(TileType.STAIR_UP)
         placeSpecialTile(TileType.STAIR_DOWN)
     }
@@ -29,7 +29,7 @@ class CellularAutomataCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50) : M
         for (x in 0 until mapWidth) {
             for (y in 0 until mapHeight) {
                 val countWall = countWall(x, y)
-                if (countWall >= 5) {
+                if (countWall >= LIMIT_COUNT_WALL) {
                     tileTypes[x][y] = TileType.WALL
                 } else {
                     tileTypes[x][y] = TileType.GROUND
@@ -42,29 +42,45 @@ class CellularAutomataCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50) : M
         var countWall = 0
         for (i in -1..1) {
             for (j in -1..1) {
-                if (x + i < 0 || y + j < 0 || x + i > mapWidth - 1 || y + j > mapHeight - 1) {
-                    countWall++
-                } else {
-                    countWall += if (tileTypes[x + i][y + j] === TileType.WALL) 1 else 0
-                }
+                countWall += addWallForCurrentTile(x, i, y, j)
             }
         }
         return countWall
     }
 
+    private fun addWallForCurrentTile(x: Int, i: Int, y: Int, j: Int): Int {
+        val outsideLimit = x + i < 0 || y + j < 0 || x + i > mapWidth - 1 || y + j > mapHeight - 1
+        return if (outsideLimit || tileTypes[x + i][y + j] === TileType.WALL) {
+            1
+        } else {
+            0
+        }
+    }
+
     private fun initiateMap() {
         for (x in 0 until mapWidth) {
             for (y in 0 until mapHeight) {
-                if (x == 0 || y == 0 || x == mapWidth - 1 || y == mapHeight - 1) {
-                    tileTypes[x][y] = TileType.WALL
-                } else {
-                    if (MathUtils.randomBoolean(0.4f)) {
-                        tileTypes[x][y] = TileType.WALL
-                    } else {
-                        tileTypes[x][y] = TileType.GROUND
-                    }
-                }
+                initiateTile(x, y)
             }
         }
+    }
+
+    private fun initiateTile(x: Int, y: Int) {
+        val outsideLimit = x == 0 || y == 0 || x == mapWidth - 1 || y == mapHeight - 1
+        if (outsideLimit) {
+            tileTypes[x][y] = TileType.WALL
+        } else {
+            if (MathUtils.randomBoolean(RATIO)) {
+                tileTypes[x][y] = TileType.WALL
+            } else {
+                tileTypes[x][y] = TileType.GROUND
+            }
+        }
+    }
+
+    companion object {
+        const val RATIO = 0.4f
+        const val DEFAULT_ITERATION = 5
+        const val LIMIT_COUNT_WALL = 5
     }
 }
