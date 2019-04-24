@@ -1,5 +1,3 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 val gdxdialogsVersion: String by project
 val gdxVersion: String by project
 
@@ -24,7 +22,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }
 
-tasks.withType<ShadowJar> {
+tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = application.mainClassName
     }
