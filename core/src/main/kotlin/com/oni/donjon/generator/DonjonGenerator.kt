@@ -9,8 +9,13 @@ import java.math.BigDecimal
 /**
  * @author Daniel Chesters (on 11/02/16).
  */
-class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, private val roomMinSize: Int, mapHeight: Int,
-                      mapWidth: Int) : MapGenerator(mapHeight, mapWidth) {
+class DonjonGenerator(
+    private val nbRooms: Int,
+    private val roomMaxSize: Int,
+    private val roomMinSize: Int,
+    mapHeight: Int,
+    mapWidth: Int
+) : MapGenerator(mapHeight, mapWidth) {
 
     private val rooms = ArrayList<Rectangle>()
     private val tunnels = ArrayList<Rectangle>()
@@ -48,7 +53,6 @@ class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, pr
                 } else if (BigDecimal.valueOf(t.width.toDouble()).compareTo(BigDecimal.ONE) == 0) {
                     placeDoorWidth(t, yMin.toInt(), yMax.toInt())
                 }
-
             }
         }
     }
@@ -111,7 +115,7 @@ class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, pr
             val failed = rooms.stream().anyMatch { room -> room.intersects(newRoom) }
 
             if (!failed) {
-                if (!rooms.isEmpty()) {
+                if (rooms.isNotEmpty()) {
                     placeTunnels(newRoom)
                 }
                 rooms.add(newRoom)
@@ -146,6 +150,4 @@ class DonjonGenerator(private val nbRooms: Int, private val roomMaxSize: Int, pr
         val height = Math.abs(y1 - y2) + 1
         return Rectangle(x.toFloat(), Math.min(y1, y2).toFloat(), 1f, height.toFloat())
     }
-
-
 }

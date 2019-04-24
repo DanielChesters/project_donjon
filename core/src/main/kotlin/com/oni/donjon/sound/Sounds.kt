@@ -23,7 +23,7 @@ enum class Sounds(filename: String) {
     companion object {
 
         fun disposeAll() {
-            for (sound in Sounds.values()) {
+            for (sound in values()) {
                 sound.dispose()
             }
         }

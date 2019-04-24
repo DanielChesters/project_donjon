@@ -1,11 +1,15 @@
 package com.oni.donjon.generator
 
 import com.oni.donjon.map.TileType
-import com.oni.donjon.map.TileType.*
-import org.junit.jupiter.api.Assertions.*
+import com.oni.donjon.map.TileType.DOOR_CLOSE
+import com.oni.donjon.map.TileType.STAIR_DOWN
+import com.oni.donjon.map.TileType.STAIR_UP
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.api.function.Executable
+import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
 /**
@@ -47,7 +51,7 @@ class DonjonGeneratorTest {
     }
 
     @ParameterizedTest
-    @CsvSource("15, 30, 30","20, 40, 40", "50, 100, 100")
+    @CsvSource("15, 30, 30", "20, 40, 40", "50, 100, 100")
     fun `generate a map with parameters`(nbRoom: Int, mapHeight: Int, mapWidth: Int) {
         val mapGenerator = DonjonGenerator(nbRoom, 10, 6, mapHeight, mapWidth)
         mapGenerator.generate()

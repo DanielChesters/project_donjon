@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.RayCastCallback
 import com.oni.donjon.component.DirectionComponent
 import com.oni.donjon.component.LightComponent
@@ -42,25 +41,16 @@ class MovementSystem : IteratingSystem(allOf(PositionComponent::class, Direction
     private fun move(player: Entity, deltaX: Float, deltaY: Float) {
         val position = pm[player].position
         if (BigDecimal.valueOf(deltaX.toDouble()).compareTo(BigDecimal.ZERO) != 0) {
-            addX(deltaX, position)
+            position.x += deltaX
         }
         if (BigDecimal.valueOf(deltaY.toDouble()).compareTo(BigDecimal.ZERO) != 0) {
-            addY(deltaY, position)
+            position.y += deltaY
         }
-    }
-
-    private fun addX(x: Float, position: Vector2) {
-        position.x += x
-    }
-
-    private fun addY(y: Float, position: Vector2) {
-        position.y += y
     }
 
     private fun updateMove(player: Entity) {
         val numCase = caseToGo
-        val direction = dm[player].direction
-        when (direction) {
+        when (dm[player].direction) {
             DirectionComponent.Direction.UP -> goUp(player, numCase)
             DirectionComponent.Direction.DOWN -> goDown(player, numCase)
             DirectionComponent.Direction.RIGHT -> goRight(player, numCase)
@@ -72,7 +62,7 @@ class MovementSystem : IteratingSystem(allOf(PositionComponent::class, Direction
     private val caseToGo: Int
         get() {
             return if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || Gdx.input
-                    .isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+                            .isKeyPressed(Input.Keys.CONTROL_LEFT)) {
                 10
             } else {
                 1

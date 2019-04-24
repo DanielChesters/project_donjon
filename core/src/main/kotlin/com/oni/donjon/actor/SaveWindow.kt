@@ -3,8 +3,11 @@ package com.oni.donjon.actor
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.ui.List
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.scenes.scene2d.ui.Window
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Json
 import com.oni.donjon.Resources
@@ -28,9 +31,9 @@ class SaveWindow(title: String, private val skin: Skin) {
     val window: Window = window(title = title, skin = skin) {
         val saveScrollPane = ScrollPane(saveList, skin)
         saveScrollPane.setFlickScroll(false)
-        defaults().spaceBottom(10f)
+        defaults().spaceBottom(SAVE_WINDOW_SPACE_BOTTOM)
         row()
-        add(saveScrollPane).fill().colspan(3).maxHeight(150f)
+        add(saveScrollPane).fill().colspan(SAVE_WINDOW_COLSPAN).maxHeight(SAVE_WINDOW_MAX_HEIGHT)
         row().fill().expandX()
         add(saveButton).colspan(1)
         add(newSaveButton).colspan(1)
@@ -50,8 +53,13 @@ class SaveWindow(title: String, private val skin: Skin) {
         val newSaveButton = TextButton(Resources.BUNDLE["window.save.new"], skin)
         newSaveButton.pack()
         newSaveButton.addListener(object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
-                                   button: Int): Boolean {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ): Boolean {
                 val dialogs = GDXDialogsSystem.install()
 
                 val textPrompt = dialogs.newDialog(GDXTextPrompt::class.java)
@@ -90,8 +98,13 @@ class SaveWindow(title: String, private val skin: Skin) {
         val cancelButton = TextButton(Resources.BUNDLE["window.save.cancel"], skin)
         cancelButton.pack()
         cancelButton.addListener(object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
-                                   button: Int): Boolean {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ): Boolean {
                 this@SaveWindow.window.isVisible = false
                 menuGameWindow.setVisible(true)
                 return true
@@ -105,8 +118,13 @@ class SaveWindow(title: String, private val skin: Skin) {
         val saveButton = TextButton(Resources.BUNDLE["window.save.ok"], skin)
         saveButton.pack()
         saveButton.addListener(object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
-                                   button: Int): Boolean {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ): Boolean {
                 val saveName = saveList.selected
                 val json = Json()
                 val file = Gdx.files.external(".config/donjon/save/$saveName")
@@ -131,5 +149,11 @@ class SaveWindow(title: String, private val skin: Skin) {
         window.setPosition(Gdx.graphics.width / 2f - window.width / 2f,
                 Gdx.graphics.height / 2f - window.height / 2f)
         window.isVisible = true
+    }
+
+    companion object {
+        const val SAVE_WINDOW_SPACE_BOTTOM = 10f
+        const val SAVE_WINDOW_COLSPAN = 3
+        const val SAVE_WINDOW_MAX_HEIGHT = 150f
     }
 }

@@ -2,12 +2,15 @@ package com.oni.donjon.generator
 
 import com.badlogic.gdx.math.MathUtils
 import com.oni.donjon.map.TileType
-import java.util.*
 
 /**
  * @author Daniel Chesters (on 24/11/16).
  */
-class DrunkardsWalkCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50, private val nbFloorTiles: Int = 1000) : MapGenerator(mapHeight, mapWidth) {
+class DrunkardsWalkCaveGenerator(
+    mapHeight: Int = 50,
+    mapWidth: Int = 50,
+    private val nbFloorTiles: Int = 1000
+) : MapGenerator(mapHeight, mapWidth) {
 
     init {
 
@@ -35,10 +38,10 @@ class DrunkardsWalkCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50, privat
         for (i in 1 until nbFloorTiles) {
             do {
                 when (Direction.randomDirection()) {
-                    DrunkardsWalkCaveGenerator.Direction.NORTH -> y = MathUtils.clamp(y + 1, 1, mapHeight - 2)
-                    DrunkardsWalkCaveGenerator.Direction.SOUTH -> y = MathUtils.clamp(y - 1, 1, mapHeight - 2)
-                    DrunkardsWalkCaveGenerator.Direction.EAST -> x = MathUtils.clamp(x + 1, 1, mapHeight - 2)
-                    DrunkardsWalkCaveGenerator.Direction.WEST -> x = MathUtils.clamp(x - 1, 1, mapHeight - 2)
+                    Direction.NORTH -> y = MathUtils.clamp(y + 1, 1, mapHeight - 2)
+                    Direction.SOUTH -> y = MathUtils.clamp(y - 1, 1, mapHeight - 2)
+                    Direction.EAST -> x = MathUtils.clamp(x + 1, 1, mapHeight - 2)
+                    Direction.WEST -> x = MathUtils.clamp(x - 1, 1, mapHeight - 2)
                 }
             } while (TileType.WALL != tileTypes[x][y])
             tileTypes[x][y] = TileType.GROUND
@@ -56,10 +59,9 @@ class DrunkardsWalkCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50, privat
     internal enum class Direction {
         NORTH, EAST, SOUTH, WEST;
 
-
         companion object {
 
-            private val VALUES = Collections.unmodifiableList(Arrays.asList(*values()))
+            private val VALUES = values().toList()
             private val SIZE = VALUES.size
 
             fun randomDirection(): Direction {

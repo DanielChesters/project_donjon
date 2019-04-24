@@ -6,7 +6,7 @@ import com.oni.donjon.map.TileType
 /**
  * @author Daniel Chesters (on 10/05/2017).
  */
-abstract class MapGenerator (var mapHeight: Int = 0, var mapWidth: Int = 0) {
+abstract class MapGenerator(var mapHeight: Int = 0, var mapWidth: Int = 0) {
     lateinit var tileTypes: Array<Array<TileType?>>
 
     protected fun placeSpecialTile(tileType: TileType) {

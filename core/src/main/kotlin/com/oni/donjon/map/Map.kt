@@ -11,7 +11,7 @@ import com.oni.donjon.generator.MapGenerator
 import ktx.collections.gdxSetOf
 import ktx.log.logger
 import java.math.BigDecimal
-import java.util.*
+import java.util.Optional
 
 /**
  * @author Daniel Chesters (on 22/05/14).
@@ -26,7 +26,8 @@ class Map {
     val tiles = gdxSetOf<Tile>()
     private var player: Entity? = null
 
-    @JvmOverloads constructor(generator: MapGenerator = CellularAutomataCaveGenerator()) {
+    @JvmOverloads
+    constructor(generator: MapGenerator = CellularAutomataCaveGenerator()) {
         generator.generate()
         for (x in 0 until generator.mapWidth) {
             for (y in 0 until generator.mapHeight) {
@@ -61,10 +62,13 @@ class Map {
 
     fun getTile(x: Float, y: Float): Optional<Tile> {
         val tile = tiles
-                .find { BigDecimal.valueOf(it.rectangle.getX().toDouble()).compareTo(BigDecimal.valueOf(x.toDouble())) == 0
-                        && BigDecimal.valueOf(it.rectangle.getY().toDouble()).compareTo(BigDecimal.valueOf(y.toDouble())) == 0 }
+                .find { tile ->
+                    BigDecimal.valueOf(tile.rectangle.getX().toDouble())
+                            .compareTo(BigDecimal.valueOf(x.toDouble())) == 0 &&
+                            BigDecimal.valueOf(tile.rectangle.getY().toDouble())
+                                    .compareTo(BigDecimal.valueOf(y.toDouble())) == 0
+                }
         return Optional.ofNullable(tile)
-
     }
 
     fun updateVisibility() {
@@ -93,10 +97,10 @@ class Map {
 
         for (y in mapHeight - 1 downTo 0) {
             for (x in 0 until mapWidth) {
-                getTile(x.toFloat(), y.toFloat()).ifPresent {
+                getTile(x.toFloat(), y.toFloat()).ifPresent { tile ->
                     when {
-                        it.type === TileType.WALL -> builder.append('X')
-                        it.type === TileType.GROUND -> builder.append('.')
+                        tile.type === TileType.WALL -> builder.append('X')
+                        tile.type === TileType.GROUND -> builder.append('.')
                         else -> builder.append('*')
                     }
                 }

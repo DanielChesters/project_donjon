@@ -27,9 +27,9 @@ class LoadWindow(title: String, val game: DonjonGame) {
     val window = window(title = title, skin = skin) {
         val saveScrollPane = ScrollPane(saveList, skin)
         saveScrollPane.setFlickScroll(false)
-        defaults().spaceBottom(10f)
+        defaults().spaceBottom(LOAD_WINDOW_SPACE_BOTTOM)
         row()
-        add(saveScrollPane).fill().colspan(2).maxHeight(150f)
+        add(saveScrollPane).fill().colspan(2).maxHeight(LOAD_WINDOW_MAX_HEIGHT)
         row().fill().expandX()
         add(loadButton).colspan(1)
         add(cancelButton).colspan(1)
@@ -41,8 +41,13 @@ class LoadWindow(title: String, val game: DonjonGame) {
         val cancelButton = TextButton(bundle["main.screen.load.cancel"], skin)
         cancelButton.pack()
         cancelButton.addListener(object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
-                                   button: Int): Boolean {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ): Boolean {
                 this@LoadWindow.window.isVisible = false
                 return true
             }
@@ -54,8 +59,13 @@ class LoadWindow(title: String, val game: DonjonGame) {
         val loadButton = TextButton(bundle["main.screen.load.ok"], skin)
         loadButton.pack()
         loadButton.addListener(object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
-                                   button: Int): Boolean {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ): Boolean {
                 val save = saveList.selected
                 if (game.containsScreen<GameScreen>()) {
                     game.removeScreen<GameScreen>()
@@ -87,5 +97,10 @@ class LoadWindow(title: String, val game: DonjonGame) {
         window.setPosition(Gdx.graphics.width / 2f - window.width / 2f,
                 Gdx.graphics.height / 2f - window.height / 2f)
         window.isVisible = true
+    }
+
+    companion object {
+        const val LOAD_WINDOW_MAX_HEIGHT = 150f
+        const val LOAD_WINDOW_SPACE_BOTTOM = 10f
     }
 }

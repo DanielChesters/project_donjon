@@ -14,9 +14,9 @@ class DebugStage(private val gameStage: GameStage) {
     fun drawDebug() {
         debugRenderer.projectionMatrix = gameStage.camera.combined
         debugRenderer.begin(ShapeRenderer.ShapeType.Line)
-        GameData.map.tiles.forEach {
-            val rectangle = it.rectangle
-            if (it.isKnow) {
+        GameData.map.tiles.forEach { tile ->
+            val rectangle = tile.rectangle
+            if (tile.isKnow) {
                 debugRenderer.color = Color.RED
             } else {
                 debugRenderer.color = Color.BLUE
@@ -27,5 +27,4 @@ class DebugStage(private val gameStage: GameStage) {
         }
         debugRenderer.end()
     }
-
 }

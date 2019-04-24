@@ -38,12 +38,16 @@ class MenuGameWindow(val saveWindow: SaveWindow, val game: DonjonGame, val scree
         isVisible = false
     }
 
-
     private fun createCloseButton(): TextButton {
         val closeButton = TextButton(Resources.BUNDLE["game_menu.action.close"], skin)
         closeButton.addListener(object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
-                                   button: Int): Boolean {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ): Boolean {
                 window.isVisible = false
                 screen.state = GameScreen.GameState.RUNNING
                 return true
@@ -56,8 +60,13 @@ class MenuGameWindow(val saveWindow: SaveWindow, val game: DonjonGame, val scree
     private fun createExitButton(): TextButton {
         val exitButton = TextButton(Resources.BUNDLE["game_menu.action.exit"], skin)
         exitButton.addListener(object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
-                                   button: Int): Boolean {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ): Boolean {
                 game.removeScreen<MainScreen>()
                 game.addScreen(MainScreen(game))
                 game.setScreen<MainScreen>()
@@ -71,8 +80,13 @@ class MenuGameWindow(val saveWindow: SaveWindow, val game: DonjonGame, val scree
     private fun createSaveButton(): TextButton {
         val saveButton = TextButton(Resources.BUNDLE["game_menu.action.save"], skin)
         saveButton.addListener(object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
-                                   button: Int): Boolean {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ): Boolean {
                 saveWindow.show()
                 window.isVisible = false
                 return true

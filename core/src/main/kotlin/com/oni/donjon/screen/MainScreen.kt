@@ -25,7 +25,7 @@ class MainScreen(val game: DonjonGame) : KtxScreen {
     val loadWindow = LoadWindow(bundle["main.screen.load.title"], game)
     private val loadGameButton = createLoadGameButton()
     private val view = table {
-        defaults().space(5f)
+        defaults().space(DEFAULT_SPACE)
         row()
         add(createNewGameButton()).center()
         row()
@@ -47,11 +47,16 @@ class MainScreen(val game: DonjonGame) : KtxScreen {
         val exitGameButton = KTextButton(bundle["main.screen.exit.title"], skin, defaultStyle)
         exitGameButton.pack()
         exitGameButton.setPosition(Gdx.graphics.width / 2f - exitGameButton.width / 2f,
-                Gdx.graphics.height / 2f - (exitGameButton.height + loadGameButton.height
-                        + 30f))
+                Gdx.graphics.height / 2f - (exitGameButton.height + loadGameButton.height +
+                        EXIT_BUTTON_POSITION))
         exitGameButton.addListener(object : InputListener() {
-            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int,
-                                   button: Int): Boolean {
+            override fun touchDown(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                button: Int
+            ): Boolean {
                 Gdx.app.exit()
                 return true
             }
@@ -63,7 +68,7 @@ class MainScreen(val game: DonjonGame) : KtxScreen {
         val loadGameButton = KTextButton(bundle["main.screen.load_game.title"], skin, defaultStyle)
         loadGameButton.pack()
         loadGameButton.setPosition(Gdx.graphics.width / 2f - loadGameButton.width / 2f,
-                Gdx.graphics.height / 2f - (loadGameButton.height + 20))
+                Gdx.graphics.height / 2f - (loadGameButton.height + LOAD_BUTTON_POSITION))
         loadGameButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 loadWindow.show()
@@ -100,5 +105,11 @@ class MainScreen(val game: DonjonGame) : KtxScreen {
 
     override fun hide() {
         view.remove()
+    }
+
+    companion object {
+        const val DEFAULT_SPACE = 5f
+        const val EXIT_BUTTON_POSITION = 30f
+        const val LOAD_BUTTON_POSITION = 20f
     }
 }

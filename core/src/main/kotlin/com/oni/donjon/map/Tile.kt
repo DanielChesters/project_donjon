@@ -11,7 +11,13 @@ import kotlin.experimental.or
 /**
  * @author Daniel Chesters (on 22/05/14).
  */
-data class Tile(val x: Float = -1f, val y: Float = -1f, var type: TileType, var isKnow: Boolean = false, private val world: World) {
+data class Tile(
+    val x: Float = -1f,
+    val y: Float = -1f,
+    var type: TileType,
+    var isKnow: Boolean = false,
+    private val world: World
+) {
     var rectangle: Rectangle
     lateinit var body: Body
 
@@ -41,5 +47,4 @@ data class Tile(val x: Float = -1f, val y: Float = -1f, var type: TileType, var 
             }
         }
     }
-
 }

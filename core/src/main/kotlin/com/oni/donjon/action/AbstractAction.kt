@@ -12,12 +12,17 @@ abstract class AbstractAction : Action {
     }
 
     protected fun isNearPlayer(tile: Tile): Boolean {
-        return testPositionBetweenTileAndPlayer(tile, 1.5f)
+        return testPositionBetweenTileAndPlayer(tile, distanceNearPlayer)
     }
 
     private fun testPositionBetweenTileAndPlayer(tile: Tile, distance: Float): Boolean {
         val tileRectangle = tile.rectangle
         val playerPosition = GameData.getPlayerPosition()
-        return Math.abs(tileRectangle.getX() - playerPosition.x.toInt()) < distance && Math.abs(tileRectangle.getY() - playerPosition.y.toInt()) < distance
+        return Math.abs(tileRectangle.getX() - playerPosition.x.toInt()) < distance &&
+                Math.abs(tileRectangle.getY() - playerPosition.y.toInt()) < distance
+    }
+
+    companion object {
+        const val distanceNearPlayer = 1.5f
     }
 }
