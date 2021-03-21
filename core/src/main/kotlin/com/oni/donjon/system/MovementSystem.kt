@@ -57,8 +57,7 @@ class MovementSystem : IteratingSystem(
             DirectionComponent.Direction.DOWN -> goDown(player, numCase)
             DirectionComponent.Direction.RIGHT -> goRight(player, numCase)
             DirectionComponent.Direction.LEFT -> goLeft(player, numCase)
-            DirectionComponent.Direction.NONE -> {
-            }
+            else -> {}
         }
     }
 
