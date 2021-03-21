@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.oni.donjon.map.TileType
 import java.math.BigDecimal
+import kotlin.math.abs
+import kotlin.math.min
 
 /**
  * @author Daniel Chesters (on 11/02/16).
@@ -20,7 +22,9 @@ class DonjonGenerator(
     private val rooms = ArrayList<Rectangle>()
     private val tunnels = ArrayList<Rectangle>()
 
-    @JvmOverloads constructor(mapHeight: Int = 50, mapWidth: Int = 50) : this(10, 10, 6, mapHeight, mapWidth)
+    @JvmOverloads constructor(mapHeight: Int = Constants.defaultHeight, mapWidth: Int = Constants.defaultWidth) :
+            this(Constants.defaultNbRoom, Constants.defaultRoomMaxSize, Constants.defaultRoomMinSize, mapHeight,
+                mapWidth)
 
     init {
         this.tileTypes = Array(mapWidth) { arrayOfNulls<TileType>(mapHeight) }
@@ -105,7 +109,7 @@ class DonjonGenerator(
     }
 
     private fun placeRooms() {
-        for (i in 0 until nbRooms) {
+        (0 until nbRooms).forEach { _ ->
             val w = MathUtils.random(roomMinSize, roomMaxSize)
             val h = MathUtils.random(roomMinSize, roomMaxSize)
             val x = MathUtils.random(mapWidth - w - 1) + 1
@@ -142,12 +146,20 @@ class DonjonGenerator(
     }
 
     private fun placeHTunnel(x1: Int, x2: Int, y: Int): Rectangle {
-        val wight = Math.abs(x1 - x2) + 1
-        return Rectangle(Math.min(x1, x2).toFloat(), y.toFloat(), wight.toFloat(), 1f)
+        val wight = abs(x1 - x2) + 1
+        return Rectangle(min(x1, x2).toFloat(), y.toFloat(), wight.toFloat(), 1f)
     }
 
     private fun placeVTunnel(x: Int, y1: Int, y2: Int): Rectangle {
-        val height = Math.abs(y1 - y2) + 1
-        return Rectangle(x.toFloat(), Math.min(y1, y2).toFloat(), 1f, height.toFloat())
+        val height = abs(y1 - y2) + 1
+        return Rectangle(x.toFloat(), min(y1, y2).toFloat(), 1f, height.toFloat())
+    }
+
+    object Constants {
+        const val defaultHeight = 50
+        const val defaultWidth = 50
+        const val defaultNbRoom = 10
+        const val defaultRoomMaxSize = 10
+        const val defaultRoomMinSize = 6
     }
 }

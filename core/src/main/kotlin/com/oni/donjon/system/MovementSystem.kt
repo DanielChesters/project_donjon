@@ -63,41 +63,41 @@ class MovementSystem : IteratingSystem(allOf(PositionComponent::class, Direction
         get() {
             return if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || Gdx.input
                             .isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-                10
+                Constants.caseToMoveOnRun
             } else {
-                1
+                Constants.caseToMoveOnWalk
             }
         }
 
     private fun goDown(player: Entity, numberCase: Int) {
-        movePlayer(player, numberCase, 0f, -0.5f, 270)
+        movePlayer(player, numberCase, 0f, Constants.deltaYForGoDown, Constants.angleForGoDown)
     }
 
     private fun goUp(player: Entity, numberCase: Int) {
-        movePlayer(player, numberCase, 0f, 0.5f, 90)
+        movePlayer(player, numberCase, 0f, Constants.deltaYForGoUp, Constants.angleForGoUp)
     }
 
     private fun goLeft(player: Entity, numberCase: Int) {
-        movePlayer(player, numberCase, -0.5f, 0f, 180)
+        movePlayer(player, numberCase, Constants.deltaXForGoLeft, 0f, Constants.angleForGoLeft)
     }
 
     private fun goRight(player: Entity, numberCase: Int) {
-        movePlayer(player, numberCase, 0.5f, 0f, 0)
+        movePlayer(player, numberCase, Constants.deltaXForGoRight, 0f, Constants.angleForGoRight)
     }
 
     private fun movePlayer(player: Entity, numberCase: Int, deltaX: Float, deltaY: Float, angle: Int) {
         val radianAngle = Math.toRadians(angle.toDouble()).toFloat()
         val (position, body) = pm[player]
-        lm[player].coneLight.setDirection(radianAngle)
+        lm[player].coneLight.direction = radianAngle
 
-        for (i in 0..numberCase) {
+        (0..numberCase).forEach { _ ->
             val tileRight = GameData.map.getTile((position.x + deltaX).toInt().toFloat(),
-                    (position.y + deltaY).toInt().toFloat())
+                (position.y + deltaY).toInt().toFloat())
             if (tileRight.isPresent && checkMovable(player, deltaX, deltaY)) {
                 move(player, deltaX, deltaY)
-                body.setTransform((position.x + 0.25f) * Tile
-                        .SIZE + deltaX,
-                        (position.y + 0.25f) * Tile.SIZE + deltaY, radianAngle)
+                body.setTransform((position.x + Constants.deltaTransformOnMovePlayer) * Tile
+                    .SIZE + deltaX,
+                    (position.y + Constants.deltaTransformOnMovePlayer) * Tile.SIZE + deltaY, radianAngle)
             }
             GameData.map.updateVisibility()
         }
@@ -112,5 +112,19 @@ class MovementSystem : IteratingSystem(allOf(PositionComponent::class, Direction
                 body.position.y + deltaY * Tile.SIZE)
         world.rayCast(rayCastCallback, body.position, endPosition)
         return canMove
+    }
+
+    object Constants {
+        const val caseToMoveOnRun = 10
+        const val caseToMoveOnWalk = 1
+        const val deltaYForGoDown = -0.5f
+        const val angleForGoDown = 270
+        const val deltaYForGoUp = 0.5f
+        const val angleForGoUp = 90
+        const val deltaXForGoLeft = -0.5f
+        const val angleForGoLeft = 180
+        const val deltaXForGoRight = 0.5f
+        const val angleForGoRight = 0
+        const val deltaTransformOnMovePlayer = 0.25f
     }
 }

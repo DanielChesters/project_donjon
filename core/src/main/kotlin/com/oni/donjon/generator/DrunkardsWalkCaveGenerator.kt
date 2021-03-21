@@ -35,7 +35,7 @@ class DrunkardsWalkCaveGenerator(
         var y = MathUtils.random(1, mapHeight - 2)
         tileTypes[x][y] = TileType.GROUND
 
-        for (i in 1 until nbFloorTiles) {
+        (1 until nbFloorTiles).forEach { _ ->
             do {
                 when (Direction.randomDirection()) {
                     Direction.NORTH -> y = MathUtils.clamp(y + 1, 1, mapHeight - 2)

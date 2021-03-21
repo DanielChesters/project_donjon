@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
@@ -41,6 +42,10 @@ subprojects {
         google()
         maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
         maven(url = "https://oss.sonatype.org/content/repositories/releases/")
+    }
+
+    detekt {
+        ignoreFailures = true
     }
 }
 

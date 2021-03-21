@@ -8,7 +8,7 @@ plugins {
 }
 
 application {
-    mainClassName = "com.oni.donjon.desktop.DesktopLauncher"
+    mainClass.set("com.oni.donjon.desktop.DesktopLauncher")
     applicationName = "Projet-donjon"
 }
 
@@ -25,6 +25,6 @@ dependencies {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = application.mainClassName
+        attributes["Main-Class"] = application.mainClass
     }
 }
