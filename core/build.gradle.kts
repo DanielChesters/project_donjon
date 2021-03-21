@@ -47,3 +47,9 @@ sonarqube {
         property("sonar.projectKey", "DanielChesters_project_donjon")
     }
 }
+
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = true
+    }
+}
