@@ -30,7 +30,7 @@ subprojects {
     apply(plugin = "io.gitlab.arturbosch.detekt")
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
     }
 
     version = "0.1"
@@ -46,6 +46,11 @@ subprojects {
 
     detekt {
         ignoreFailures = true
+    }
+
+    tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+        // Target version of the generated JVM bytecode. It is used for type resolution.
+        this.jvmTarget = "11"
     }
 }
 

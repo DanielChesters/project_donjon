@@ -7,7 +7,7 @@ A prototype of a donjon crawler/roguelike in Kotlin and libGDX
 
 How to run
 ----
-1. Install Oracle JDK or OpenJDK 8 (this project does not compile (and run) on an older version of java)
+1. Install JDK 11 (this project does not compile (and run) on an older version of java)
 2. Clone this repository
 3. Run on a terminal in repository folder : `./gradlew run` 
 4. …
