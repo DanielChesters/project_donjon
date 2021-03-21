@@ -39,3 +39,11 @@ tasks.withType<Test> {
         events("passed", "skipped", "failed")
     }
 }
+
+sonarqube {
+    properties {
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.organization", "danielchesters-github")
+        property("sonar.projectKey", "DanielChesters_project_donjon")
+    }
+}
