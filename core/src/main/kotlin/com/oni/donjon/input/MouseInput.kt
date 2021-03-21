@@ -43,8 +43,10 @@ class MouseInput(private val gameStage: GameStage, private val uiStage: UIStage)
     }
 
     private fun mainAction(mouseLocation: Vector2) {
-        val tile = GameData.map.getTile((mouseLocation.x / Tile.SIZE).toInt().toFloat(),
-                (mouseLocation.y / Tile.SIZE).toInt().toFloat())
+        val tile = GameData.map.getTile(
+            (mouseLocation.x / Tile.SIZE).toInt().toFloat(),
+            (mouseLocation.y / Tile.SIZE).toInt().toFloat()
+        )
         if (tile.isPresent && tile.get().isKnow) {
             val realTile = tile.get()
             val action = uiStage.actionList.selected

@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import java.util.Arrays
 
 /**
  * @author Daniel Chesters (on 21/04/2017).
@@ -33,27 +32,33 @@ class DrunkardsWalkCaveGeneratorTest {
         val tileCount = tileTypeList.count()
 
         val groundTileCount = tileTypeList.filter { tileType ->
-            Arrays.asList(GROUND, STAIR_DOWN, STAIR_UP)
-                    .contains(tileType)
+            listOf(GROUND, STAIR_DOWN, STAIR_UP)
+                .contains(tileType)
         }.count()
 
         assertAll(
-                Executable { assertEquals(50, mapHeight.toLong()) },
-                Executable { assertEquals(50, mapWidth.toLong()) },
-                Executable { assertEquals((mapHeight * mapWidth), tileCount) },
-                Executable { assertEquals(1000, groundTileCount) },
-                Executable {
-                    assertEquals((mapHeight * mapWidth - 1000),
-                            tileTypeList.filter { tileType -> tileType == WALL }.count())
-                },
-                Executable {
-                    assertEquals(1,
-                            tileTypeList.filter { tileType -> tileType == STAIR_UP }.count())
-                },
-                Executable {
-                    assertEquals(1,
-                            tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count())
-                }
+            Executable { assertEquals(50, mapHeight.toLong()) },
+            Executable { assertEquals(50, mapWidth.toLong()) },
+            Executable { assertEquals((mapHeight * mapWidth), tileCount) },
+            Executable { assertEquals(1000, groundTileCount) },
+            Executable {
+                assertEquals(
+                    (mapHeight * mapWidth - 1000),
+                    tileTypeList.filter { tileType -> tileType == WALL }.count()
+                )
+            },
+            Executable {
+                assertEquals(
+                    1,
+                    tileTypeList.filter { tileType -> tileType == STAIR_UP }.count()
+                )
+            },
+            Executable {
+                assertEquals(
+                    1,
+                    tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count()
+                )
+            }
         )
     }
 
@@ -70,27 +75,33 @@ class DrunkardsWalkCaveGeneratorTest {
         val tileCount = tileTypeList.count()
 
         val groundTileCount = tileTypeList.filter { tileType ->
-            Arrays.asList(GROUND, STAIR_DOWN, STAIR_UP)
-                    .contains(tileType)
+            listOf(GROUND, STAIR_DOWN, STAIR_UP)
+                .contains(tileType)
         }.count()
 
         assertAll(
-                Executable { assertEquals(mapHeight, mapGenerator.mapHeight) },
-                Executable { assertEquals(mapWidth, mapGenerator.mapWidth) },
-                Executable { assertEquals((mapHeight * mapWidth), tileCount) },
-                Executable { assertEquals(nbFloorTiles, groundTileCount) },
-                Executable {
-                    assertEquals((mapHeight * mapWidth - nbFloorTiles),
-                            tileTypeList.filter { tileType -> tileType == WALL }.count())
-                },
-                Executable {
-                    assertEquals(1,
-                            tileTypeList.filter { tileType -> tileType == STAIR_UP }.count())
-                },
-                Executable {
-                    assertEquals(1,
-                            tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count())
-                }
+            Executable { assertEquals(mapHeight, mapGenerator.mapHeight) },
+            Executable { assertEquals(mapWidth, mapGenerator.mapWidth) },
+            Executable { assertEquals((mapHeight * mapWidth), tileCount) },
+            Executable { assertEquals(nbFloorTiles, groundTileCount) },
+            Executable {
+                assertEquals(
+                    (mapHeight * mapWidth - nbFloorTiles),
+                    tileTypeList.filter { tileType -> tileType == WALL }.count()
+                )
+            },
+            Executable {
+                assertEquals(
+                    1,
+                    tileTypeList.filter { tileType -> tileType == STAIR_UP }.count()
+                )
+            },
+            Executable {
+                assertEquals(
+                    1,
+                    tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count()
+                )
+            }
         )
     }
 

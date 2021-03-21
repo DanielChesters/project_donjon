@@ -76,8 +76,10 @@ class GameScreenElements(private val game: DonjonGame, private val gameScreen: G
             }
         })
         menuButton.pack()
-        menuButton.setPosition(Gdx.graphics.width - (menuButton.width + MENU_BUTTON_MARGIN),
-                Gdx.graphics.height - (menuButton.height + MENU_BUTTON_MARGIN))
+        menuButton.setPosition(
+            Gdx.graphics.width - (menuButton.width + MENU_BUTTON_MARGIN),
+            Gdx.graphics.height - (menuButton.height + MENU_BUTTON_MARGIN)
+        )
         return menuButton
     }
 
@@ -115,7 +117,7 @@ class GameScreenElements(private val game: DonjonGame, private val gameScreen: G
         val gameStage = GameStage(playerLabel)
 
         gameStage.camera.position
-                .set(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f, 0f)
+            .set(Gdx.graphics.width / 2f, Gdx.graphics.height / 2f, 0f)
         gameStage.addActor(mapActor)
         gameStage.addActor(playerLabel)
 
@@ -141,9 +143,11 @@ class GameScreenElements(private val game: DonjonGame, private val gameScreen: G
             }
         }
 
-        val coneLight = ConeLight(gameScreen.rayHandler, DEFAULT_CONE_RAYS,
-                Color.FIREBRICK, DEFAULT_CONE_DISTANCE, body.position.x,
-                body.position.y, body.angle, DEFAULT_CONE_DEGREE)
+        val coneLight = ConeLight(
+            gameScreen.rayHandler, DEFAULT_CONE_RAYS,
+            Color.FIREBRICK, DEFAULT_CONE_DISTANCE, body.position.x,
+            body.position.y, body.angle, DEFAULT_CONE_DEGREE
+        )
         coneLight.setContactFilter(GameScreen.LIGHT_BIT, GameScreen.NOTHING_BIT, GameScreen.WALL_BIT)
         coneLight.isSoft = true
         coneLight.setSoftnessLength(DEFAULT_SOFTNESS_LENGTH)
@@ -157,8 +161,10 @@ class GameScreenElements(private val game: DonjonGame, private val gameScreen: G
     }
 
     fun createInput() {
-        Gdx.input.inputProcessor = createInputMultiplexer(KeyboardInput(),
-                MouseInput(gameScreen.gameStage, gameScreen.uiStage))
+        Gdx.input.inputProcessor = createInputMultiplexer(
+            KeyboardInput(),
+            MouseInput(gameScreen.gameStage, gameScreen.uiStage)
+        )
     }
 
     private fun createInputMultiplexer(

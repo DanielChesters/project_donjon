@@ -41,8 +41,14 @@ data class Tile(
         return world.body {
             val realX = rectangle.x * SIZE + rectangle.getWidth() / 2
             val realY = rectangle.y * SIZE + rectangle.getHeight() / 2
-            box(width = rectangle.width, height = rectangle.height, position = vec2(realX,
-                    realY)) {
+            box(
+                width = rectangle.width,
+                height = rectangle.height,
+                position = vec2(
+                    realX,
+                    realY
+                )
+            ) {
                 filter.categoryBits = this@Tile.type.categoryBits
                 filter.maskBits = GameScreen.PLAYER_BIT or GameScreen.LIGHT_BIT
             }

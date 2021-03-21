@@ -22,9 +22,12 @@ class DonjonGenerator(
     private val rooms = ArrayList<Rectangle>()
     private val tunnels = ArrayList<Rectangle>()
 
-    @JvmOverloads constructor(mapHeight: Int = Constants.defaultHeight, mapWidth: Int = Constants.defaultWidth) :
-            this(Constants.defaultNbRoom, Constants.defaultRoomMaxSize, Constants.defaultRoomMinSize, mapHeight,
-                mapWidth)
+    @JvmOverloads
+    constructor(mapHeight: Int = DEFAULT_HEIGHT, mapWidth: Int = DEFAULT_WIDTH) :
+        this(
+            DEFAULT_NB_ROOM, DEFAULT_ROOM_MAX_SIZE, DEFAULT_ROOM_MIN_SIZE, mapHeight,
+            mapWidth
+        )
 
     init {
         this.tileTypes = Array(mapWidth) { arrayOfNulls<TileType>(mapHeight) }
@@ -155,11 +158,11 @@ class DonjonGenerator(
         return Rectangle(x.toFloat(), min(y1, y2).toFloat(), 1f, height.toFloat())
     }
 
-    object Constants {
-        const val defaultHeight = 50
-        const val defaultWidth = 50
-        const val defaultNbRoom = 10
-        const val defaultRoomMaxSize = 10
-        const val defaultRoomMinSize = 6
+    companion object {
+        const val DEFAULT_HEIGHT = 50
+        const val DEFAULT_WIDTH = 50
+        const val DEFAULT_NB_ROOM = 10
+        const val DEFAULT_ROOM_MAX_SIZE = 10
+        const val DEFAULT_ROOM_MIN_SIZE = 6
     }
 }

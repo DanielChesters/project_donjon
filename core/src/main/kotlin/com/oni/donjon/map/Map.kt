@@ -32,8 +32,12 @@ class Map {
         generator.generate()
         for (x in 0 until generator.mapWidth) {
             for (y in 0 until generator.mapHeight) {
-                tiles.add(Tile(x.toFloat(), y.toFloat(), generator.tileTypes[x][y]!!, false,
-                        GameData.world))
+                tiles.add(
+                    Tile(
+                        x.toFloat(), y.toFloat(), generator.tileTypes[x][y]!!, false,
+                        GameData.world
+                    )
+                )
             }
         }
         this.mapHeight = generator.mapHeight
@@ -47,8 +51,11 @@ class Map {
                 val savedTile = gameSave.map!![x][y]
                 if (savedTile != null) {
                     tiles.add(
-                            Tile(x.toFloat(), y.toFloat(), savedTile.type!!, savedTile.know!!,
-                                    GameData.world))
+                        Tile(
+                            x.toFloat(), y.toFloat(), savedTile.type!!, savedTile.know!!,
+                            GameData.world
+                        )
+                    )
                 }
             }
         }
@@ -63,12 +70,12 @@ class Map {
 
     fun getTile(x: Float, y: Float): Optional<Tile> {
         val tile = tiles
-                .find { tile ->
-                    BigDecimal.valueOf(tile.rectangle.getX().toDouble())
-                            .compareTo(BigDecimal.valueOf(x.toDouble())) == 0 &&
-                            BigDecimal.valueOf(tile.rectangle.getY().toDouble())
-                                    .compareTo(BigDecimal.valueOf(y.toDouble())) == 0
-                }
+            .find { tile ->
+                BigDecimal.valueOf(tile.rectangle.getX().toDouble())
+                    .compareTo(BigDecimal.valueOf(x.toDouble())) == 0 &&
+                    BigDecimal.valueOf(tile.rectangle.getY().toDouble())
+                    .compareTo(BigDecimal.valueOf(y.toDouble())) == 0
+            }
         return Optional.ofNullable(tile)
     }
 
@@ -86,11 +93,11 @@ class Map {
 
     override fun toString(): String {
         return "Map{" +
-                "mapHeight=" + mapHeight +
-                ", mapWidth=" + mapWidth +
-                ", tiles=" + tiles +
-                ", player=" + player +
-                '}'
+            "mapHeight=" + mapHeight +
+            ", mapWidth=" + mapWidth +
+            ", tiles=" + tiles +
+            ", player=" + player +
+            '}'
     }
 
     private fun logMap() {

@@ -115,8 +115,10 @@ class GameScreen(game: DonjonGame, private val saveFile: String = "") : KtxScree
         engine.update(delta)
         gameStage.updatePlayer()
         gameStage.camera.position
-                .set(GameData.getPlayerPosition().x * Tile.SIZE,
-                        GameData.getPlayerPosition().y * Tile.SIZE, 0f)
+            .set(
+                GameData.getPlayerPosition().x * Tile.SIZE,
+                GameData.getPlayerPosition().y * Tile.SIZE, 0f
+            )
         gameStage.camera.update()
         gameStage.draw()
         rayHandler.setCombinedMatrix(gameStage.camera as OrthographicCamera)

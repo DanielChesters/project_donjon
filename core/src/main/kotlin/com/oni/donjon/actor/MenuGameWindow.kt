@@ -32,8 +32,10 @@ class MenuGameWindow(val saveWindow: SaveWindow, val game: DonjonGame, val scree
         row()
         add(closeButton).center()
         pack()
-        setPosition(Gdx.graphics.width / 2f - width / 2f,
-                Gdx.graphics.height / 2f - height / 2f)
+        setPosition(
+            Gdx.graphics.width / 2f - width / 2f,
+            Gdx.graphics.height / 2f - height / 2f
+        )
         isModal = true
         isMovable = false
         isVisible = false

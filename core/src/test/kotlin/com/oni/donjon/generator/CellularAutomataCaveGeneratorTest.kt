@@ -30,13 +30,21 @@ class CellularAutomataCaveGeneratorTest {
         val tileCount = tileTypeList.count()
 
         assertAll(
-                Executable { assertEquals(50, mapHeight.toLong()) },
-                Executable { assertEquals(50, mapWidth.toLong()) },
-                Executable { assertEquals((mapHeight * mapWidth), tileCount) },
-                Executable { assertEquals(1,
-                        tileTypeList.filter { tileType -> tileType == STAIR_UP }.count()) },
-                Executable { assertEquals(1,
-                        tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count()) }
+            Executable { assertEquals(50, mapHeight.toLong()) },
+            Executable { assertEquals(50, mapWidth.toLong()) },
+            Executable { assertEquals((mapHeight * mapWidth), tileCount) },
+            Executable {
+                assertEquals(
+                    1,
+                    tileTypeList.filter { tileType -> tileType == STAIR_UP }.count()
+                )
+            },
+            Executable {
+                assertEquals(
+                    1,
+                    tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count()
+                )
+            }
         )
     }
 
@@ -54,13 +62,21 @@ class CellularAutomataCaveGeneratorTest {
         val tileCount = tileTypeList.count()
 
         assertAll(
-                Executable { assertEquals(mapHeight, mapGenerator.mapHeight) },
-                Executable { assertEquals(mapWidth, mapGenerator.mapWidth) },
-                Executable { assertEquals((mapHeight * mapWidth), tileCount) },
-                Executable { assertEquals(1,
-                        tileTypeList.filter { tileType -> tileType == STAIR_UP }.count()) },
-                Executable { assertEquals(1,
-                        tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count()) }
+            Executable { assertEquals(mapHeight, mapGenerator.mapHeight) },
+            Executable { assertEquals(mapWidth, mapGenerator.mapWidth) },
+            Executable { assertEquals((mapHeight * mapWidth), tileCount) },
+            Executable {
+                assertEquals(
+                    1,
+                    tileTypeList.filter { tileType -> tileType == STAIR_UP }.count()
+                )
+            },
+            Executable {
+                assertEquals(
+                    1,
+                    tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count()
+                )
+            }
         )
     }
 }

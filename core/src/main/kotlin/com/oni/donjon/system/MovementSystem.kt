@@ -19,8 +19,10 @@ import java.math.BigDecimal
 /**
  * @author Daniel Chesters (on 06/02/16).
  */
-class MovementSystem : IteratingSystem(allOf(PositionComponent::class, DirectionComponent::class, LightComponent::class)
-        .get()) {
+class MovementSystem : IteratingSystem(
+    allOf(PositionComponent::class, DirectionComponent::class, LightComponent::class)
+        .get()
+) {
     private var canMove: Boolean = false
 
     private val rayCastCallback: RayCastCallback = RayCastCallback { fixture, _, _, _ ->
@@ -55,34 +57,36 @@ class MovementSystem : IteratingSystem(allOf(PositionComponent::class, Direction
             DirectionComponent.Direction.DOWN -> goDown(player, numCase)
             DirectionComponent.Direction.RIGHT -> goRight(player, numCase)
             DirectionComponent.Direction.LEFT -> goLeft(player, numCase)
-            DirectionComponent.Direction.NONE -> {}
+            DirectionComponent.Direction.NONE -> {
+            }
         }
     }
 
     private val caseToGo: Int
         get() {
-            return if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) || Gdx.input
-                            .isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-                Constants.caseToMoveOnRun
+            return if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT) ||
+                Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
+            ) {
+                CASE_TO_MOVE_ON_RUN
             } else {
-                Constants.caseToMoveOnWalk
+                CASE_TO_MOVE_ON_WALK
             }
         }
 
     private fun goDown(player: Entity, numberCase: Int) {
-        movePlayer(player, numberCase, 0f, Constants.deltaYForGoDown, Constants.angleForGoDown)
+        movePlayer(player, numberCase, 0f, DELTA_Y_FOR_GO_DOWN, ANGLE_FOR_GO_DOWN)
     }
 
     private fun goUp(player: Entity, numberCase: Int) {
-        movePlayer(player, numberCase, 0f, Constants.deltaYForGoUp, Constants.angleForGoUp)
+        movePlayer(player, numberCase, 0f, DELTA_Y_FOR_GO_UP, ANGLE_FOR_GO_UP)
     }
 
     private fun goLeft(player: Entity, numberCase: Int) {
-        movePlayer(player, numberCase, Constants.deltaXForGoLeft, 0f, Constants.angleForGoLeft)
+        movePlayer(player, numberCase, DELTA_X_FOR_GO_LEFT, 0f, ANGLE_FOR_GO_LEFT)
     }
 
     private fun goRight(player: Entity, numberCase: Int) {
-        movePlayer(player, numberCase, Constants.deltaXForGoRight, 0f, Constants.angleForGoRight)
+        movePlayer(player, numberCase, DELTA_X_FOR_GO_RIGHT, 0f, ANGLE_FOR_GO_RIGHT)
     }
 
     private fun movePlayer(player: Entity, numberCase: Int, deltaX: Float, deltaY: Float, angle: Int) {
@@ -91,13 +95,17 @@ class MovementSystem : IteratingSystem(allOf(PositionComponent::class, Direction
         lm[player].coneLight.direction = radianAngle
 
         (0..numberCase).forEach { _ ->
-            val tileRight = GameData.map.getTile((position.x + deltaX).toInt().toFloat(),
-                (position.y + deltaY).toInt().toFloat())
+            val tileRight = GameData.map.getTile(
+                (position.x + deltaX).toInt().toFloat(),
+                (position.y + deltaY).toInt().toFloat()
+            )
             if (tileRight.isPresent && checkMovable(player, deltaX, deltaY)) {
                 move(player, deltaX, deltaY)
-                body.setTransform((position.x + Constants.deltaTransformOnMovePlayer) * Tile
-                    .SIZE + deltaX,
-                    (position.y + Constants.deltaTransformOnMovePlayer) * Tile.SIZE + deltaY, radianAngle)
+                body.setTransform(
+                    (position.x + DELTA_TRANSFORM_ON_MOVE_PLAYER) * Tile
+                        .SIZE + deltaX,
+                    (position.y + DELTA_TRANSFORM_ON_MOVE_PLAYER) * Tile.SIZE + deltaY, radianAngle
+                )
             }
             GameData.map.updateVisibility()
         }
@@ -108,23 +116,25 @@ class MovementSystem : IteratingSystem(allOf(PositionComponent::class, Direction
         val body = pm[player].body
         val world = body.world
 
-        val endPosition = vec2(body.position.x + deltaX * Tile.SIZE,
-                body.position.y + deltaY * Tile.SIZE)
+        val endPosition = vec2(
+            body.position.x + deltaX * Tile.SIZE,
+            body.position.y + deltaY * Tile.SIZE
+        )
         world.rayCast(rayCastCallback, body.position, endPosition)
         return canMove
     }
 
-    object Constants {
-        const val caseToMoveOnRun = 10
-        const val caseToMoveOnWalk = 1
-        const val deltaYForGoDown = -0.5f
-        const val angleForGoDown = 270
-        const val deltaYForGoUp = 0.5f
-        const val angleForGoUp = 90
-        const val deltaXForGoLeft = -0.5f
-        const val angleForGoLeft = 180
-        const val deltaXForGoRight = 0.5f
-        const val angleForGoRight = 0
-        const val deltaTransformOnMovePlayer = 0.25f
+    companion object {
+        const val CASE_TO_MOVE_ON_RUN = 10
+        const val CASE_TO_MOVE_ON_WALK = 1
+        const val DELTA_Y_FOR_GO_DOWN = -0.5f
+        const val ANGLE_FOR_GO_DOWN = 270
+        const val DELTA_Y_FOR_GO_UP = 0.5f
+        const val ANGLE_FOR_GO_UP = 90
+        const val DELTA_X_FOR_GO_LEFT = -0.5f
+        const val ANGLE_FOR_GO_LEFT = 180
+        const val DELTA_X_FOR_GO_RIGHT = 0.5f
+        const val ANGLE_FOR_GO_RIGHT = 0
+        const val DELTA_TRANSFORM_ON_MOVE_PLAYER = 0.25f
     }
 }

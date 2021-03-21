@@ -2,6 +2,7 @@ package com.oni.donjon.action
 
 import com.oni.donjon.data.GameData
 import com.oni.donjon.map.Tile
+import kotlin.math.abs
 
 /**
  * @author Daniel Chesters (on 02/06/14).
@@ -18,8 +19,8 @@ abstract class AbstractAction : Action {
     private fun testPositionBetweenTileAndPlayer(tile: Tile, distance: Float): Boolean {
         val tileRectangle = tile.rectangle
         val playerPosition = GameData.getPlayerPosition()
-        return Math.abs(tileRectangle.getX() - playerPosition.x.toInt()) < distance &&
-                Math.abs(tileRectangle.getY() - playerPosition.y.toInt()) < distance
+        return abs(tileRectangle.getX() - playerPosition.x.toInt()) < distance &&
+            abs(tileRectangle.getY() - playerPosition.y.toInt()) < distance
     }
 
     companion object {

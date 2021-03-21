@@ -35,18 +35,22 @@ class DonjonGeneratorTest {
         val countDoor = tileTypeList.filter { tileType -> tileType == DOOR_CLOSE }.count()
 
         assertAll(
-                Executable { assertEquals(50, mapHeight.toLong()) },
-                Executable { assertEquals(50, mapWidth.toLong()) },
-                Executable { assertEquals((mapHeight * mapWidth), tileCount) },
-                Executable { assertTrue(countDoor <= 20) },
-                Executable {
-                    assertEquals(1,
-                            tileTypeList.filter { tileType -> tileType == STAIR_UP }.count())
-                },
-                Executable {
-                    assertEquals(1,
-                            tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count())
-                }
+            Executable { assertEquals(50, mapHeight.toLong()) },
+            Executable { assertEquals(50, mapWidth.toLong()) },
+            Executable { assertEquals((mapHeight * mapWidth), tileCount) },
+            Executable { assertTrue(countDoor <= 20) },
+            Executable {
+                assertEquals(
+                    1,
+                    tileTypeList.filter { tileType -> tileType == STAIR_UP }.count()
+                )
+            },
+            Executable {
+                assertEquals(
+                    1,
+                    tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count()
+                )
+            }
         )
     }
 
@@ -68,18 +72,22 @@ class DonjonGeneratorTest {
         val countDoor = tileTypeList.filter { tileType -> tileType == DOOR_CLOSE }.count()
 
         assertAll(
-                Executable { assertEquals(mapHeight, mapGenerator.mapHeight) },
-                Executable { assertEquals(mapWidth, mapGenerator.mapWidth) },
-                Executable { assertEquals((mapHeight * mapWidth), tileCount) },
-                Executable { assertTrue(countDoor <= nbRoom * 2) },
-                Executable {
-                    assertEquals(1,
-                            tileTypeList.filter { tileType -> tileType == STAIR_UP }.count())
-                },
-                Executable {
-                    assertEquals(1,
-                            tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count())
-                }
+            Executable { assertEquals(mapHeight, mapGenerator.mapHeight) },
+            Executable { assertEquals(mapWidth, mapGenerator.mapWidth) },
+            Executable { assertEquals((mapHeight * mapWidth), tileCount) },
+            Executable { assertTrue(countDoor <= nbRoom * 2) },
+            Executable {
+                assertEquals(
+                    1,
+                    tileTypeList.filter { tileType -> tileType == STAIR_UP }.count()
+                )
+            },
+            Executable {
+                assertEquals(
+                    1,
+                    tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count()
+                )
+            }
         )
     }
 }

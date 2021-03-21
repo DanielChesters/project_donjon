@@ -34,8 +34,10 @@ class MainScreen(val game: DonjonGame) : KtxScreen {
         row()
         add(createExitGameButton()).center()
         pack()
-        setPosition(Gdx.graphics.width / 2f - width / 2f,
-                Gdx.graphics.height / 2f - height / 2f)
+        setPosition(
+            Gdx.graphics.width / 2f - width / 2f,
+            Gdx.graphics.height / 2f - height / 2f
+        )
     }
 
     override fun show() {
@@ -47,9 +49,12 @@ class MainScreen(val game: DonjonGame) : KtxScreen {
     private fun createExitGameButton(): KTextButton {
         val exitGameButton = KTextButton(bundle["main.screen.exit.title"], skin, defaultStyle)
         exitGameButton.pack()
-        exitGameButton.setPosition(Gdx.graphics.width / 2f - exitGameButton.width / 2f,
-                Gdx.graphics.height / 2f - (exitGameButton.height + loadGameButton.height +
-                        EXIT_BUTTON_POSITION))
+        exitGameButton.setPosition(
+            Gdx.graphics.width / 2f - exitGameButton.width / 2f,
+            Gdx.graphics.height / 2f - (
+                exitGameButton.height + loadGameButton.height + EXIT_BUTTON_POSITION
+                )
+        )
         exitGameButton.addListener(object : InputListener() {
             override fun touchDown(
                 event: InputEvent?,
@@ -68,8 +73,10 @@ class MainScreen(val game: DonjonGame) : KtxScreen {
     private fun createLoadGameButton(): KTextButton {
         val loadGameButton = KTextButton(bundle["main.screen.load_game.title"], skin, defaultStyle)
         loadGameButton.pack()
-        loadGameButton.setPosition(Gdx.graphics.width / 2f - loadGameButton.width / 2f,
-                Gdx.graphics.height / 2f - (loadGameButton.height + LOAD_BUTTON_POSITION))
+        loadGameButton.setPosition(
+            Gdx.graphics.width / 2f - loadGameButton.width / 2f,
+            Gdx.graphics.height / 2f - (loadGameButton.height + LOAD_BUTTON_POSITION)
+        )
         loadGameButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 loadWindow.show()
@@ -82,8 +89,10 @@ class MainScreen(val game: DonjonGame) : KtxScreen {
     private fun createNewGameButton(): KTextButton {
         val newGameButton = KTextButton(bundle["main.screen.new_game.title"], skin, defaultStyle)
         newGameButton.pack()
-        newGameButton.setPosition(Gdx.graphics.width / 2f - newGameButton.width / 2f,
-                Gdx.graphics.height / 2f - newGameButton.height / 2f)
+        newGameButton.setPosition(
+            Gdx.graphics.width / 2f - newGameButton.width / 2f,
+            Gdx.graphics.height / 2f - newGameButton.height / 2f
+        )
         newGameButton.addListener(object : InputListener() {
             override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 if (game.containsScreen<GameScreen>()) {

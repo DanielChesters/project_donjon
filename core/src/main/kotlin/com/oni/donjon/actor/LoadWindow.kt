@@ -95,8 +95,10 @@ class LoadWindow(title: String, val game: DonjonGame) {
         }
         saveList.setItems(saveArray)
         window.pack()
-        window.setPosition(Gdx.graphics.width / 2f - window.width / 2f,
-                Gdx.graphics.height / 2f - window.height / 2f)
+        window.setPosition(
+            Gdx.graphics.width / 2f - window.width / 2f,
+            Gdx.graphics.height / 2f - window.height / 2f
+        )
         window.isVisible = true
     }
 

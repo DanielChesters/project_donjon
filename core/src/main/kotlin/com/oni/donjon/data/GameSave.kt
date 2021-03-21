@@ -24,8 +24,8 @@ data class GameSave(
                 if (notEqualsTiles(other)) return false
 
                 return other.mapHeight == mapHeight &&
-                        other.mapWidth == mapWidth &&
-                        other.playerPosition == playerPosition
+                    other.mapWidth == mapWidth &&
+                    other.playerPosition == playerPosition
             }
             else -> return false
         }
