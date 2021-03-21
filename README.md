@@ -3,11 +3,11 @@ Project Donjon
 
 A prototype of a donjon crawler/roguelike in Kotlin and libGDX
 
-[![Build Status](https://travis-ci.org/DanielChesters/project_donjon.svg)](https://travis-ci.org/DanielChesters/project_donjon)
-[![Stories in Ready](https://badge.waffle.io/danielchesters/project_donjon.png?label=ready&title=Ready)](https://waffle.io/danielchesters/project_donjon)
+![Build Status](https://github.com/danielchesters/project_donjon/actions/workflows/donjon.yml/badge.svg)
+
 How to run
 ----
-1. Install Oracle JDK or OpenJDK 8 (this project does not compile (and run) on a older version of java)
+1. Install Oracle JDK or OpenJDK 8 (this project does not compile (and run) on an older version of java)
 2. Clone this repository
 3. Run on a terminal in repository folder : `./gradlew run` 
 4. …
