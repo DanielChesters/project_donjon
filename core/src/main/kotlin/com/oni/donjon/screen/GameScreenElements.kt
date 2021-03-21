@@ -29,7 +29,10 @@ import com.oni.donjon.map.Tile
 import com.oni.donjon.stage.GameStage
 import com.oni.donjon.stage.UIStage
 import ktx.ashley.entity
+import ktx.ashley.with
 import ktx.box2d.body
+import ktx.box2d.circle
+import ktx.log.debug
 import ktx.math.plus
 import ktx.math.times
 import ktx.math.vec2

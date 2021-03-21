@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.World
 import com.oni.donjon.screen.GameScreen
 import ktx.box2d.body
+import ktx.box2d.box
 import ktx.math.vec2
 import kotlin.experimental.or
 

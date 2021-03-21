@@ -1,9 +1,10 @@
 val gdxdialogsVersion: String by project
 val gdxVersion: String by project
+val gdxControllersVersion: String by project
 
 plugins {
     application
-    id("com.github.johnrengelman.shadow") version "5.0.0"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
 }
 
 application {
@@ -17,7 +18,7 @@ dependencies {
     implementation("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop")
     implementation("com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop")
     implementation("com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop")
-    implementation("com.badlogicgames.gdx:gdx-controllers-lwjgl3:$gdxVersion")
+    implementation("com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion")
     implementation("de.tomgrill.gdxdialogs:gdx-dialogs-desktop:$gdxdialogsVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }

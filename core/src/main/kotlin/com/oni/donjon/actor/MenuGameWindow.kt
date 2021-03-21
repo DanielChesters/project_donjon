@@ -10,6 +10,7 @@ import com.oni.donjon.DonjonGame
 import com.oni.donjon.Resources
 import com.oni.donjon.screen.GameScreen
 import com.oni.donjon.screen.MainScreen
+import ktx.scene2d.scene2d
 import ktx.scene2d.window
 
 /**
@@ -23,7 +24,7 @@ class MenuGameWindow(val saveWindow: SaveWindow, val game: DonjonGame, val scree
     private val exitButton = createExitButton()
     private val closeButton = createCloseButton()
 
-    val window = window(Resources.BUNDLE["game_menu.title"], "dialog", skin) {
+    val window = scene2d.window(Resources.BUNDLE["game_menu.title"], "dialog", skin) {
         row()
         add(saveButton).center()
         row()

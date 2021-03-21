@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input
 import com.oni.donjon.component.DirectionComponent
 import com.oni.donjon.data.GameData
 import ktx.app.KtxInputAdapter
+import ktx.log.debug
 import ktx.log.logger
 
 /**

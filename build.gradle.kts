@@ -9,6 +9,7 @@ buildscript {
         mavenLocal()
         mavenCentral()
         jcenter()
+        google()
         maven(url = "https://plugins.gradle.org/m2/")
         maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
     }
@@ -17,7 +18,7 @@ buildscript {
         classpath("com.github.ben-manes:gradle-versions-plugin:$gradleVersionsPluginVersion")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:$sonarqubeVersion")
-        classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.0.0-RC14")
+        classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.16.0")
     }
 }
 
@@ -37,6 +38,7 @@ subprojects {
         mavenLocal()
         mavenCentral()
         jcenter()
+        google()
         maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
         maven(url = "https://oss.sonatype.org/content/repositories/releases/")
     }

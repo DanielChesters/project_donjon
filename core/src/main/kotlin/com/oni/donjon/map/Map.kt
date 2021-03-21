@@ -9,6 +9,7 @@ import com.oni.donjon.data.GameSave
 import com.oni.donjon.generator.CellularAutomataCaveGenerator
 import com.oni.donjon.generator.MapGenerator
 import ktx.collections.gdxSetOf
+import ktx.log.debug
 import ktx.log.logger
 import java.math.BigDecimal
 import java.util.Optional

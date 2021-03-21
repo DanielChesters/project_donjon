@@ -15,6 +15,7 @@ import com.oni.donjon.data.GameData
 import de.tomgrill.gdxdialogs.core.GDXDialogsSystem
 import de.tomgrill.gdxdialogs.core.dialogs.GDXTextPrompt
 import de.tomgrill.gdxdialogs.core.listener.TextPromptListener
+import ktx.scene2d.scene2d
 import ktx.scene2d.window
 
 /**
@@ -28,7 +29,7 @@ class SaveWindow(title: String, private val skin: Skin) {
     private val cancelButton = createCancelButton()
     private val newSaveButton = createNewSaveButton()
 
-    val window: Window = window(title = title, skin = skin) {
+    val window: Window = scene2d.window(title = title, skin = skin) {
         val saveScrollPane = ScrollPane(saveList, skin)
         saveScrollPane.setFlickScroll(false)
         defaults().spaceBottom(SAVE_WINDOW_SPACE_BOTTOM)

@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.I18NBundle
 import com.oni.donjon.screen.MainScreen
 import ktx.app.KtxGame
 import ktx.inject.Context
+import ktx.inject.register
 import ktx.scene2d.Scene2DSkin
 
 class DonjonGame : KtxGame<Screen>() {
@@ -29,6 +30,7 @@ class DonjonGame : KtxGame<Screen>() {
     }
 
     override fun dispose() {
+        context.clear()
         context.dispose()
     }
 }

@@ -7,6 +7,7 @@ import com.oni.donjon.map.Tile
 import com.oni.donjon.stage.GameStage
 import com.oni.donjon.stage.UIStage
 import ktx.app.KtxInputAdapter
+import ktx.log.debug
 import ktx.log.logger
 import ktx.math.vec2
 import ktx.math.vec3

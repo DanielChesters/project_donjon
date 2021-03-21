@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.I18NBundle
 import com.oni.donjon.DonjonGame
 import com.oni.donjon.screen.GameScreen
 import ktx.collections.gdxArrayOf
+import ktx.scene2d.scene2d
 import ktx.scene2d.window
 
 /**
@@ -24,7 +25,7 @@ class LoadWindow(title: String, val game: DonjonGame) {
     private val loadButton = createLoadButton()
     private val cancelButton = createCancelButton()
 
-    val window = window(title = title, skin = skin) {
+    val window = scene2d.window(title = title, skin = skin) {
         val saveScrollPane = ScrollPane(saveList, skin)
         saveScrollPane.setFlickScroll(false)
         defaults().spaceBottom(LOAD_WINDOW_SPACE_BOTTOM)

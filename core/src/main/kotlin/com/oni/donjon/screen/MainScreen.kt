@@ -12,6 +12,7 @@ import com.oni.donjon.actor.LoadWindow
 import ktx.app.KtxScreen
 import ktx.scene2d.KTextButton
 import ktx.scene2d.defaultStyle
+import ktx.scene2d.scene2d
 import ktx.scene2d.table
 
 /**
@@ -24,7 +25,7 @@ class MainScreen(val game: DonjonGame) : KtxScreen {
 
     val loadWindow = LoadWindow(bundle["main.screen.load.title"], game)
     private val loadGameButton = createLoadGameButton()
-    private val view = table {
+    private val view = scene2d.table {
         defaults().space(DEFAULT_SPACE)
         row()
         add(createNewGameButton()).center()
