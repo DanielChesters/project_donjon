@@ -3,7 +3,7 @@ Project Donjon
 
 A prototype of a donjon crawler/roguelike in Kotlin and libGDX
 
-![Build Status](https://github.com/danielchesters/project_donjon/actions/workflows/donjon.yml/badge.svg)
+[![Build Status](https://github.com/danielchesters/project_donjon/actions/workflows/donjon.yml/badge.svg)](https://github.com/DanielChesters/project_donjon/actions/workflows/donjon.yml)
 
 How to run
 ----
