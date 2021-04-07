@@ -45,7 +45,7 @@ class GameScreenElements(private val game: DonjonGame, private val gameScreen: G
         val messageLabel = createMessageLabel()
         val actionList = createActionList()
         val actionWindow = createActionWindow(actionList)
-        val saveWindow = SaveWindow(bundle["window.save.title"], skin)
+        val saveWindow = SaveWindow(bundle["window.save.title"], skin, game)
         val menuWindow = MenuGameWindow(saveWindow, game, gameScreen)
         val menuButton = createMenuButton(menuWindow)
 

@@ -30,7 +30,7 @@ class DonjonGenerator(
         )
 
     init {
-        this.tileTypes = Array(mapWidth) { arrayOfNulls<TileType>(mapHeight) }
+        this.tileTypes = Array(mapWidth) { arrayOfNulls(mapHeight) }
     }
 
     override fun generate() {

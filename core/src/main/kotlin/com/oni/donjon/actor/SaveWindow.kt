@@ -9,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.ui.Window
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.Json
+import com.oni.donjon.DonjonGame
 import com.oni.donjon.Resources
 import com.oni.donjon.data.GameData
 import de.tomgrill.gdxdialogs.core.GDXDialogsSystem
@@ -21,8 +23,9 @@ import ktx.scene2d.window
 /**
  * @author Daniel Chesters (on 06/06/14).
  */
-class SaveWindow(title: String, private val skin: Skin) {
+class SaveWindow(title: String, private val skin: Skin, game: DonjonGame) {
     lateinit var menuGameWindow: MenuGameWindow
+    private val bundle: I18NBundle = game.context.inject()
 
     val saveList = createSaveList()
     private val saveButton = createSaveButton()
@@ -51,7 +54,7 @@ class SaveWindow(title: String, private val skin: Skin) {
     }
 
     private fun createNewSaveButton(): TextButton {
-        val newSaveButton = TextButton(Resources.BUNDLE["window.save.new"], skin)
+        val newSaveButton = TextButton(bundle["window.save.new"], skin)
         newSaveButton.pack()
         newSaveButton.addListener(object : InputListener() {
             override fun touchDown(
@@ -65,11 +68,11 @@ class SaveWindow(title: String, private val skin: Skin) {
 
                 val textPrompt = dialogs.newDialog(GDXTextPrompt::class.java)
 
-                textPrompt.setTitle(Resources.BUNDLE["window.save.new.input"])
-                textPrompt.setMessage(Resources.BUNDLE["window.save.new.input"])
+                textPrompt.setTitle(bundle["window.save.new.input"])
+                textPrompt.setMessage(bundle["window.save.new.input"])
 
-                textPrompt.setCancelButtonLabel(Resources.BUNDLE["window.save.cancel"])
-                textPrompt.setConfirmButtonLabel(Resources.BUNDLE["window.save.ok"])
+                textPrompt.setCancelButtonLabel(bundle["window.save.cancel"])
+                textPrompt.setConfirmButtonLabel(bundle["window.save.ok"])
 
                 textPrompt.setTextPromptListener(object : TextPromptListener {
 
@@ -96,7 +99,7 @@ class SaveWindow(title: String, private val skin: Skin) {
     }
 
     private fun createCancelButton(): TextButton {
-        val cancelButton = TextButton(Resources.BUNDLE["window.save.cancel"], skin)
+        val cancelButton = TextButton(bundle["window.save.cancel"], skin)
         cancelButton.pack()
         cancelButton.addListener(object : InputListener() {
             override fun touchDown(
@@ -116,7 +119,7 @@ class SaveWindow(title: String, private val skin: Skin) {
     }
 
     private fun createSaveButton(): TextButton {
-        val saveButton = TextButton(Resources.BUNDLE["window.save.ok"], skin)
+        val saveButton = TextButton(bundle["window.save.ok"], skin)
         saveButton.pack()
         saveButton.addListener(object : InputListener() {
             override fun touchDown(

@@ -24,7 +24,7 @@ class MenuGameWindow(val saveWindow: SaveWindow, val game: DonjonGame, val scree
     private val exitButton = createExitButton()
     private val closeButton = createCloseButton()
 
-    val window = scene2d.window(Resources.BUNDLE["game_menu.title"], "dialog", skin) {
+    val window = scene2d.window(bundle["game_menu.title"], "dialog", skin) {
         row()
         add(saveButton).center()
         row()
@@ -42,7 +42,7 @@ class MenuGameWindow(val saveWindow: SaveWindow, val game: DonjonGame, val scree
     }
 
     private fun createCloseButton(): TextButton {
-        val closeButton = TextButton(Resources.BUNDLE["game_menu.action.close"], skin)
+        val closeButton = TextButton(bundle["game_menu.action.close"], skin)
         closeButton.addListener(object : InputListener() {
             override fun touchDown(
                 event: InputEvent?,
@@ -61,7 +61,7 @@ class MenuGameWindow(val saveWindow: SaveWindow, val game: DonjonGame, val scree
     }
 
     private fun createExitButton(): TextButton {
-        val exitButton = TextButton(Resources.BUNDLE["game_menu.action.exit"], skin)
+        val exitButton = TextButton(bundle["game_menu.action.exit"], skin)
         exitButton.addListener(object : InputListener() {
             override fun touchDown(
                 event: InputEvent?,
@@ -81,7 +81,7 @@ class MenuGameWindow(val saveWindow: SaveWindow, val game: DonjonGame, val scree
     }
 
     private fun createSaveButton(): TextButton {
-        val saveButton = TextButton(Resources.BUNDLE["game_menu.action.save"], skin)
+        val saveButton = TextButton(bundle["game_menu.action.save"], skin)
         saveButton.addListener(object : InputListener() {
             override fun touchDown(
                 event: InputEvent?,
