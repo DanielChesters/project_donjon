@@ -9,7 +9,7 @@ import com.oni.donjon.map.TileType
 class CellularAutomataCaveGenerator(mapHeight: Int = 50, mapWidth: Int = 50) : MapGenerator(mapHeight, mapWidth) {
 
     init {
-        this.tileTypes = Array(mapWidth) { arrayOfNulls<TileType>(mapHeight) }
+        this.tileTypes = Array(mapWidth) { arrayOfNulls(mapHeight) }
     }
 
     override fun generate() {

@@ -18,7 +18,7 @@ class DrunkardsWalkCaveGenerator(
             throw IllegalArgumentException("Too much floor tiles or map size too small")
         }
 
-        this.tileTypes = Array(mapWidth) { arrayOfNulls<TileType>(mapHeight) }
+        this.tileTypes = Array(mapWidth) { arrayOfNulls(mapHeight) }
     }
 
     override fun generate() {

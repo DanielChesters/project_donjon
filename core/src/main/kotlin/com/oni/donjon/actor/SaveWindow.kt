@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.Json
 import com.oni.donjon.DonjonGame
-import com.oni.donjon.Resources
 import com.oni.donjon.data.GameData
 import de.tomgrill.gdxdialogs.core.GDXDialogsSystem
 import de.tomgrill.gdxdialogs.core.dialogs.GDXTextPrompt

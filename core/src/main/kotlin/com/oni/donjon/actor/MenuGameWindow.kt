@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.utils.I18NBundle
 import com.oni.donjon.DonjonGame
-import com.oni.donjon.Resources
 import com.oni.donjon.screen.GameScreen
 import com.oni.donjon.screen.MainScreen
 import ktx.scene2d.scene2d

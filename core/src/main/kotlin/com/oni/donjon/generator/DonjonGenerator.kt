@@ -43,8 +43,8 @@ class DonjonGenerator(
 
         placeDoors()
 
-        addSpecialTile(TileType.STAIR_UP)
-        addSpecialTile(TileType.STAIR_DOWN)
+        placeSpecialTile(TileType.STAIR_UP)
+        placeSpecialTile(TileType.STAIR_DOWN)
     }
 
     private fun placeDoors() {
@@ -94,13 +94,6 @@ class DonjonGenerator(
                 x++
             }
         }
-    }
-
-    private fun addSpecialTile(tileType: TileType) {
-        val startRoom = rooms[MathUtils.random(rooms.size - 1)]
-        val x = MathUtils.random(startRoom.x.toInt(), startRoom.x.toInt() + startRoom.width.toInt() - 1)
-        val y = MathUtils.random(startRoom.y.toInt(), startRoom.y.toInt() + startRoom.height.toInt() - 1)
-        tileTypes[x][y] = tileType
     }
 
     private fun createWalls() {
