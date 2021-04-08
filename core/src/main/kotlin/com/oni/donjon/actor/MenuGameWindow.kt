@@ -17,7 +17,7 @@ import ktx.scene2d.window
  */
 class MenuGameWindow(val saveWindow: SaveWindow, val game: DonjonGame, val screen: GameScreen) {
     private val skin: Skin = game.context.inject()
-    val bundle: I18NBundle = game.context.inject()
+    private val bundle: I18NBundle = game.context.inject()
 
     private val saveButton = createSaveButton()
     private val exitButton = createExitButton()

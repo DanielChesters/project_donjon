@@ -19,7 +19,7 @@ import ktx.scene2d.window
  */
 class LoadWindow(title: String, val game: DonjonGame) {
     private val skin: Skin = game.context.inject()
-    val bundle: I18NBundle = game.context.inject()
+    private val bundle: I18NBundle = game.context.inject()
 
     val saveList = createSaveList()
     private val loadButton = createLoadButton()

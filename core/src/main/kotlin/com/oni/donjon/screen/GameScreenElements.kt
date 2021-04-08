@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window
 import com.badlogic.gdx.utils.I18NBundle
 import com.oni.donjon.DonjonGame
 import com.oni.donjon.action.Actions
+import com.oni.donjon.actor.ListActions
 import com.oni.donjon.actor.MapActor
 import com.oni.donjon.actor.MenuGameWindow
 import com.oni.donjon.actor.SaveWindow
@@ -39,7 +40,7 @@ import ktx.math.vec2
 
 class GameScreenElements(private val game: DonjonGame, private val gameScreen: GameScreen) {
     private val skin: Skin = game.context.inject()
-    val bundle: I18NBundle = game.context.inject()
+    private val bundle: I18NBundle = game.context.inject()
 
     fun createUi(): UIStage {
         val messageLabel = createMessageLabel()
@@ -94,7 +95,7 @@ class GameScreenElements(private val game: DonjonGame, private val gameScreen: G
     }
 
     private fun createActionList(): List<Actions> {
-        val actionList = List<Actions>(skin)
+        val actionList = ListActions(skin, game)
         actionList.setItems(Actions.LOOK, Actions.OPEN, Actions.CLOSE)
         actionList.selection.required = false
         actionList.selection.multiple = false
@@ -163,7 +164,7 @@ class GameScreenElements(private val game: DonjonGame, private val gameScreen: G
     fun createInput() {
         Gdx.input.inputProcessor = createInputMultiplexer(
             KeyboardInput(),
-            MouseInput(gameScreen.gameStage, gameScreen.uiStage)
+            MouseInput(gameScreen.gameStage, gameScreen.uiStage, game)
         )
     }
 

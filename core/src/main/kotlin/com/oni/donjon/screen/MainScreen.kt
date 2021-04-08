@@ -21,7 +21,7 @@ import ktx.scene2d.table
 class MainScreen(val game: DonjonGame) : KtxScreen {
     val stage: Stage = game.context.inject()
     private val skin: Skin = game.context.inject()
-    val bundle: I18NBundle = game.context.inject()
+    private val bundle: I18NBundle = game.context.inject()
 
     val loadWindow = LoadWindow(bundle["main.screen.load.title"], game)
     private val loadGameButton = createLoadGameButton()
