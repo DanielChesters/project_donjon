@@ -95,7 +95,7 @@ class GameScreenElements(private val game: DonjonGame, private val gameScreen: G
     }
 
     private fun createActionList(): List<Actions> {
-        val actionList = ListActions(skin, game)
+        val actionList = ListActions(skin, bundle)
         actionList.setItems(Actions.LOOK, Actions.OPEN, Actions.CLOSE)
         actionList.selection.required = false
         actionList.selection.multiple = false
@@ -164,7 +164,7 @@ class GameScreenElements(private val game: DonjonGame, private val gameScreen: G
     fun createInput() {
         Gdx.input.inputProcessor = createInputMultiplexer(
             KeyboardInput(),
-            MouseInput(gameScreen.gameStage, gameScreen.uiStage, game)
+            MouseInput(gameScreen.gameStage, gameScreen.uiStage, bundle)
         )
     }
 

@@ -1,7 +1,6 @@
 package com.oni.donjon.action
 
 import com.badlogic.gdx.utils.I18NBundle
-import com.oni.donjon.DonjonGame
 import com.oni.donjon.map.Tile
 import com.oni.donjon.stage.UIStage
 
@@ -13,9 +12,9 @@ enum class Actions(private val labelKey: String, private val action: Action) {
     OPEN("action.open", OpenAction()),
     CLOSE("action.close", CloseAction());
 
-    fun getLabel(game: DonjonGame): String = game.context.inject<I18NBundle>()[labelKey]
+    fun getLabel(bundle: I18NBundle): String = bundle[labelKey]
 
-    fun doAction(tile: Tile, stage: UIStage, game: DonjonGame) {
-        action.doAction(tile, stage, game)
+    fun doAction(tile: Tile, stage: UIStage, bundle: I18NBundle) {
+        action.doAction(tile, stage, bundle)
     }
 }

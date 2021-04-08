@@ -2,7 +2,7 @@ package com.oni.donjon.input
 
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Vector2
-import com.oni.donjon.DonjonGame
+import com.badlogic.gdx.utils.I18NBundle
 import com.oni.donjon.data.GameData
 import com.oni.donjon.map.Tile
 import com.oni.donjon.stage.GameStage
@@ -16,7 +16,7 @@ import ktx.math.vec3
 /**
  * @author Daniel Chesters (on 24/05/14).
  */
-class MouseInput(private val gameStage: GameStage, private val uiStage: UIStage, private val game: DonjonGame) :
+class MouseInput(private val gameStage: GameStage, private val uiStage: UIStage, private val bundle: I18NBundle) :
     KtxInputAdapter {
     companion object {
         val log = logger<MouseInput>()
@@ -52,7 +52,7 @@ class MouseInput(private val gameStage: GameStage, private val uiStage: UIStage,
         if (tile.isPresent && tile.get().isKnow) {
             val realTile = tile.get()
             val action = uiStage.actionList.selected
-            action?.doAction(realTile, uiStage, game)
+            action?.doAction(realTile, uiStage, bundle)
         }
     }
 }

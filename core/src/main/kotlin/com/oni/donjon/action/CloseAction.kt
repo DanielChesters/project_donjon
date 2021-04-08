@@ -1,7 +1,6 @@
 package com.oni.donjon.action
 
 import com.badlogic.gdx.utils.I18NBundle
-import com.oni.donjon.DonjonGame
 import com.oni.donjon.data.GameData
 import com.oni.donjon.map.Tile
 import com.oni.donjon.map.TileType
@@ -12,8 +11,7 @@ import com.oni.donjon.stage.UIStage
  * @author Daniel Chesters (on 02/06/14).
  */
 class CloseAction : AbstractAction() {
-    override fun doAction(tile: Tile, stage: UIStage, game: DonjonGame) {
-        val bundle: I18NBundle = game.context.inject()
+    override fun doAction(tile: Tile, stage: UIStage, bundle: I18NBundle) {
         val messageLabel = stage.messageLabel
         if (isPlayerSamePositionAsTile(tile)) {
             messageLabel.setText(bundle["close.me"])
