@@ -37,4 +37,5 @@ jobs:
         env:
           DEFAULT_BRANCH: master
           VALIDATE_JSON: false
+          VALIDATE_BASH: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
