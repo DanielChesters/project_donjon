@@ -58,7 +58,7 @@ class CellularAutomataCaveGeneratorTest {
         validate_stair_are_in_map(tileTypeList)
     }
 
-    private fun validate_stair_are_in_map(tileTypeList:  ArrayList<TileType>) {
+    private fun validate_stair_are_in_map(tileTypeList: ArrayList<TileType>) {
         assertAll(
             Executable {
                 assertEquals(
