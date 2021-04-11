@@ -32,20 +32,9 @@ class CellularAutomataCaveGeneratorTest {
         assertAll(
             Executable { assertEquals(50, mapHeight.toLong()) },
             Executable { assertEquals(50, mapWidth.toLong()) },
-            Executable { assertEquals((mapHeight * mapWidth), tileCount) },
-            Executable {
-                assertEquals(
-                    1,
-                    tileTypeList.filter { tileType -> tileType == STAIR_UP }.count()
-                )
-            },
-            Executable {
-                assertEquals(
-                    1,
-                    tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count()
-                )
-            }
+            Executable { assertEquals((mapHeight * mapWidth), tileCount) }
         )
+        validate_stair_are_in_map(tileTypeList)
     }
 
     @ParameterizedTest
@@ -64,7 +53,13 @@ class CellularAutomataCaveGeneratorTest {
         assertAll(
             Executable { assertEquals(mapHeight, mapGenerator.mapHeight) },
             Executable { assertEquals(mapWidth, mapGenerator.mapWidth) },
-            Executable { assertEquals((mapHeight * mapWidth), tileCount) },
+            Executable { assertEquals((mapHeight * mapWidth), tileCount) }
+        )
+        validate_stair_are_in_map(tileTypeList)
+    }
+
+    private fun validate_stair_are_in_map(tileTypeList:  ArrayList<TileType>) {
+        assertAll(
             Executable {
                 assertEquals(
                     1,

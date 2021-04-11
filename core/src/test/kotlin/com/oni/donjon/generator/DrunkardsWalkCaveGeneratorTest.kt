@@ -46,20 +46,9 @@ class DrunkardsWalkCaveGeneratorTest {
                     (mapHeight * mapWidth - 1000),
                     tileTypeList.filter { tileType -> tileType == WALL }.count()
                 )
-            },
-            Executable {
-                assertEquals(
-                    1,
-                    tileTypeList.filter { tileType -> tileType == STAIR_UP }.count()
-                )
-            },
-            Executable {
-                assertEquals(
-                    1,
-                    tileTypeList.filter { tileType -> tileType == STAIR_DOWN }.count()
-                )
             }
         )
+        validate_stair_are_in_map(tileTypeList)
     }
 
     @ParameterizedTest
@@ -89,7 +78,21 @@ class DrunkardsWalkCaveGeneratorTest {
                     (mapHeight * mapWidth - nbFloorTiles),
                     tileTypeList.filter { tileType -> tileType == WALL }.count()
                 )
-            },
+            }
+        )
+        validate_stair_are_in_map(tileTypeList)
+    }
+
+    @ParameterizedTest
+    @CsvSource("10, 10, 1000", "5, 5, 200", "40, 40, 50000")
+    fun `should raise IllegalArgumentException`(mapHeight: Int, mapWidth: Int, nbFloorTiles: Int) {
+        assertThrows(IllegalArgumentException::class.java) {
+            DrunkardsWalkCaveGenerator(mapHeight, mapWidth, nbFloorTiles)
+        }
+    }
+
+    private fun validate_stair_are_in_map(tileTypeList: ArrayList<TileType>) {
+        assertAll(
             Executable {
                 assertEquals(
                     1,
@@ -103,13 +106,5 @@ class DrunkardsWalkCaveGeneratorTest {
                 )
             }
         )
-    }
-
-    @ParameterizedTest
-    @CsvSource("10, 10, 1000", "5, 5, 200", "40, 40, 50000")
-    fun `should raise IllegalArgumentException`(mapHeight: Int, mapWidth: Int, nbFloorTiles: Int) {
-        assertThrows(IllegalArgumentException::class.java) {
-            DrunkardsWalkCaveGenerator(mapHeight, mapWidth, nbFloorTiles)
-        }
     }
 }
