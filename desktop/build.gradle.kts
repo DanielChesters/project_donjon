@@ -9,7 +9,6 @@ plugins {
 
 application {
     mainClass.set("com.oni.donjon.desktop.DesktopLauncher")
-//    mainClassName = "com.oni.donjon.desktop.DesktopLauncher"
     applicationName = "Projet-donjon"
 }
 
