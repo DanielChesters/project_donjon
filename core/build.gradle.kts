@@ -48,6 +48,10 @@ sonarqube {
     }
 }
 
+jacoco {
+    toolVersion = "0.8.7"
+}
+
 tasks.jacocoTestReport {
     reports {
         xml.isEnabled = true
