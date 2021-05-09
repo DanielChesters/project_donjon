@@ -37,7 +37,7 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        jcenter()
+        gradlePluginPortal()
         google()
         maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
         maven(url = "https://oss.sonatype.org/content/repositories/releases/")
