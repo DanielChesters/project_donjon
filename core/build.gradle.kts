@@ -1,5 +1,5 @@
 val junitJupiterVersion = "5.7.1"
-val ktxVersion = "1.9.14-b1"
+val ktxVersion = "1.10.0-b1"
 val gdxdialogsVersion = "1.3.0"
 val ashleyVersion = "1.7.4"
 val gdxVersion = "1.10.0"
