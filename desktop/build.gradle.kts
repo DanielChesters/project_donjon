@@ -1,5 +1,5 @@
 val gdxdialogsVersion = "1.3.0"
-val gdxVersion = "1.9.14"
+val gdxVersion = "1.10.0"
 val gdxControllersVersion = "2.2.0"
 
 plugins {
