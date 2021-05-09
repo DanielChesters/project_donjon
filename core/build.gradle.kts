@@ -1,10 +1,10 @@
-val junitJupiterVersion: String by project
-val ktxVersion: String by project
-val gdxdialogsVersion: String by project
-val ashleyVersion: String by project
-val gdxVersion: String by project
-val box2dlightsVersion: String by project
-val gdxControllersVersion: String by project
+val junitJupiterVersion = "5.7.1"
+val ktxVersion = "1.9.14-b1"
+val gdxdialogsVersion = "1.3.0"
+val ashleyVersion = "1.7.4"
+val gdxVersion = "1.9.14"
+val box2dlightsVersion = "1.5"
+val gdxControllersVersion = "2.2.0"
 
 plugins {
     id("org.sonarqube")

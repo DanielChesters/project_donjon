@@ -1,6 +1,6 @@
-val gdxdialogsVersion: String by project
-val gdxVersion: String by project
-val gdxControllersVersion: String by project
+val gdxdialogsVersion = "1.3.0"
+val gdxVersion = "1.9.14"
+val gdxControllersVersion = "2.2.0"
 
 plugins {
     application

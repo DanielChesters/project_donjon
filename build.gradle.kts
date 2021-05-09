@@ -2,9 +2,9 @@ import io.gitlab.arturbosch.detekt.detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
-    val sonarqubeVersion: String by project
-    val kotlinVersion: String by project
-    val gradleVersionsPluginVersion: String by project
+    val sonarqubeVersion = "3.1.1"
+    val kotlinVersion = "1.4.31"
+    val gradleVersionsPluginVersion = "0.38.0"
 
     repositories {
         mavenLocal()
