@@ -18,7 +18,7 @@ buildscript {
         classpath("com.github.ben-manes:gradle-versions-plugin:$gradleVersionsPluginVersion")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:$sonarqubeVersion")
-        classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.16.0")
+        classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.17.1")
     }
 }
 
