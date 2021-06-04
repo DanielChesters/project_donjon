@@ -33,7 +33,7 @@ jobs:
       # Run Linter against code base #
       ################################
       - name: Lint Code Base
-        uses: github/super-linter@v4.0.2
+        uses: github/super-linter@v4.1.0
         env:
           DEFAULT_BRANCH: master
           VALIDATE_JSON: false
