@@ -2,7 +2,7 @@ import io.gitlab.arturbosch.detekt.detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
-    val sonarqubeVersion = "3.2.0"
+    val sonarqubeVersion = "3.3"
     val kotlinVersion = "1.5.10"
     val gradleVersionsPluginVersion = "0.39.0"
 
