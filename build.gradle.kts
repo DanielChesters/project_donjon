@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     val sonarqubeVersion = "3.2.0"
-    val kotlinVersion = "1.5.10"
+    val kotlinVersion = "1.5.21"
     val gradleVersionsPluginVersion = "0.39.0"
 
     repositories {
